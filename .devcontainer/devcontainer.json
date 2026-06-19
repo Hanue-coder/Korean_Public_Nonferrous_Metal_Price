@@ -1,1 +1,5 @@
-
+{
+  "name": "Korean Metal Price Dashboard",
+  "image": "mcr.microsoft.com/devcontainers/node:22",
+  "postCreateCommand": "npm install -g @anthropic-ai/claude-code"
+}
