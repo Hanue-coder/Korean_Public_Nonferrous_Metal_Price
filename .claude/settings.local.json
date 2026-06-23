@@ -17,7 +17,14 @@
       "WebFetch(domain:razorenhanced.net)",
       "mcp__Claude_in_Chrome__navigate",
       "PowerShell(Start-Process \"C:\\\\���¼�_����\\\\98_Private\\\\Claude\\\\dashboard.html\")",
-      "PowerShell(Start-Process powershell.exe -Verb RunAs -ArgumentList \"-NonInteractive -ExecutionPolicy Bypass -File `\"C:\\\\최태성_영업\\\\98_Private\\\\Claude\\\\register_task.ps1`\"\" -Wait 2>&1)"
+      "PowerShell(Start-Process powershell.exe -Verb RunAs -ArgumentList \"-NonInteractive -ExecutionPolicy Bypass -File `\"C:\\\\최태성_영업\\\\98_Private\\\\Claude\\\\register_task.ps1`\"\" -Wait 2>&1)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git pull *)",
+      "Bash(git stash *)",
+      "Bash(echo \"www.rcoa.co.kr\")",
+      "Bash(git rebase *)"
     ]
   }
 }
