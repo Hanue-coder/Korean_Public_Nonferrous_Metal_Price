@@ -1,9 +1,23 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git add *)",
-      "Bash(git commit *)",
-      "Bash(git push *)"
+      "WebFetch(domain:www.pps.go.kr)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "PowerShell($response = Invoke-WebRequest -Uri \"https://www.pps.go.kr/bichuk/bbs/list.do?key=00825\" -UseBasicParsing -UserAgent \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\"; $response.Content | Select-String -Pattern \"fn_|goDetail|onclick|nttId|javascript:\" -AllMatches | Select-Object -First 30)",
+      "PowerShell($content = Get-Content \"C:\\\\Users\\\\USER\\\\.claude\\\\projects\\\\C---------98-Private-Claude\\\\6a4cdd2d-b68c-4c02-bd75-c1730e09a827\\\\tool-results\\\\bu531plrd.txt\" -Raw; $content | Select-String -Pattern \"fn_|goView|goDetail|nttId|javascript:fn\" -AllMatches | ForEach-Object { $_.Matches } | Select-Object -First 20 Value)",
+      "PowerShell($session = New-Object Microsoft.PowerShell.Commands.WebRequestSession; $response = Invoke-WebRequest -Uri \"https://www.pps.go.kr/bichuk/bbs/view.do?key=00825&bbsSn=2606110004\" -UseBasicParsing -UserAgent \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" -SessionVariable session; $response.Content | Select-String -Pattern \"원자재|판매가격|kg|원/kg|<table|<td|<th\" -AllMatches | Select-Object -First 50 | ForEach-Object { $_.Line })",
+      "mcp__visualize__read_me",
+      "mcp__visualize__show_widget",
+      "PowerShell(Start-Job -Name \"AluminumScraper\" -ScriptBlock { powershell -NonInteractive -File \"C:\\\\최태성_영업\\\\98_Private\\\\Claude\\\\scrape_aluminum.ps1\" } | Out-Null; Write-Host \"백그라운드 작업 시작됨. Job 이름: AluminumScraper\")",
+      "PowerShell(Start-Process powershell -ArgumentList \"-NonInteractive -File `\"C:\\\\최태성_영업\\\\98_Private\\\\Claude\\\\scrape_aluminum.ps1`\"\" -WindowStyle Hidden; Write-Host \"Process started independently\")",
+      "PowerShell($r = Invoke-WebRequest -Uri \"https://www.pps.go.kr/bichuk/bbs/view.do?key=00825&bbsSn=2606110004\" -UseBasicParsing -UserAgent \"Mozilla/5.0\"; $ms = [regex]::Matches\\($r.Content, '\\(\\\\d[\\\\d,]+\\)[^<]{0,10}</td>'\\); foreach \\($m in $ms\\) { $v = $m.Groups[1].Value -replace ',',''; if \\($v.Length -ge 7\\) { $ton = [long]$v; if \\($ton -ge 1000000 -and $ton -le 50000000\\) { Write-Host \"Found: $\\($m.Groups[1].Value\\) => $ton\"; break } } })",
+      "PowerShell(Start-Process python -ArgumentList \"`\"C:\\\\���¼�_����\\\\98_Private\\\\Claude\\\\scrape_aluminum_py.py`\"\" -WindowStyle Hidden)",
+      "Bash(mkdir -p \"C:/최태성_영업/98_Private/rcoa-site/.claude\")",
+      "mcp__Claude_Preview__preview_start",
+      "WebFetch(domain:razorenhanced.net)",
+      "mcp__Claude_in_Chrome__navigate",
+      "PowerShell(Start-Process \"C:\\\\���¼�_����\\\\98_Private\\\\Claude\\\\dashboard.html\")",
+      "PowerShell(Start-Process powershell.exe -Verb RunAs -ArgumentList \"-NonInteractive -ExecutionPolicy Bypass -File `\"C:\\\\최태성_영업\\\\98_Private\\\\Claude\\\\register_task.ps1`\"\" -Wait 2>&1)"
     ]
   }
 }

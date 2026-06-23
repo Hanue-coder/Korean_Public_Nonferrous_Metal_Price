@@ -1,0 +1,13 @@
+11:29:39 Step 1: collecting bbsSn from list pages …
+11:29:39   Total posts: 3,648  →  365 pages
+11:30:00   Page 50/365  cumulative: 500 sns
+11:30:22   Page 100/365  cumulative: 1000 sns
+11:30:45   Page 150/365  cumulative: 1500 sns
+11:31:07   Page 200/365  cumulative: 2000 sns
+11:31:29   Page 250/365  cumulative: 2500 sns
+11:31:51   Page 300/365  cumulative: 3000 sns
+11:32:13   Page 350/365  cumulative: 3500 sns
+11:32:20   Page 365/365  cumulative: 3648 sns
+11:32:20   Collected 3648 unique bbsSn values
+11:32:20 Step 2: 3267 dates already saved - will skip
+11:32:20 Step 3: scraping 3648 detail pages …
