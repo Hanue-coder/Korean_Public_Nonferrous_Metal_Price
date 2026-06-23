@@ -1,2 +1,2 @@
-﻿cd C:\Users\USER\Documents\Korean_Public_Nonferrous_Metal_Price
+Set-Location $PSScriptRoot
 git pull
