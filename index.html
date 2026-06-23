@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCOA — 비철금속 원자재 포털</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #1E3A5F;
+    --navy-light: #274e7a;
+    --bg: #F0F4F8;
+    --white: #ffffff;
+    --border: #DDE3EC;
+    --text: #1E293B;
+    --sub: #64748B;
+    --accent: #2563EB;
+  }
+  body { font-family: "Pretendard", "Noto Sans KR", sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* ── Header ── */
+  header {
+    background: var(--navy);
+    color: white;
+    padding: 0 28px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,.25);
+    z-index: 10;
+  }
+  .logo { font-size: 22px; font-weight: 800; letter-spacing: 2px; color: white; text-decoration: none; }
+  .logo span { color: #93C5FD; }
+  .header-sub { font-size: 12px; opacity: .6; border-left: 1px solid rgba(255,255,255,.25); padding-left: 18px; }
+
+  /* ── Body layout ── */
+  .layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    gap: 0;
+  }
+
+  /* ── Left: dashboard iframe ── */
+  .panel-left {
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+    border-right: 2px solid var(--border);
+  }
+  .panel-left iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  /* ── Right: company panel ── */
+  .panel-right {
+    width: 320px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    overflow: hidden;
+  }
+  .panel-right-header {
+    background: var(--navy);
+    color: white;
+    padding: 14px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .panel-right-header .count {
+    background: rgba(255,255,255,.2);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  /* Search */
+  .search-box {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .search-box input {
+    width: 100%;
+    padding: 7px 12px 7px 32px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font-size: 13px;
+    color: var(--text);
+    background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2.5'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") 10px center no-repeat;
+    outline: none;
+    transition: border-color .15s;
+  }
+  .search-box input:focus { border-color: var(--accent); }
+
+  /* Category tabs */
+  .cat-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    overflow-x: auto;
+  }
+  .cat-tab {
+    flex: 1;
+    padding: 8px 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--sub);
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    text-align: center;
+    transition: all .15s;
+  }
+  .cat-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .cat-tab:hover:not(.active) { color: var(--text); background: var(--bg); }
+
+  /* Company list */
+  .company-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+  }
+  .company-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 16px;
+    border-bottom: 1px solid #F1F5F9;
+    text-decoration: none;
+    color: inherit;
+    transition: background .12s;
+    cursor: pointer;
+  }
+  .company-item:hover { background: #F8FAFC; }
+  .company-item:last-child { border-bottom: none; }
+  .company-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .company-icon img { width: 100%; height: 100%; object-fit: contain; }
+  .company-info { flex: 1; min-width: 0; }
+  .company-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .company-desc { font-size: 11px; color: var(--sub); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .company-tag {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 20px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .tag-al  { background: #DBEAFE; color: #1D4ED8; }
+  .tag-cu  { background: #FEF3C7; color: #B45309; }
+  .tag-ni  { background: #D1FAE5; color: #065F46; }
+  .tag-zn  { background: #EDE9FE; color: #5B21B6; }
+  .tag-sn  { background: #FFE4E6; color: #9F1239; }
+  .tag-pb  { background: #F3F4F6; color: #374151; }
+  .tag-multi { background: #F1F5F9; color: #475569; }
+
+  /* Empty state */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    color: var(--sub);
+    text-align: center;
+    gap: 10px;
+  }
+  .empty-state svg { opacity: .3; }
+  .empty-state p { font-size: 13px; line-height: 1.6; }
+
+  /* Add button */
+  .add-btn-wrap {
+    padding: 12px 14px;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .add-btn {
+    width: 100%;
+    padding: 9px;
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--sub);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all .15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .add-btn:hover { border-color: var(--accent); color: var(--accent); background: #EFF6FF; }
+
+  /* ── Responsive: below 900px stack vertically ── */
+  @media (max-width: 900px) {
+    body { overflow: auto; height: auto; }
+    .layout { flex-direction: column; height: auto; }
+    .panel-left { height: 70vh; border-right: none; border-bottom: 2px solid var(--border); }
+    .panel-right { width: 100%; height: auto; max-height: 60vh; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#">RC<span>OA</span></a>
+  <span class="header-sub">원자재 비철금속 시세 &amp; 업체 포털</span>
+</header>
+
+<div class="layout">
+
+  <!-- Left: price dashboard -->
+  <div class="panel-left">
+    <iframe src="dashboard.html" title="조달청 비철금속 판매가격 대시보드" loading="eager"></iframe>
+  </div>
+
+  <!-- Right: company directory -->
+  <div class="panel-right">
+    <div class="panel-right-header">
+      <span>업체 디렉토리</span>
+      <span class="count" id="company-count">0개</span>
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="업체명 또는 취급 품목 검색…" oninput="filterCompanies()">
+    </div>
+
+    <div class="cat-tabs">
+      <button class="cat-tab active" onclick="setCategory('all', this)">전체</button>
+      <button class="cat-tab" onclick="setCategory('al', this)">알루미늄</button>
+    </div>
+
+    <div class="company-list" id="company-list"></div>
+
+    <div class="add-btn-wrap">
+      <button class="add-btn" title="업체 추가 예정">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        업체 추가 (준비 중)
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Company data ── 나중에 여기에 업체 정보를 추가하세요
+const COMPANIES = [
+  // Example (주석 처리됨 — 실제 업체 입력 시 아래 형식으로 추가):
+  // {
+  //   name: "업체명",
+  //   desc: "취급 품목 또는 설명",
+  //   url: "https://example.com",
+  //   category: "al",   // al / cu / ni / zn / sn / pb / multi
+  //   logo: "",         // URL 또는 비워두면 이모지 사용
+  //   emoji: "🏭"
+  // },
+];
+
+let activeCategory = 'all';
+
+const TAG_LABELS = { al:'알루미늄', cu:'구리', ni:'니켈', zn:'아연', sn:'주석', pb:'납', multi:'복합' };
+
+function renderCompanies(list) {
+  const container = document.getElementById('company-list');
+  document.getElementById('company-count').textContent = list.length + '개';
+
+  if (list.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="3" width="18" height="18" rx="3"/>
+          <path d="M3 9h18M9 21V9"/>
+        </svg>
+        <p>등록된 업체가 없습니다.<br>업체 정보를 추가해 주세요.</p>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = list.map(c => `
+    <a class="company-item" href="${c.url}" target="_blank" rel="noopener noreferrer">
+      <div class="company-icon">
+        ${c.logo
+          ? `<img src="${c.logo}" alt="${c.name}">`
+          : `<span>${c.emoji || '🏢'}</span>`}
+      </div>
+      <div class="company-info">
+        <div class="company-name">${c.name}</div>
+        <div class="company-desc">${c.desc}</div>
+      </div>
+      <span class="company-tag tag-${c.category}">${TAG_LABELS[c.category] || c.category}</span>
+    </a>
+  `).join('');
+}
+
+function filterCompanies() {
+  const q = document.getElementById('search-input').value.trim().toLowerCase();
+  let list = activeCategory === 'all'
+    ? COMPANIES
+    : COMPANIES.filter(c => c.category === activeCategory);
+  if (q) list = list.filter(c =>
+    c.name.toLowerCase().includes(q) ||
+    c.desc.toLowerCase().includes(q) ||
+    (TAG_LABELS[c.category] || '').includes(q)
+  );
+  renderCompanies(list);
+}
+
+function setCategory(cat, el) {
+  activeCategory = cat;
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  filterCompanies();
+}
+
+// Initial render
+renderCompanies(COMPANIES);
+</script>
+
+</body>
+</html>
