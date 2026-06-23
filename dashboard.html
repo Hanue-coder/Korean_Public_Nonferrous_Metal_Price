@@ -45,7 +45,8 @@
   .chart-hint { position: absolute; top: 14px; right: 18px; font-size: 11px; color: #94A3B8; }
 
   /* Table */
-  .table-wrap { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.08); overflow-x: auto; }
+  .table-wrap { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.08); overflow-x: auto; cursor: grab; user-select: none; }
+  .table-wrap.dragging { cursor: grabbing; }
   .table-wrap h2 { font-size: 14px; font-weight: 700; margin-bottom: 14px; color: #1E293B; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th { background: #F8FAFC; padding: 8px 12px; text-align: right; color: #64748B; font-weight: 600; white-space: nowrap; border-bottom: 2px solid #E2E8F0; }
@@ -59,7 +60,7 @@
 <body>
 <header>
   <h1>조달청 비철금속 원자재 판매가격</h1>
-  <span>최근 데이터: 2026-06-23 &nbsp;|&nbsp; 생성: 2026-06-23 13:02</span>
+  <span>최근 데이터: 2026-06-23 &nbsp;|&nbsp; 생성: 2026-06-23 13:41</span>
 </header>
 <div class="main">
   <div class="cards" id="cards"></div>
@@ -695,6 +696,26 @@ document.getElementById('btnExcl').addEventListener('click', () => {
 buildCards();
 buildChart();
 buildTable();
+
+// Table horizontal drag-to-scroll
+(function() {
+  const el = document.querySelector('.table-wrap');
+  let isDown = false, startX, scrollLeft;
+  el.addEventListener('mousedown', e => {
+    if (e.target.closest('th, td') && e.button === 0) {
+      isDown = true;
+      startX = e.pageX - el.offsetLeft;
+      scrollLeft = el.scrollLeft;
+      el.classList.add('dragging');
+    }
+  });
+  document.addEventListener('mouseup', () => { isDown = false; el.classList.remove('dragging'); });
+  document.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX);
+  });
+})();
 </script>
 </body>
 </html>
