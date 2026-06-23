@@ -436,7 +436,24 @@ function buildChart() {{
     const lastLbl = catLabels[catLabels.length - 1];
     const [ly, lm] = lastLbl.split('-').map(Number);
     const nd = new Date(ly, lm, 1);
-    catLabels.push(`${{nd.getFullYear()}}-${{String(nd.getMonth()+1).padStart(2,'0')}}`);
+    const phantomLbl = `${{nd.getFullYear()}}-${{String(nd.getMonth()+1).padStart(2,'0')}}`;
+    catLabels.push(phantomLbl);
+
+    // Copy last real period's data into phantom so the step line extends to right edge
+    if (catByGranKey['month']) {{
+      catByGranKey['month'][phantomLbl] = catByGranKey['month'][lastLbl];
+    }}
+    if (catByGranKey['quarter']) {{
+      // phantom month maps to its own quarter start
+      const pmo = nd.getMonth() + 1;
+      const pqStart = [1,1,1,4,4,4,7,7,7,10,10,10][pmo-1];
+      const phantomQKey = `${{nd.getFullYear()}}-${{String(pqStart).padStart(2,'0')}}`;
+      // find last quarter key that has data
+      const lastQMo = lm;
+      const lastQStart = [1,1,1,4,4,4,7,7,7,10,10,10][lastQMo-1];
+      const lastQKey = `${{ly}}-${{String(lastQStart).padStart(2,'0')}}`;
+      catByGranKey['quarter'][phantomQKey] = catByGranKey['quarter'][lastQKey];
+    }}
   }}
 
   const datasets = [];
