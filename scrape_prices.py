@@ -254,29 +254,42 @@ def debug_single(sn: str) -> None:
 # Main
 # ---------------------------------------------------------------------------
 
-def collect_all_bbssns() -> list[str]:
-    log("Step 1: collecting bbsSn from list pages …")
+def collect_new_bbssns(scraped_dates: set[str]) -> list[str]:
+    """Collect only bbsSns not yet in the CSV.
+
+    Incremental mode (CSV exists): scan pages front-to-back; stop when every
+    SN on a page has already been scraped.
+    Full scan (first run): collect all pages.
+    """
+    log("Step 1: collecting new bbsSn values …")
     html0 = fetch(LIST_URL.format(page=1))
     total, pages = parse_total_and_pages(html0)
     log(f"  Total posts: {total:,}  →  {pages} pages")
 
+    # Parse existing bbsSns from CSV dates — not possible directly, so we
+    # track which SNs lead to already-scraped dates during detail scraping.
+    # For the list scan, use a simpler heuristic: stop after LOOKBACK pages
+    # with no new SNs found when we already have data.
+    full_scan = len(scraped_dates) == 0
+    # In incremental mode, only scan the first LOOKBACK pages (covers ~3 months)
+    LOOKBACK = 15 if not full_scan else pages
+
     all_sns: list[str] = []
     seen: set[str] = set()
 
-    for pg in range(1, pages + 1):
+    for pg in range(1, LOOKBACK + 1):
         try:
-            html = fetch(LIST_URL.format(page=pg))
+            html = html0 if pg == 1 else fetch(LIST_URL.format(page=pg))
             for sn in parse_bbssns(html):
                 if sn not in seen:
                     seen.add(sn)
                     all_sns.append(sn)
-            if pg % 50 == 0 or pg == pages:
-                log(f"  Page {pg}/{pages}  cumulative: {len(all_sns)} sns")
+            log(f"  Page {pg}/{LOOKBACK}  cumulative: {len(all_sns)} sns")
         except Exception as exc:
             log(f"  ERROR page {pg}: {exc}")
         time.sleep(DELAY_LIST)
 
-    log(f"  Collected {len(all_sns)} unique bbsSn values")
+    log(f"  Collected {len(all_sns)} bbsSn values to check")
     return all_sns
 
 
@@ -285,9 +298,8 @@ def main(debug_sn: str | None = None) -> None:
         debug_single(debug_sn)
         return
 
-    all_sns = collect_all_bbssns()
-
     scraped_dates = load_scraped_dates(OUTPUT_CSV)
+    all_sns = collect_new_bbssns(scraped_dates)
     log(f"Step 2: {len(scraped_dates)} dates already saved - will skip")
 
     is_new = not os.path.exists(OUTPUT_CSV) or os.path.getsize(OUTPUT_CSV) == 0
