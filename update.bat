@@ -1,2 +1,2 @@
 @echo off
-powershell.exe -NonInteractive -ExecutionPolicy Bypass -File "C:\최태성_영업\98_Private\Claude\update.ps1"
+powershell.exe -NonInteractive -ExecutionPolicy Bypass -File "C:\Choi_Sales\98_Private\Claude\update.ps1"
