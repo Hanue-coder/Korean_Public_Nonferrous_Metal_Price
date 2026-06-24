@@ -83,7 +83,8 @@ def fetch(url: str, retries: int = 3) -> str:
     for attempt in range(retries):
         try:
             with urllib.request.urlopen(req, context=_ssl_ctx, timeout=30) as r:
-                return r.read().decode("utf-8", errors="replace")
+                charset = r.headers.get_content_charset() or "utf-8"
+                return r.read().decode(charset, errors="replace")
         except Exception as exc:
             if attempt == retries - 1:
                 raise
@@ -119,6 +120,7 @@ def parse_total_and_pages(html: str) -> tuple[int, int]:
 
 
 def parse_bbssns(html: str) -> list[str]:
+    # matches goView('SN') and goView('SN', 'extra')
     return re.findall(r"goView\('(\d+)'", html)
 
 
