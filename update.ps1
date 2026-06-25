@@ -15,9 +15,11 @@ if (Test-Path $csv) {
 Write-Host "$today - starting update"
 
 # Find Python automatically
-$python = (Get-Command python -ErrorAction SilentlyContinue)?.Source
+$pythonCmd = Get-Command python -ErrorAction SilentlyContinue
+$python = if ($pythonCmd) { $pythonCmd.Source } else { $null }
 if (-not $python) {
-    $python = (Get-Command python3 -ErrorAction SilentlyContinue)?.Source
+    $pythonCmd = Get-Command python3 -ErrorAction SilentlyContinue
+    $python = if ($pythonCmd) { $pythonCmd.Source } else { $null }
 }
 if (-not $python) {
     Write-Host "ERROR: Python not found in PATH"
