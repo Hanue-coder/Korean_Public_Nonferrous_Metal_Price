@@ -22,7 +22,7 @@ results.append(("마지막 실행 결과", "FAIL" if "-196608" in (last_result[0
                 last_result[0].strip() if last_result else "?"))
 
 # 2. Check Python path
-py = "C:\\Users\\USER\\AppData\\Local\\Programs\\Python\\Python313\\python.exe"
+py = "C:\\Users\\seren\\AppData\\Local\\Python\\bin\\python.exe"
 results.append(("Python 경로", "OK" if os.path.exists(py) else "FAIL", py))
 
 # 3. Check CSV latest date

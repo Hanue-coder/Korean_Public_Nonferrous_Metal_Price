@@ -28,7 +28,7 @@
 - 모든 코드 주석과 변수명은 영어로, 사용자 응답은 한국어로
 - 데이터 저장은 CSV 형식 사용
 - 날짜 형식은 YYYY-MM-DD 통일
-- 새 스크립트 작성 시 Python 3.13 기준으로 작성 (Python313 설치되어 있음)
+- 새 스크립트 작성 시 Python 3.14 기준으로 작성 (경로: C:\Users\seren\AppData\Local\Python\bin\python.exe)
 
 ## 동기화 워크플로우
 작업 시작 전: .\pull.ps1
