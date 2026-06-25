@@ -7,17 +7,26 @@ $csv   = "$PSScriptRoot\data\prices.csv"
 if (Test-Path $csv) {
     $exists = Select-String -Path $csv -Pattern "^$today," -Quiet
     if ($exists) {
-        Write-Host "$today 데이터가 이미 존재합니다. 업데이트를 건너뜁니다."
+        Write-Host "$today data already exists. Skipping."
         exit 0
     }
 }
 
-Write-Host "$today 데이터 없음 - 업데이트 시작"
+Write-Host "$today - starting update"
+
+# Find Python automatically
+$python = (Get-Command python -ErrorAction SilentlyContinue)?.Source
+if (-not $python) {
+    $python = (Get-Command python3 -ErrorAction SilentlyContinue)?.Source
+}
+if (-not $python) {
+    Write-Host "ERROR: Python not found in PATH"
+    exit 1
+}
+
+Write-Host "Using Python: $python"
 
 & "$PSScriptRoot\pull.ps1"
-
-& "C:\Users\USER\AppData\Local\Programs\Python\Python313\python.exe" "$PSScriptRoot\scrape_prices.py"
-
-& "C:\Users\USER\AppData\Local\Programs\Python\Python313\python.exe" "$PSScriptRoot\generate_dashboard.py"
-
+& $python "$PSScriptRoot\scrape_prices.py"
+& $python "$PSScriptRoot\generate_dashboard.py"
 & "$PSScriptRoot\sync.ps1"

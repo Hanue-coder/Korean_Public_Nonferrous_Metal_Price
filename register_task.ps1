@@ -1,10 +1,11 @@
 # Run as Administrator
 
-$taskName = "비철금속가격_자동업데이트"
+$taskName = "MetalPrice_AutoUpdate"
 $batPath  = "C:\Choi_Sales\98_Private\Claude\update.bat"
 
-# Remove existing task
-Unregister-ScheduledTask -TaskName $taskName -Confirm:$false -ErrorAction SilentlyContinue
+# Remove existing tasks (old Korean name + new English name)
+Unregister-ScheduledTask -TaskName "MetalPrice_AutoUpdate" -Confirm:$false -ErrorAction SilentlyContinue
+Unregister-ScheduledTask -TaskName "비철금속가격_자동업데이트" -Confirm:$false -ErrorAction SilentlyContinue
 
 # Action
 $action = New-ScheduledTaskAction -Execute $batPath
@@ -31,5 +32,5 @@ Register-ScheduledTask `
     -Settings $settings `
     -Force | Out-Null
 
-Write-Host "등록 완료 - 매일 9시~17시 매 1시간 실행"
+Write-Host "Done: $taskName registered (daily 09:00~17:00, every hour)"
 schtasks /Query /TN $taskName /FO LIST 2>&1 | Select-String "Next Run|Status"
