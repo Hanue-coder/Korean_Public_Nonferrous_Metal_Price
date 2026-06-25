@@ -10,9 +10,10 @@ Unregister-ScheduledTask -TaskName "비철금속가격_자동업데이트" -Conf
 # Action
 $action = New-ScheduledTaskAction -Execute $batPath
 
-# Triggers: 09:00 ~ 17:00, every hour (9 triggers)
+# Triggers: 09:30 ~ 17:30, every hour on weekdays (9 triggers)
 $triggers = 9..17 | ForEach-Object {
-    New-ScheduledTaskTrigger -Daily -At "$($_):00"
+    $t = New-ScheduledTaskTrigger -Weekly -DaysOfWeek Monday,Tuesday,Wednesday,Thursday,Friday -At "$($_):30"
+    $t
 }
 
 # Settings
