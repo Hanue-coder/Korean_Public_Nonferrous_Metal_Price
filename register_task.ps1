@@ -1,21 +1,20 @@
 # Run as Administrator
 
-$taskName  = "비철금속가격_자동업데이트"
-$batPath   = "C:\Choi_Sales\98_Private\Claude\update.bat"
+$taskName = "비철금속가격_자동업데이트"
+$batPath  = "C:\Choi_Sales\98_Private\Claude\update.bat"
 
-# Remove existing task if present
+# Remove existing task
 Unregister-ScheduledTask -TaskName $taskName -Confirm:$false -ErrorAction SilentlyContinue
 
 # Action
 $action = New-ScheduledTaskAction -Execute $batPath
 
-# Trigger: daily 09:00, repeat every 1 hour for 8 hours
-$trigger = New-ScheduledTaskTrigger -Daily -At "09:00AM"
-$trigger.Repetition.Interval = "PT1H"
-$trigger.Repetition.Duration = "PT8H"
-$trigger.Repetition.StopAtDurationEnd = $false
+# Triggers: 09:00 ~ 17:00, every hour (9 triggers)
+$triggers = 9..17 | ForEach-Object {
+    New-ScheduledTaskTrigger -Daily -At "$($_):00"
+}
 
-# Settings: run when available, no battery stop, 10 min timeout
+# Settings
 $settings = New-ScheduledTaskSettingsSet `
     -StartWhenAvailable `
     -RunOnlyIfNetworkAvailable `
@@ -28,10 +27,9 @@ $settings = New-ScheduledTaskSettingsSet `
 Register-ScheduledTask `
     -TaskName $taskName `
     -Action   $action `
-    -Trigger  $trigger `
+    -Trigger  $triggers `
     -Settings $settings `
-    -RunLevel Limited `
     -Force | Out-Null
 
-Write-Host "등록 완료:"
-schtasks /Query /TN $taskName /FO LIST 2>&1 | Select-String "Next Run|Status|Repeat"
+Write-Host "등록 완료 - 매일 9시~17시 매 1시간 실행"
+schtasks /Query /TN $taskName /FO LIST 2>&1 | Select-String "Next Run|Status"

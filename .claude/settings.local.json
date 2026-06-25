@@ -25,7 +25,8 @@
       "Bash(git restore *)",
       "Bash(gh pr create --title 'RCOA 홈페이지 추가 — 가격 대시보드 + 업체 디렉토리' --body ' *)",
       "PowerShell(Start-Process \"http://localhost:3000/index.html\")",
-      "PowerShell(cd \"C:\\\\Choi_Sales\\\\98_Private\\\\Claude\"; powershell -ExecutionPolicy Bypass -File register_task.ps1)"
+      "PowerShell(cd \"C:\\\\Choi_Sales\\\\98_Private\\\\Claude\"; powershell -ExecutionPolicy Bypass -File register_task.ps1)",
+      "PowerShell(New-Item -ItemType Directory -Path \"C:\\\\Choi_Sales\\\\98_Private\" -Force)"
     ]
   }
 }
