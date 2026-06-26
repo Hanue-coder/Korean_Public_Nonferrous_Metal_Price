@@ -14,15 +14,10 @@ if (Test-Path $csv) {
 
 Write-Host "$today - starting update"
 
-# Find Python automatically
-$pythonCmd = Get-Command python -ErrorAction SilentlyContinue
-$python = if ($pythonCmd) { $pythonCmd.Source } else { $null }
-if (-not $python) {
-    $pythonCmd = Get-Command python3 -ErrorAction SilentlyContinue
-    $python = if ($pythonCmd) { $pythonCmd.Source } else { $null }
-}
-if (-not $python) {
-    Write-Host "ERROR: Python not found in PATH"
+# Use explicit Python path (Windows Store stub fails in non-interactive scheduled tasks)
+$python = "C:\Users\seren\AppData\Local\Python\bin\python.exe"
+if (-not (Test-Path $python)) {
+    Write-Host "ERROR: Python not found at $python"
     exit 1
 }
 
