@@ -218,12 +218,36 @@
   }
   .add-btn:hover { border-color: var(--accent); color: var(--accent); background: #EFF6FF; }
 
-  /* ── Responsive: below 900px stack vertically ── */
+  /* ── Mobile tab bar ── */
+  .mobile-tabs {
+    display: none;
+    background: var(--navy);
+    flex-shrink: 0;
+  }
+  .mobile-tab {
+    flex: 1;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,.55);
+    border: none;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .mobile-tab.active { color: #fff; border-bottom-color: #93C5FD; }
+
+  /* ── Responsive: below 900px use tabs ── */
   @media (max-width: 900px) {
-    body { overflow: auto; height: auto; }
-    .layout { flex-direction: column; height: auto; }
-    .panel-left { height: 70vh; border-right: none; border-bottom: 2px solid var(--border); }
-    .panel-right { width: 100%; height: auto; max-height: 60vh; }
+    body { overflow: hidden; height: 100vh; }
+    .mobile-tabs { display: flex; }
+    .layout { flex-direction: column; flex: 1; overflow: hidden; }
+    .panel-left { flex: 1; border-right: none; display: none; }
+    .panel-left.active { display: flex; }
+    .panel-right { width: 100%; flex: 1; display: none; overflow: hidden; }
+    .panel-right.active { display: flex; }
+    .header-sub { display: none; }
   }
 </style>
 </head>
@@ -233,6 +257,11 @@
   <a class="logo" href="#">R<span>COA</span></a>
   <span class="header-sub">원자재 비철금속 시세 &amp; 업체 포털</span>
 </header>
+
+<div class="mobile-tabs">
+  <button class="mobile-tab active" onclick="switchTab('left', this)">📊 가격 시세</button>
+  <button class="mobile-tab" onclick="switchTab('right', this)">🏢 업체 디렉토리</button>
+</div>
 
 <div class="layout">
 
@@ -341,6 +370,19 @@ function setCategory(cat, el) {
 
 // Initial render
 renderCompanies(COMPANIES);
+
+// Mobile tab switching
+function switchTab(side, btn) {
+  document.querySelectorAll('.mobile-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelector('.panel-left').classList.toggle('active', side === 'left');
+  document.querySelector('.panel-right').classList.toggle('active', side === 'right');
+}
+
+// On load: activate left tab for mobile
+if (window.innerWidth <= 900) {
+  document.querySelector('.panel-left').classList.add('active');
+}
 </script>
 
 </body>
