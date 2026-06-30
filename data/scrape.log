@@ -1,22 +1,23 @@
-11:30:21 Step 1: collecting new bbsSn values …
-11:30:22   Total posts: 3,652  →  366 pages
-11:30:22   Page 1/15  cumulative: 10 sns
-11:30:22   Page 2/15  cumulative: 20 sns
-11:30:23   Page 3/15  cumulative: 30 sns
-11:30:23   Page 4/15  cumulative: 40 sns
-11:30:24   Page 5/15  cumulative: 50 sns
-11:30:24   Page 6/15  cumulative: 60 sns
-11:30:25   Page 7/15  cumulative: 70 sns
-11:30:25   Page 8/15  cumulative: 80 sns
-11:30:26   Page 9/15  cumulative: 90 sns
-11:30:26   Page 10/15  cumulative: 100 sns
-11:30:26   Page 11/15  cumulative: 110 sns
-11:30:27   Page 12/15  cumulative: 120 sns
-11:30:27   Page 13/15  cumulative: 130 sns
-11:30:28   Page 14/15  cumulative: 140 sns
-11:30:28   Page 15/15  cumulative: 150 sns
-11:30:28   Collected 150 bbsSn values to check
-11:30:28 Step 2: 3272 dates already saved - will skip
-11:30:28 Step 3: scraping 150 detail pages …
-11:31:52 DONE - saved=1 dup=149 old=0 err=0
-11:31:52 Output: C:\Choi_Sales\98_Private\Claude\data\prices.csv
+10:02:06 Step 1: collecting new bbsSn values …
+10:02:07   Total posts: 3,653  →  366 pages
+10:02:07   Page 1/15  cumulative: 10 sns
+10:02:07   Page 2/15  cumulative: 20 sns
+10:02:08   Page 3/15  cumulative: 30 sns
+10:02:08   Page 4/15  cumulative: 40 sns
+10:02:09   Page 5/15  cumulative: 50 sns
+10:02:09   Page 6/15  cumulative: 60 sns
+10:02:10   Page 7/15  cumulative: 70 sns
+10:02:12   Page 8/15  cumulative: 80 sns
+10:02:48   retry 1/3: The read operation timed out
+10:02:50   Page 9/15  cumulative: 90 sns
+10:02:51   Page 10/15  cumulative: 100 sns
+10:02:51   Page 11/15  cumulative: 110 sns
+10:02:52   Page 12/15  cumulative: 120 sns
+10:02:52   Page 13/15  cumulative: 130 sns
+10:02:53   Page 14/15  cumulative: 140 sns
+10:02:53   Page 15/15  cumulative: 150 sns
+10:02:53   Collected 150 bbsSn values to check
+10:02:53 Step 2: 3273 dates already saved - will skip
+10:02:53 Step 3: scraping 150 detail pages …
+10:04:18 DONE - saved=1 dup=149 old=0 err=0
+10:04:18 Output: C:\Choi_Sales\98_Private\Claude\data\prices.csv
