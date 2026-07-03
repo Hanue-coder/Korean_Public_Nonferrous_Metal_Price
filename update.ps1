@@ -23,7 +23,6 @@ if (-not (Test-Path $python)) {
 
 Write-Host "Using Python: $python"
 
-& "$PSScriptRoot\pull.ps1"
 & $python "$PSScriptRoot\scrape_prices.py"
 & $python "$PSScriptRoot\generate_dashboard.py"
 & "$PSScriptRoot\sync.ps1"
