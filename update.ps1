@@ -26,3 +26,15 @@ Write-Host "Using Python: $python"
 & $python "$PSScriptRoot\scrape_prices.py"
 & $python "$PSScriptRoot\generate_dashboard.py"
 & "$PSScriptRoot\sync.ps1"
+
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Push failed (exit $LASTEXITCODE), retrying in 30s..."
+    Start-Sleep -Seconds 30
+    & "$PSScriptRoot\sync.ps1"
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "ERROR: Push failed after retry. Exit $LASTEXITCODE"
+        exit 1
+    }
+}
+
+Write-Host "Done: push verified OK"
