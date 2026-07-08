@@ -300,7 +300,7 @@
   <!-- Left: price dashboard -->
   <div class="panel-left">
     <iframe src="dashboard.html" title="조달청 비철금속 판매가격 대시보드" loading="eager"></iframe>
-    <button class="toggle-btn" id="toggle-btn" onclick="toggleDirectory()" title="업체 디렉토리 열기/닫기">제조업체</button>
+    <button class="toggle-btn" id="toggle-btn" onclick="toggleDirectory()" title="업체 디렉토리 열기/닫기"><span>제조업체</span><span id="toggle-arrow" style="margin-top:6px;font-size:13px;">‹</span></button>
   </div>
 
   <!-- Right: company directory -->
@@ -406,7 +406,8 @@ renderCompanies(COMPANIES);
 
 // Directory toggle (desktop)
 function toggleDirectory() {
-  document.querySelector('.panel-right').classList.toggle('collapsed');
+  const collapsed = document.querySelector('.panel-right').classList.toggle('collapsed');
+  document.getElementById('toggle-arrow').textContent = collapsed ? '‹' : '›';
 }
 
 // Mobile tab switching
