@@ -290,20 +290,24 @@
     display: none;
     flex: 1;
     overflow-y: auto;
-    background: var(--bg);
-    padding: 28px 32px;
+    background: #F8FAFC;
+    flex-direction: column;
   }
-  .issues-board.active { display: block; }
-  .issues-header {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 6px;
+  .issues-board-header {
+    background: #1E3A5F;
+    color: white;
+    padding: 18px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
   }
-  .issues-desc {
-    font-size: 12px;
-    color: var(--sub);
-    margin-bottom: 24px;
+  .issues-board-header h1 { font-size: 20px; font-weight: 700; }
+  .issues-board-header span { font-size: 12px; opacity: 0.7; }
+  .issues-board-body {
+    padding: 24px 28px;
+    overflow-y: auto;
+    flex: 1;
   }
   .issue-card {
     background: var(--white);
@@ -395,8 +399,11 @@
 
 <!-- Issues Board -->
 <div class="issues-board" id="issues-board">
-  <div class="issues-header">원자재 이슈사항</div>
-  <div class="issues-desc">일 기준 2% 이상 또는 월 기준 5% 이상 변동 항목 | 최근 6개월</div>
+  <div class="issues-board-header">
+    <h1>원자재 이슈사항</h1>
+    <span>일 기준 2% 이상 또는 월 기준 5% 이상 변동 항목 &nbsp;|&nbsp; 최근 6개월</span>
+  </div>
+  <div class="issues-board-body">
 
   <div class="issue-card">
     <div class="issue-title">
@@ -586,7 +593,8 @@
     </div>
     <div class="issue-source">출처: <a href="https://news.metal.com/ko/newscontent/103946323" target="_blank">Shanghai Metals Market — 금·은·원유 모두 하락, 비철금속 전반 하락</a> · <a href="https://www.thecommoditiesnews.com/news/articleView.html?idxno=10255" target="_blank">CNews — 비철금속 공급측 요인 강세 기조</a></div>
   </div>
-</div>
+  </div><!-- /issues-board-body -->
+</div><!-- /issues-board -->
 
 <div class="layout">
 
@@ -704,7 +712,7 @@ function switchView(view, btn) {
   document.querySelector('.layout').style.display = view === 'main' ? 'flex' : 'none';
   document.querySelector('.mobile-tabs').style.display = view === 'main' ? '' : 'none';
   const board = document.getElementById('issues-board');
-  board.style.display = view === 'issues' ? 'block' : 'none';
+  board.style.display = view === 'issues' ? 'flex' : 'none';
 }
 
 // Directory toggle (desktop)
