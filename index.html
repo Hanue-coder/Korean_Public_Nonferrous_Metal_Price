@@ -371,10 +371,11 @@
     body { overflow: hidden; height: 100vh; }
     .mobile-tabs { display: flex; }
     .layout { flex-direction: column; flex: 1; overflow: hidden; }
-    .panel-left { flex: 1; border-right: none; display: none; }
-    .panel-left.active { display: flex; }
+    .panel-left { flex: 1; border-right: none; display: flex; }
+    .panel-left.hidden { display: none; }
     .panel-right { width: 100%; flex: 1; display: none; overflow: hidden; }
     .panel-right.active { display: flex; }
+    .toggle-btn { display: none; }
     .header-sub { display: none; }
   }
 </style>
@@ -583,13 +584,8 @@ function toggleDirectory() {
 function switchTab(side, btn) {
   document.querySelectorAll('.mobile-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelector('.panel-left').classList.toggle('active', side === 'left');
+  document.querySelector('.panel-left').classList.toggle('hidden', side !== 'left');
   document.querySelector('.panel-right').classList.toggle('active', side === 'right');
-}
-
-// On load: activate left tab for mobile
-if (window.innerWidth <= 900) {
-  document.querySelector('.panel-left').classList.add('active');
 }
 </script>
 
