@@ -77,8 +77,8 @@
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 20px;
-    height: 48px;
+    width: 22px;
+    height: 90px;
     background: var(--navy);
     border: none;
     border-radius: 6px 0 0 6px;
@@ -88,8 +88,13 @@
     align-items: center;
     justify-content: center;
     font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
     z-index: 5;
     transition: background .15s;
+    white-space: nowrap;
   }
   .toggle-btn:hover { background: var(--navy-light); }
   .panel-left { position: relative; }
@@ -295,11 +300,11 @@
   <!-- Left: price dashboard -->
   <div class="panel-left">
     <iframe src="dashboard.html" title="조달청 비철금속 판매가격 대시보드" loading="eager"></iframe>
-    <button class="toggle-btn" id="toggle-btn" onclick="toggleDirectory()" title="업체 디렉토리 열기/닫기">›</button>
+    <button class="toggle-btn" id="toggle-btn" onclick="toggleDirectory()" title="업체 디렉토리 열기/닫기">제조업체</button>
   </div>
 
   <!-- Right: company directory -->
-  <div class="panel-right">
+  <div class="panel-right collapsed">
     <div class="panel-right-header">
       <span>업체 디렉토리</span>
       <span class="count" id="company-count">0개</span>
@@ -401,10 +406,7 @@ renderCompanies(COMPANIES);
 
 // Directory toggle (desktop)
 function toggleDirectory() {
-  const right = document.querySelector('.panel-right');
-  const btn = document.getElementById('toggle-btn');
-  const collapsed = right.classList.toggle('collapsed');
-  btn.textContent = collapsed ? '‹' : '›';
+  document.querySelector('.panel-right').classList.toggle('collapsed');
 }
 
 // Mobile tab switching
