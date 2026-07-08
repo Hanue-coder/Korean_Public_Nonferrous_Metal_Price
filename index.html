@@ -31,9 +31,24 @@
     box-shadow: 0 2px 6px rgba(0,0,0,.25);
     z-index: 10;
   }
-  .logo { font-size: 22px; font-weight: 800; letter-spacing: 2px; color: white; text-decoration: none; }
+  .logo { font-size: 22px; font-weight: 800; letter-spacing: 2px; color: white; text-decoration: none; flex-shrink: 0; }
   .logo span { color: #93C5FD; }
-  .header-sub { font-size: 12px; opacity: .6; border-left: 1px solid rgba(255,255,255,.25); padding-left: 18px; }
+  .header-nav { display: flex; align-items: stretch; height: 100%; border-left: 1px solid rgba(255,255,255,.2); margin-left: 8px; }
+  .header-nav-tab {
+    padding: 0 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,.6);
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all .15s;
+    height: 100%;
+  }
+  .header-nav-tab:hover { color: rgba(255,255,255,.9); background: rgba(255,255,255,.06); }
+  .header-nav-tab.active { color: #fff; border-bottom-color: #93C5FD; font-weight: 700; }
 
   /* ── Body layout ── */
   .layout {
@@ -287,7 +302,13 @@
 
 <header>
   <a class="logo" href="#">R<span>COA</span></a>
-  <span class="header-sub">원자재 비철금속 시세 &amp; 업체 포털</span>
+  <nav class="header-nav">
+    <button class="header-nav-tab active">원자재 비철금속 시세</button>
+    <button class="header-nav-tab">원자재이슈사항</button>
+    <button class="header-nav-tab"></button>
+    <button class="header-nav-tab"></button>
+    <button class="header-nav-tab"></button>
+  </nav>
 </header>
 
 <div class="mobile-tabs">
