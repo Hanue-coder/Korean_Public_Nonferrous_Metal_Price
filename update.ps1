@@ -25,6 +25,7 @@ Write-Host "Using Python: $python"
 
 & $python "$PSScriptRoot\scrape_prices.py"
 & $python "$PSScriptRoot\generate_dashboard.py"
+& $python "$PSScriptRoot\generate_issues.py"
 & "$PSScriptRoot\sync.ps1"
 
 if ($LASTEXITCODE -ne 0) {
