@@ -266,24 +266,7 @@
   .add-btn:hover { border-color: var(--accent); color: var(--accent); background: #EFF6FF; }
 
   /* ── Mobile tab bar ── */
-  .mobile-tabs {
-    display: none;
-    background: var(--navy);
-    flex-shrink: 0;
-  }
-  .mobile-tab {
-    flex: 1;
-    padding: 10px;
-    font-size: 13px;
-    font-weight: 600;
-    color: rgba(255,255,255,.55);
-    border: none;
-    border-bottom: 3px solid transparent;
-    background: transparent;
-    cursor: pointer;
-    transition: all .15s;
-  }
-  .mobile-tab.active { color: #fff; border-bottom-color: #93C5FD; }
+  .mobile-tabs { display: none; }
 
   /* ── Issues board ── */
   .issues-board {
@@ -366,18 +349,6 @@
   .issue-source a { color: var(--accent); text-decoration: none; }
   .issue-source a:hover { text-decoration: underline; }
 
-  /* ── Responsive: below 900px use tabs ── */
-  @media (max-width: 900px) {
-    body { overflow: hidden; height: 100vh; }
-    .mobile-tabs { display: flex; }
-    .layout { flex-direction: column; flex: 1; overflow: hidden; }
-    .panel-left { flex: 1; border-right: none; display: flex; }
-    .panel-left.hidden { display: none; }
-    .panel-right { width: 100%; flex: 1; display: none; overflow: hidden; }
-    .panel-right.active { display: flex; }
-    .toggle-btn { display: none; }
-    .header-sub { display: none; }
-  }
 </style>
 </head>
 <body>
@@ -569,7 +540,6 @@ function switchView(view, btn) {
   document.querySelectorAll('.header-nav-tab').forEach(t => t.classList.remove('active'));
   if (btn) btn.classList.add('active');
   document.querySelector('.layout').style.display = view === 'main' ? 'flex' : 'none';
-  document.querySelector('.mobile-tabs').style.display = view === 'main' ? '' : 'none';
   const board = document.getElementById('issues-board');
   board.style.display = view === 'issues' ? 'flex' : 'none';
 }
