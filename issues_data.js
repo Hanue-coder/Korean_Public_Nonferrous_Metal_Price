@@ -1,5 +1,51 @@
-const ISSUES_META = {"latest": "2026-07-01", "generated": "2026-07-08 16:16"};
+const ISSUES_META = {"latest": "2026-07-09", "generated": "2026-07-09 09:31"};
 const ISSUES_DATA = [
+  {
+    "date": "2026-07-09",
+    "date_fmt": "26년 07월 09일",
+    "tag": "가격 하락",
+    "tag_type": "down",
+    "items": [
+      {
+        "name": "알루미늄(서구산)",
+        "diff": 120,
+        "pct": -2.0,
+        "direction": "down"
+      },
+      {
+        "name": "알루미늄(비서구산)",
+        "diff": 120,
+        "pct": -2.1,
+        "direction": "down"
+      },
+      {
+        "name": "구리(99.99%)",
+        "diff": 770,
+        "pct": -3.4,
+        "direction": "down"
+      },
+      {
+        "name": "아연",
+        "diff": 210,
+        "pct": -3.3,
+        "direction": "down"
+      },
+      {
+        "name": "주석(99.85%)",
+        "diff": 3850,
+        "pct": -4.3,
+        "direction": "down"
+      },
+      {
+        "name": "주석(99.99%)",
+        "diff": 3850,
+        "pct": -4.3,
+        "direction": "down"
+      }
+    ],
+    "body": "",
+    "sources": []
+  },
   {
     "date": "2026-07-01",
     "date_fmt": "26년 07월 01일",
