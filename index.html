@@ -287,6 +287,29 @@
   }
   .issues-board-header h1 { font-size: 20px; font-weight: 700; }
   .issues-board-header span { font-size: 12px; opacity: 0.7; }
+  .issues-filter-tabs {
+    display: flex;
+    gap: 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    overflow-x: auto;
+    padding: 0 28px;
+  }
+  .issues-filter-tab {
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--sub);
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all .15s;
+  }
+  .issues-filter-tab:hover { color: var(--text); }
+  .issues-filter-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
   .issues-board-body {
     padding: 24px 28px;
     overflow-y: auto;
@@ -375,6 +398,15 @@
   <div class="issues-board-header">
     <h1>원자재 이슈사항</h1>
     <span id="issues-meta">일 기준 2% 이상 또는 월 기준 5% 이상 변동 항목 &nbsp;|&nbsp; 최근 6개월</span>
+  </div>
+  <div class="issues-filter-tabs" id="issues-filter-tabs">
+    <button class="issues-filter-tab active" onclick="filterIssues('전체', this)">전체</button>
+    <button class="issues-filter-tab" onclick="filterIssues('알루미늄', this)">알루미늄</button>
+    <button class="issues-filter-tab" onclick="filterIssues('구리', this)">구리</button>
+    <button class="issues-filter-tab" onclick="filterIssues('납', this)">납</button>
+    <button class="issues-filter-tab" onclick="filterIssues('아연', this)">아연</button>
+    <button class="issues-filter-tab" onclick="filterIssues('주석', this)">주석</button>
+    <button class="issues-filter-tab" onclick="filterIssues('니켈', this)">니켈</button>
   </div>
   <div class="issues-board-body" id="issues-list"></div>
 </div><!-- /issues-board -->
@@ -500,10 +532,33 @@ function renderIssues() {
     meta.innerHTML = `최근 데이터: ${ISSUES_META.latest} &nbsp;|&nbsp; 생성: ${ISSUES_META.generated}`;
   }
 
+  renderIssueCards();
+}
+
+let activeMetalFilter = '전체';
+
+function filterIssues(metal, btn) {
+  activeMetalFilter = metal;
+  document.querySelectorAll('.issues-filter-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderIssueCards();
+}
+
+function renderIssueCards() {
+  if (typeof ISSUES_DATA === 'undefined') return;
   const list = document.getElementById('issues-list');
   if (!list) return;
 
-  list.innerHTML = ISSUES_DATA.map(issue => {
+  const filtered = activeMetalFilter === '전체'
+    ? ISSUES_DATA
+    : ISSUES_DATA.filter(issue => issue.items.some(x => x.name.includes(activeMetalFilter)));
+
+  if (filtered.length === 0) {
+    list.innerHTML = `<div style="text-align:center;padding:48px;color:var(--sub);font-size:14px;">${activeMetalFilter} 관련 이슈가 없습니다.</div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(issue => {
     const items = issue.items.map(x => {
       const dir = x.direction === 'up' ? '▲' : '▼';
       const cls = x.direction === 'up' ? 'item-up' : 'item-down';
@@ -519,9 +574,7 @@ function renderIssues() {
       ? `<div class="issue-body">${issue.body}</div>`
       : `<div class="issue-body" style="color:var(--sub);font-style:italic;">원인 분석 준비 중입니다.</div>`;
 
-    const sourceHtml = sources
-      ? `<div class="issue-source">${sources}</div>`
-      : '';
+    const sourceHtml = sources ? `<div class="issue-source">${sources}</div>` : '';
 
     return `
       <div class="issue-card">
