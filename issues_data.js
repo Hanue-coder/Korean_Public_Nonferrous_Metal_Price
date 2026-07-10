@@ -1,5 +1,63 @@
-const ISSUES_META = {"latest": "2026-07-09", "generated": "2026-07-09 09:31"};
+const ISSUES_META = {"latest": "2026-07-10", "generated": "2026-07-10 10:11"};
 const ISSUES_DATA = [
+  {
+    "date": "2026-07-10",
+    "date_fmt": "26년 07월 10일",
+    "tag": "가격 상승",
+    "tag_type": "up",
+    "items": [
+      {
+        "name": "알루미늄(서구산)",
+        "diff": 170,
+        "pct": 3.0,
+        "direction": "up"
+      },
+      {
+        "name": "알루미늄(비서구산)",
+        "diff": 160,
+        "pct": 2.8,
+        "direction": "up"
+      },
+      {
+        "name": "구리(99.99%)",
+        "diff": 680,
+        "pct": 3.1,
+        "direction": "up"
+      },
+      {
+        "name": "아연",
+        "diff": 250,
+        "pct": 4.1,
+        "direction": "up"
+      },
+      {
+        "name": "주석(99.85%)",
+        "diff": 3030,
+        "pct": 3.5,
+        "direction": "up"
+      },
+      {
+        "name": "주석(99.99%)",
+        "diff": 3020,
+        "pct": 3.5,
+        "direction": "up"
+      },
+      {
+        "name": "니켈(합금용)",
+        "diff": 570,
+        "pct": 2.1,
+        "direction": "up"
+      },
+      {
+        "name": "니켈(도금용)",
+        "diff": 570,
+        "pct": 2.1,
+        "direction": "up"
+      }
+    ],
+    "body": "",
+    "sources": []
+  },
   {
     "date": "2026-07-09",
     "date_fmt": "26년 07월 09일",
