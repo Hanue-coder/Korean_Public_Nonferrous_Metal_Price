@@ -462,6 +462,7 @@ const COMPANIES = [
 ];
 
 let activeCategory = 'all';
+let activeMetalFilter = '전체';
 
 const TAG_LABELS = { al:'알루미늄', cu:'구리', ni:'니켈', zn:'아연', sn:'주석', pb:'납', multi:'복합' };
 
@@ -534,8 +535,6 @@ function renderIssues() {
 
   renderIssueCards();
 }
-
-let activeMetalFilter = '전체';
 
 function filterIssues(metal, btn) {
   activeMetalFilter = metal;
