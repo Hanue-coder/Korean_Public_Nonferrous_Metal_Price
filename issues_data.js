@@ -1,5 +1,27 @@
-const ISSUES_META = {"latest": "2026-07-10", "generated": "2026-07-10 10:11"};
+const ISSUES_META = {"latest": "2026-07-13", "generated": "2026-07-13 10:06"};
 const ISSUES_DATA = [
+  {
+    "date": "2026-07-13",
+    "date_fmt": "26년 07월 13일",
+    "tag": "가격 하락",
+    "tag_type": "down",
+    "items": [
+      {
+        "name": "알루미늄(서구산)",
+        "diff": 140,
+        "pct": -2.4,
+        "direction": "down"
+      },
+      {
+        "name": "알루미늄(비서구산)",
+        "diff": 130,
+        "pct": -2.2,
+        "direction": "down"
+      }
+    ],
+    "body": "",
+    "sources": []
+  },
   {
     "date": "2026-07-10",
     "date_fmt": "26년 07월 10일",
