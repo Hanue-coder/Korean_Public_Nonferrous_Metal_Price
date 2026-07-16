@@ -18,5 +18,5 @@
 19:21:22   Collected 150 bbsSn values to check
 19:21:22 Step 2: 3285 dates already saved - will skip
 19:21:22 Step 3: scraping 150 detail pages …
-19:22:42 DONE - saved=1 dup=149 old=0 err=0
-19:22:42 Output: C:\Choi_Sales\98_Private\Claude\data\prices.csv
+19:22:49 DONE - saved=1 dup=149 old=0 err=0
+19:22:49 Output: C:\Choi_Sales\98_Private\Claude\data\prices.csv
