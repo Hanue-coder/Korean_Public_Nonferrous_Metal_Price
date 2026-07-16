@@ -1,5 +1,27 @@
-const ISSUES_META = {"latest": "2026-07-13", "generated": "2026-07-15 09:38"};
+const ISSUES_META = {"latest": "2026-07-16", "generated": "2026-07-16 19:22"};
 const ISSUES_DATA = [
+  {
+    "date": "2026-07-16",
+    "date_fmt": "26년 07월 16일",
+    "tag": "가격 하락",
+    "tag_type": "down",
+    "items": [
+      {
+        "name": "주석(99.85%)",
+        "diff": 2100,
+        "pct": -2.4,
+        "direction": "down"
+      },
+      {
+        "name": "주석(99.99%)",
+        "diff": 2110,
+        "pct": -2.4,
+        "direction": "down"
+      }
+    ],
+    "body": "",
+    "sources": []
+  },
   {
     "date": "2026-07-13",
     "date_fmt": "26년 07월 13일",
