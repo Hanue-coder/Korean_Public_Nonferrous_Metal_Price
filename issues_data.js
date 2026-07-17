@@ -1,4 +1,4 @@
-const ISSUES_META = {"latest": "2026-07-16", "generated": "2026-07-16 19:22"};
+const ISSUES_META = {"latest": "2026-07-16", "generated": "2026-07-18 00:10"};
 const ISSUES_DATA = [
   {
     "date": "2026-07-16",
@@ -2120,27 +2120,5 @@ const ISSUES_DATA = [
         "url": "https://www.thecommoditiesnews.com/news/articleView.html?idxno=10255"
       }
     ]
-  },
-  {
-    "date": "2026-01-16",
-    "date_fmt": "26년 01월 16일",
-    "tag": "가격 하락",
-    "tag_type": "down",
-    "items": [
-      {
-        "name": "주석(99.85%)",
-        "diff": 2800,
-        "pct": -3.2,
-        "direction": "down"
-      },
-      {
-        "name": "주석(99.99%)",
-        "diff": 2800,
-        "pct": -3.2,
-        "direction": "down"
-      }
-    ],
-    "body": "",
-    "sources": []
   }
 ];
