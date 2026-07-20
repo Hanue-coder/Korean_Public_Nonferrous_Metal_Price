@@ -1,4 +1,4 @@
-const ISSUES_META = {"latest": "2026-07-16", "generated": "2026-07-18 00:10"};
+const ISSUES_META = {"latest": "2026-07-16", "generated": "2026-07-20 11:13"};
 const ISSUES_DATA = [
   {
     "date": "2026-07-16",
@@ -2065,60 +2065,5 @@ const ISSUES_DATA = [
     ],
     "body": "",
     "sources": []
-  },
-  {
-    "date": "2026-01-19",
-    "date_fmt": "26년 01월 19일",
-    "tag": "비철금속 급락",
-    "tag_type": "down",
-    "items": [
-      {
-        "name": "납(99.99%)",
-        "diff": 80,
-        "pct": -2.2,
-        "direction": "down"
-      },
-      {
-        "name": "아연",
-        "diff": 160,
-        "pct": -2.8,
-        "direction": "down"
-      },
-      {
-        "name": "주석(99.85%)",
-        "diff": 6270,
-        "pct": -7.4,
-        "direction": "down"
-      },
-      {
-        "name": "주석(99.99%)",
-        "diff": 6270,
-        "pct": -7.3,
-        "direction": "down"
-      },
-      {
-        "name": "니켈(합금용)",
-        "diff": 1530,
-        "pct": -5.0,
-        "direction": "down"
-      },
-      {
-        "name": "니켈(도금용)",
-        "diff": 1520,
-        "pct": -5.0,
-        "direction": "down"
-      }
-    ],
-    "body": "주석이 $50,000/t을 상회하며 수요 억제 심리가 확산됐습니다. 거시경제 역풍(고금리 장기화 우려, 달러 강세)으로 전반적인 차익 실현 매물이 출회됐습니다. 니켈은 인도네시아 구조적 과잉 공급이 지속되는 가운데 단기 과매수 포지션이 해소되며 낙폭이 컸습니다.",
-    "sources": [
-      {
-        "title": "Shanghai Metals Market — 비철금속 전반 하락",
-        "url": "https://news.metal.com/ko/newscontent/103946323"
-      },
-      {
-        "title": "CNews — 비철금속 공급측 요인 강세 기조",
-        "url": "https://www.thecommoditiesnews.com/news/articleView.html?idxno=10255"
-      }
-    ]
   }
 ];
