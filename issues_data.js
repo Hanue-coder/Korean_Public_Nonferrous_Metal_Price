@@ -1,4 +1,4 @@
-const ISSUES_META = {"latest": "2026-07-16", "generated": "2026-07-21 10:23"};
+const ISSUES_META = {"latest": "2026-07-16", "generated": "2026-07-22 11:06"};
 const ISSUES_DATA = [
   {
     "date": "2026-07-16",
@@ -2027,40 +2027,6 @@ const ISSUES_DATA = [
         "diff": 770,
         "pct": -2.6,
         "direction": "down"
-      }
-    ],
-    "body": "",
-    "sources": []
-  },
-  {
-    "date": "2026-01-20",
-    "date_fmt": "26년 01월 20일",
-    "tag": "가격 상승",
-    "tag_type": "up",
-    "items": [
-      {
-        "name": "주석(99.85%)",
-        "diff": 2010,
-        "pct": 2.5,
-        "direction": "up"
-      },
-      {
-        "name": "주석(99.99%)",
-        "diff": 2010,
-        "pct": 2.5,
-        "direction": "up"
-      },
-      {
-        "name": "니켈(합금용)",
-        "diff": 890,
-        "pct": 3.1,
-        "direction": "up"
-      },
-      {
-        "name": "니켈(도금용)",
-        "diff": 890,
-        "pct": 3.1,
-        "direction": "up"
       }
     ],
     "body": "",
