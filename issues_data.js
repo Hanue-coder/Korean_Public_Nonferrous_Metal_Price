@@ -1,5 +1,21 @@
-const ISSUES_META = {"latest": "2026-07-16", "generated": "2026-07-22 11:06"};
+const ISSUES_META = {"latest": "2026-07-23", "generated": "2026-07-23 18:45"};
 const ISSUES_DATA = [
+  {
+    "date": "2026-07-23",
+    "date_fmt": "26년 07월 23일",
+    "tag": "가격 상승",
+    "tag_type": "up",
+    "items": [
+      {
+        "name": "납(99.99%)",
+        "diff": 70,
+        "pct": 2.2,
+        "direction": "up"
+      }
+    ],
+    "body": "",
+    "sources": []
+  },
   {
     "date": "2026-07-16",
     "date_fmt": "26년 07월 16일",
@@ -1993,40 +2009,6 @@ const ISSUES_DATA = [
         "diff": 2770,
         "pct": 3.4,
         "direction": "up"
-      }
-    ],
-    "body": "",
-    "sources": []
-  },
-  {
-    "date": "2026-01-21",
-    "date_fmt": "26년 01월 21일",
-    "tag": "가격 하락",
-    "tag_type": "down",
-    "items": [
-      {
-        "name": "알루미늄(서구산)",
-        "diff": 120,
-        "pct": -2.2,
-        "direction": "down"
-      },
-      {
-        "name": "알루미늄(비서구산)",
-        "diff": 110,
-        "pct": -2.0,
-        "direction": "down"
-      },
-      {
-        "name": "니켈(합금용)",
-        "diff": 760,
-        "pct": -2.6,
-        "direction": "down"
-      },
-      {
-        "name": "니켈(도금용)",
-        "diff": 770,
-        "pct": -2.6,
-        "direction": "down"
       }
     ],
     "body": "",
