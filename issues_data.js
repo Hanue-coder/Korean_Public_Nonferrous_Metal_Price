@@ -1,5 +1,21 @@
-const ISSUES_META = {"latest": "2026-07-23", "generated": "2026-07-23 18:45"};
+const ISSUES_META = {"latest": "2026-07-24", "generated": "2026-07-24 10:02"};
 const ISSUES_DATA = [
+  {
+    "date": "2026-07-24",
+    "date_fmt": "26년 07월 24일",
+    "tag": "가격 하락",
+    "tag_type": "down",
+    "items": [
+      {
+        "name": "구리(99.99%)",
+        "diff": 550,
+        "pct": -2.4,
+        "direction": "down"
+      }
+    ],
+    "body": "",
+    "sources": []
+  },
   {
     "date": "2026-07-23",
     "date_fmt": "26년 07월 23일",
@@ -1991,27 +2007,5 @@ const ISSUES_DATA = [
         "url": "https://www.coface.com/news-economy-and-insights/tin-is-riding-high-on-the-metals-market-s-latest-surge"
       }
     ]
-  },
-  {
-    "date": "2026-01-22",
-    "date_fmt": "26년 01월 22일",
-    "tag": "가격 상승",
-    "tag_type": "up",
-    "items": [
-      {
-        "name": "주석(99.85%)",
-        "diff": 2770,
-        "pct": 3.4,
-        "direction": "up"
-      },
-      {
-        "name": "주석(99.99%)",
-        "diff": 2770,
-        "pct": 3.4,
-        "direction": "up"
-      }
-    ],
-    "body": "",
-    "sources": []
   }
 ];
