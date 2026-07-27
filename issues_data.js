@@ -1,4 +1,4 @@
-const ISSUES_META = {"latest": "2026-07-24", "generated": "2026-07-24 10:02"};
+const ISSUES_META = {"latest": "2026-07-24", "generated": "2026-07-27 10:33"};
 const ISSUES_DATA = [
   {
     "date": "2026-07-24",
@@ -1958,54 +1958,5 @@ const ISSUES_DATA = [
     ],
     "body": "",
     "sources": []
-  },
-  {
-    "date": "2026-01-26",
-    "date_fmt": "26년 01월 26일",
-    "tag": "주석 역대 최고가",
-    "tag_type": "up",
-    "items": [
-      {
-        "name": "구리(99.99%)",
-        "diff": 550,
-        "pct": 2.6,
-        "direction": "up"
-      },
-      {
-        "name": "주석(99.85%)",
-        "diff": 7650,
-        "pct": 9.0,
-        "direction": "up"
-      },
-      {
-        "name": "주석(99.99%)",
-        "diff": 7650,
-        "pct": 9.0,
-        "direction": "up"
-      },
-      {
-        "name": "니켈(합금용)",
-        "diff": 1150,
-        "pct": 3.9,
-        "direction": "up"
-      },
-      {
-        "name": "니켈(도금용)",
-        "diff": 1150,
-        "pct": 3.9,
-        "direction": "up"
-      }
-    ],
-    "body": "LME 주석 3개월물이 $51,500/t을 돌파하며 월간 26.1% 상승했습니다. ① 콩고(DRC) Bisie 광산 가동 중단, ② 미얀마 와주 채굴 제한, ③ 인도네시아 수출 허가 지연(정상 대비 20~30% 감소)이라는 3중 공급 차질이 발생했습니다. AI 서버, 전기차, 태양광 납땜 수요 급증이 겹치며 역대 최고가를 경신했습니다.",
-    "sources": [
-      {
-        "title": "SunSirs — Tin Prices Surge Over 25% Since Start of 2026",
-        "url": "https://www.sunsirs.com/uk/detail_news-30029.html"
-      },
-      {
-        "title": "Coface — Data demand sends tin surging",
-        "url": "https://www.coface.com/news-economy-and-insights/tin-is-riding-high-on-the-metals-market-s-latest-surge"
-      }
-    ]
   }
 ];
