@@ -1,4 +1,4 @@
-const ISSUES_META = {"latest": "2026-07-24", "generated": "2026-07-28 16:36"};
+const ISSUES_META = {"latest": "2026-07-24", "generated": "2026-07-29 13:49"};
 const ISSUES_DATA = [
   {
     "date": "2026-07-24",
@@ -1919,40 +1919,6 @@ const ISSUES_DATA = [
         "name": "납(99.99%)",
         "diff": 70,
         "pct": -2.0,
-        "direction": "down"
-      }
-    ],
-    "body": "",
-    "sources": []
-  },
-  {
-    "date": "2026-01-27",
-    "date_fmt": "26년 01월 27일",
-    "tag": "가격 하락",
-    "tag_type": "down",
-    "items": [
-      {
-        "name": "주석(99.85%)",
-        "diff": 5690,
-        "pct": -6.2,
-        "direction": "down"
-      },
-      {
-        "name": "주석(99.99%)",
-        "diff": 5690,
-        "pct": -6.1,
-        "direction": "down"
-      },
-      {
-        "name": "니켈(합금용)",
-        "diff": 910,
-        "pct": -3.0,
-        "direction": "down"
-      },
-      {
-        "name": "니켈(도금용)",
-        "diff": 910,
-        "pct": -2.9,
         "direction": "down"
       }
     ],
