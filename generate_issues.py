@@ -1,5 +1,10 @@
 import csv, json, os
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+
+load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
+
+CACHE_PATH = os.path.join(os.path.dirname(__file__), 'issues_cache.json')
 
 CSV_PATH = os.path.join(os.path.dirname(__file__), 'data', 'prices.csv')
 OUT_PATH = os.path.join(os.path.dirname(__file__), 'issues_data.js')
@@ -100,6 +105,72 @@ SUMMARIES = {
 THRESHOLD_DAY = 2.0  # % daily change threshold
 SKIP_ABS = 50.0      # skip anomalies (data gaps show as ±100%)
 
+
+def load_cache():
+    if os.path.exists(CACHE_PATH):
+        with open(CACHE_PATH, encoding='utf-8') as f:
+            return json.load(f)
+    return {}
+
+
+def save_cache(cache):
+    with open(CACHE_PATH, 'w', encoding='utf-8') as f:
+        json.dump(cache, f, ensure_ascii=False, indent=2)
+
+
+def generate_analysis(date, items):
+    """Call Claude API to generate Korean cause analysis for a price event."""
+    import anthropic
+
+    api_key = os.environ.get('ANTHROPIC_API_KEY')
+    if not api_key:
+        return None
+
+    lines = []
+    for x in items:
+        direction = '상승' if x['direction'] == 'up' else '하락'
+        lines.append(f"- {x['name']}: {direction} {x['pct']:+.1f}%")
+    changes_text = '\n'.join(lines)
+
+    prompt = f"""날짜: {date}
+비철금속 가격 변동 ({date} 조달청 고시가 기준):
+{changes_text}
+
+위 가격 변동의 원인을 2~3문장으로 간결하게 한국어로 분석해주세요.
+- LME 시장 동향, 글로벌 공급/수요, 환율, 지정학 요인 등 실제 가능한 원인을 언급
+- 추측임을 명시하지 말고 분석 문체로 작성
+- 출력은 분석 텍스트만, JSON/마크다운 없이
+
+또한 이 이슈를 한 줄로 요약하는 태그(예: '알루미늄 급등', '전품목 하락', '구리·니켈 혼조')와
+방향(up/down/mixed 중 하나)을 아래 형식으로 출력하세요:
+
+TAG: <태그>
+DIRECTION: <up|down|mixed>
+BODY: <분석 텍스트>"""
+
+    client = anthropic.Anthropic(api_key=api_key)
+    message = client.messages.create(
+        model='claude-haiku-4-5-20251001',
+        max_tokens=512,
+        messages=[{'role': 'user', 'content': prompt}],
+    )
+    text = message.content[0].text.strip()
+
+    tag, direction, body = '', 'mixed', ''
+    for line in text.splitlines():
+        if line.startswith('TAG:'):
+            tag = line[4:].strip()
+        elif line.startswith('DIRECTION:'):
+            direction = line[10:].strip()
+        elif line.startswith('BODY:'):
+            body = line[5:].strip()
+
+    # Multi-line body support
+    if 'BODY:' in text:
+        body = text.split('BODY:', 1)[1].strip()
+
+    return {'tag': tag, 'tag_type': direction, 'body': body, 'sources': []}
+
 def fmt_date(d):
     dt = datetime.strptime(d, '%Y-%m-%d')
     return f"{str(dt.year)[2:]}년 {dt.month:02d}월 {dt.day:02d}일"
@@ -135,25 +206,46 @@ def run():
                     'direction': 'up' if pct > 0 else 'down',
                 })
 
+    cache = load_cache()
+    cache_updated = False
+
     # Build issue list newest-first
     issues = []
     for date in sorted(events.keys(), reverse=True):
         items = events[date]
         summ = SUMMARIES.get(date, {})
 
-        # Auto-determine tag if no summary
-        if not summ:
-            downs = sum(1 for x in items if x['direction'] == 'down')
-            ups   = sum(1 for x in items if x['direction'] == 'up')
-            if downs > 0 and ups == 0:
-                tag, tag_type = '가격 하락', 'down'
-            elif ups > 0 and downs == 0:
-                tag, tag_type = '가격 상승', 'up'
-            else:
-                tag, tag_type = '혼조세', 'mixed'
-        else:
+        if summ:
             tag      = summ.get('tag', '')
             tag_type = summ.get('tag_type', 'mixed')
+            body     = summ.get('body', '')
+            sources  = summ.get('sources', [])
+        elif date in cache:
+            entry    = cache[date]
+            tag      = entry.get('tag', '')
+            tag_type = entry.get('tag_type', 'mixed')
+            body     = entry.get('body', '')
+            sources  = entry.get('sources', [])
+        else:
+            print(f"  Generating analysis for {date}...")
+            generated = generate_analysis(date, items)
+            if generated:
+                cache[date]  = generated
+                cache_updated = True
+                tag      = generated['tag']
+                tag_type = generated['tag_type']
+                body     = generated['body']
+                sources  = generated['sources']
+            else:
+                downs = sum(1 for x in items if x['direction'] == 'down')
+                ups   = sum(1 for x in items if x['direction'] == 'up')
+                if downs > 0 and ups == 0:
+                    tag, tag_type = '가격 하락', 'down'
+                elif ups > 0 and downs == 0:
+                    tag, tag_type = '가격 상승', 'up'
+                else:
+                    tag, tag_type = '혼조세', 'mixed'
+                body, sources = '', []
 
         issues.append({
             'date':     date,
@@ -161,9 +253,12 @@ def run():
             'tag':      tag,
             'tag_type': tag_type,
             'items':    items,
-            'body':     summ.get('body', ''),
-            'sources':  summ.get('sources', []),
+            'body':     body,
+            'sources':  sources,
         })
+
+    if cache_updated:
+        save_cache(cache)
 
     now = datetime.now()
     latest_date = max(events.keys()) if events else '-'
