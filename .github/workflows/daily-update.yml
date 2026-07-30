@@ -22,7 +22,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install scrapling curl_cffi anthropic python-dotenv
+        run: pip install requests anthropic python-dotenv urllib3
 
       - name: Scrape prices from 조달청
         run: python scrape_prices.py

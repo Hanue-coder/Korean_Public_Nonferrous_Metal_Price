@@ -21,7 +21,7 @@ import time
 import os
 import sys
 from datetime import datetime
-from scrapling import Fetcher
+import requests
 
 # ---------------------------------------------------------------------------
 # Config
@@ -68,17 +68,23 @@ for m in MATERIALS:
     CSV_HEADER += [f"{col}_excl", f"{col}_incl"]
 
 # ---------------------------------------------------------------------------
-# HTTP (Scrapling)
+# HTTP (requests)
 # ---------------------------------------------------------------------------
 
-_fetcher = Fetcher(auto_match=False)
+_session = requests.Session()
+_session.headers.update({
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "ko-KR,ko;q=0.9",
+})
 
 
 def fetch(url: str, retries: int = 3) -> str:
     for attempt in range(retries):
         try:
-            page = _fetcher.get(url, timeout=30)
-            return page.html_content
+            r = _session.get(url, timeout=30, verify=False)
+            r.raise_for_status()
+            return r.text
         except Exception as exc:
             if attempt == retries - 1:
                 raise
