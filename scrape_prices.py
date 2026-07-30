@@ -15,14 +15,13 @@ Output CSV columns:
   date, <material>_excl, <material>_incl  (×9 materials, KRW/ton)
 """
 
-import urllib.request
 import re
 import csv
 import time
-import ssl
 import os
 import sys
 from datetime import datetime
+from scrapling import Fetcher
 
 # ---------------------------------------------------------------------------
 # Config
@@ -35,7 +34,6 @@ VIEW_URL  = BASE_URL + "/bichuk/bbs/view.do?key=00825&bbsSn={sn}"
 OUTPUT_CSV = os.path.join(os.path.dirname(__file__), "data", "prices.csv")
 LOG_FILE   = os.path.join(os.path.dirname(__file__), "data", "scrape.log")
 
-USER_AGENT   = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
 DELAY_LIST   = 0.2
 DELAY_DETAIL = 0.35
 START_DATE   = "2012-01-06"
@@ -70,21 +68,17 @@ for m in MATERIALS:
     CSV_HEADER += [f"{col}_excl", f"{col}_incl"]
 
 # ---------------------------------------------------------------------------
-# SSL / HTTP
+# HTTP (Scrapling)
 # ---------------------------------------------------------------------------
 
-_ssl_ctx = ssl.create_default_context()
-_ssl_ctx.check_hostname = False
-_ssl_ctx.verify_mode = ssl.CERT_NONE
+_fetcher = Fetcher(auto_match=False)
 
 
 def fetch(url: str, retries: int = 3) -> str:
-    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     for attempt in range(retries):
         try:
-            with urllib.request.urlopen(req, context=_ssl_ctx, timeout=30) as r:
-                charset = r.headers.get_content_charset() or "utf-8"
-                return r.read().decode(charset, errors="replace")
+            page = _fetcher.get(url, timeout=30)
+            return page.html_content
         except Exception as exc:
             if attempt == retries - 1:
                 raise
