@@ -1,5 +1,21 @@
-const ISSUES_META = {"latest": "2026-07-24", "generated": "2026-08-01 03:14"};
+const ISSUES_META = {"latest": "2026-08-03", "generated": "2026-08-03 19:29"};
 const ISSUES_DATA = [
+  {
+    "date": "2026-08-03",
+    "date_fmt": "26년 08월 03일",
+    "tag": "납 약세",
+    "tag_type": "down",
+    "items": [
+      {
+        "name": "납(99.99%)",
+        "diff": 70,
+        "pct": -2.2,
+        "direction": "down"
+      }
+    ],
+    "body": "LME 납 선물 가격이 약세를 보이면서 조달청 고시가에 반영되었으며, 글로벌 경기 둔화로 자동차 배터리 및 건설 수요가 위축되었다. 미 연방준비제도의 금리 인상 기조 지속과 달러 강세로 인한 수입 수요 감소가 가격 하락을 가속화했다.",
+    "sources": []
+  },
   {
     "date": "2026-07-24",
     "date_fmt": "26년 07월 24일",
@@ -1870,27 +1886,5 @@ const ISSUES_DATA = [
         "url": "https://www.fastmarkets.com/metals-and-mining/base-metals/monthly-base-metals-market-update-2026/"
       }
     ]
-  },
-  {
-    "date": "2026-02-02",
-    "date_fmt": "26년 02월 02일",
-    "tag": "주석 약세",
-    "tag_type": "down",
-    "items": [
-      {
-        "name": "주석(99.85%)",
-        "diff": 4260,
-        "pct": -4.9,
-        "direction": "down"
-      },
-      {
-        "name": "주석(99.99%)",
-        "diff": 4260,
-        "pct": -4.9,
-        "direction": "down"
-      }
-    ],
-    "body": "LME 주석 선물 가격이 약 5% 근처 하락한 것으로 보이며, 이는 글로벌 반도체 수요 둔화와 재고 증가 우려가 작용한 것으로 판단된다. 중국의 경기 회복 지연과 전자산업 생산 약세가 주석 소비를 압박하고 있으며, 달러화 강세도 달러 표시 비철금속 가격 하락을 심화시키는 요인으로 작용했다.",
-    "sources": []
   }
 ];
