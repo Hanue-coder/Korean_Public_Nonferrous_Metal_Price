@@ -1,22 +1,22 @@
-22:00:16 Step 1: collecting new bbsSn values …
-22:00:17   Total posts: 3,677  →  368 pages
-22:00:17   Page 1/15  cumulative: 10 sns
-22:00:17   Page 2/15  cumulative: 20 sns
-22:00:17   Page 3/15  cumulative: 30 sns
-22:00:18   Page 4/15  cumulative: 40 sns
-22:00:18   Page 5/15  cumulative: 50 sns
-22:00:19   Page 6/15  cumulative: 60 sns
-22:00:19   Page 7/15  cumulative: 70 sns
-22:00:19   Page 8/15  cumulative: 80 sns
-22:00:20   Page 9/15  cumulative: 90 sns
-22:00:20   Page 10/15  cumulative: 100 sns
-22:00:20   Page 11/15  cumulative: 110 sns
-22:00:21   Page 12/15  cumulative: 120 sns
-22:00:21   Page 13/15  cumulative: 130 sns
-22:00:22   Page 14/15  cumulative: 140 sns
-22:00:22   Page 15/15  cumulative: 150 sns
-22:00:22   Collected 150 bbsSn values to check
-22:00:22 Step 2: 3297 dates already saved - will skip
-22:00:22 Step 3: scraping 150 detail pages …
-22:01:43 DONE - saved=1 dup=149 old=0 err=0
-22:01:43 Output: C:\Choi_Sales\98_Private\Claude\data\prices.csv
+18:39:50 Step 1: collecting new bbsSn values …
+18:39:51   Total posts: 3,678  →  368 pages
+18:39:51   Page 1/15  cumulative: 10 sns
+18:39:52   Page 2/15  cumulative: 20 sns
+18:39:52   Page 3/15  cumulative: 30 sns
+18:39:53   Page 4/15  cumulative: 40 sns
+18:39:53   Page 5/15  cumulative: 50 sns
+18:39:53   Page 6/15  cumulative: 60 sns
+18:39:54   Page 7/15  cumulative: 70 sns
+18:39:54   Page 8/15  cumulative: 80 sns
+18:39:55   Page 9/15  cumulative: 90 sns
+18:39:55   Page 10/15  cumulative: 100 sns
+18:39:55   Page 11/15  cumulative: 110 sns
+18:39:56   Page 12/15  cumulative: 120 sns
+18:39:56   Page 13/15  cumulative: 130 sns
+18:39:57   Page 14/15  cumulative: 140 sns
+18:39:57   Page 15/15  cumulative: 150 sns
+18:39:57   Collected 150 bbsSn values to check
+18:39:57 Step 2: 3298 dates already saved - will skip
+18:39:57 Step 3: scraping 150 detail pages …
+18:41:20 DONE - saved=1 dup=149 old=0 err=0
+18:41:20 Output: C:\Choi_Sales\98_Private\Claude\data\prices.csv
