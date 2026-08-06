@@ -1,4 +1,4 @@
-const ISSUES_META = {"latest": "2026-08-03", "generated": "2026-08-04 05:20"};
+const ISSUES_META = {"latest": "2026-08-03", "generated": "2026-08-06 05:22"};
 const ISSUES_DATA = [
   {
     "date": "2026-08-03",
@@ -1813,78 +1813,5 @@ const ISSUES_DATA = [
     ],
     "body": "글로벌 경기 둔화 우려와 함께 LME 시장에서 구리, 주석 등 주요 비철금속의 동시 하락세가 이어졌다. 중국의 경기 부양 정책 기대감 약화와 미 달러화 강세에 따른 달러 표시 상품의 가격 하락이 복합적으로 작용했으며, 특히 전자·반도체 산업 수요 부진이 주석 등 정밀금속의 낙폭을 키웠다.",
     "sources": []
-  },
-  {
-    "date": "2026-02-04",
-    "date_fmt": "26년 02월 04일",
-    "tag": "주석 급등, 니켈 소폭 상승",
-    "tag_type": "up",
-    "items": [
-      {
-        "name": "주석(99.85%)",
-        "diff": 4730,
-        "pct": 6.2,
-        "direction": "up"
-      },
-      {
-        "name": "주석(99.99%)",
-        "diff": 4730,
-        "pct": 6.2,
-        "direction": "up"
-      },
-      {
-        "name": "니켈(합금용)",
-        "diff": 630,
-        "pct": 2.3,
-        "direction": "up"
-      },
-      {
-        "name": "니켈(도금용)",
-        "diff": 620,
-        "pct": 2.2,
-        "direction": "up"
-      }
-    ],
-    "body": "주석의 큰 폭 상승은 인도네시아 등 주요 생산국의 공급 부족과 전자·반도체 산업 수요 회복에 따른 것으로 보인다. 니켈은 스테인리스강과 배터리 산업 수요 증대로 완만한 상승세를 보였으나, 인도네시아의 니켈 광석 수출 규제 영향이 제한적이었던 것으로 판단된다. 달러 강세 완화와 글로벌 경기 개선 기대감이 전반적인 비철금속 가격 상승을 견인했다.",
-    "sources": []
-  },
-  {
-    "date": "2026-02-03",
-    "date_fmt": "26년 02월 03일",
-    "tag": "주석·니켈 급락",
-    "tag_type": "down",
-    "items": [
-      {
-        "name": "주석(99.85%)",
-        "diff": 7340,
-        "pct": -8.8,
-        "direction": "down"
-      },
-      {
-        "name": "주석(99.99%)",
-        "diff": 7340,
-        "pct": -8.8,
-        "direction": "down"
-      },
-      {
-        "name": "니켈(합금용)",
-        "diff": 1320,
-        "pct": -4.6,
-        "direction": "down"
-      },
-      {
-        "name": "니켈(도금용)",
-        "diff": 1310,
-        "pct": -4.5,
-        "direction": "down"
-      }
-    ],
-    "body": "주석 펀드 순매수 포지션이 12월 고점(5,144 lot)에서 2,239 lot으로 대폭 축소되며 투기 세력의 차익 실현 매물이 집중됐습니다. 미얀마 주석 수출 재개 가능성이 대두되며 공급 우려도 일부 해소됐습니다. 니켈은 인도네시아 과잉 공급 구조가 지속되며 동반 약세를 보였습니다.",
-    "sources": [
-      {
-        "title": "Fastmarkets — Monthly Base Metals Market Update 2026",
-        "url": "https://www.fastmarkets.com/metals-and-mining/base-metals/monthly-base-metals-market-update-2026/"
-      }
-    ]
   }
 ];
