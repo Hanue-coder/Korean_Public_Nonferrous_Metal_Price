@@ -210,10 +210,10 @@ def parse_prices(html: str) -> dict[str, tuple[int | None, int | None]]:
         vat_rate = parse_vat_rate(html, idx) if idx != -1 else 0.0
 
         # The listed price is always VAT-inclusive (부가세 10% 포함), in KRW/ton.
-        # Convert to KRW/kg. Excl price is ceiling at 1 decimal place → integer.
+        # Convert to KRW/kg. 공급가액×10% 세액에서 소수점 이하 절사(버림) 기준 적용.
         import math
         price_incl = base_price // 1000
-        price_excl = math.ceil(base_price / 1.1 / 1000)  # ceil at first decimal → integer
+        price_excl = math.floor(base_price / 1.1 / 1000)  # 역산 시 소수점 이하 절사
 
         results[material] = (price_excl, price_incl)
 
