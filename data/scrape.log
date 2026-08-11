@@ -1,22 +1,23 @@
-16:37:14 Step 1: collecting new bbsSn values …
-16:37:15   Total posts: 3,681  →  369 pages
-16:37:15   Page 1/15  cumulative: 10 sns
-16:37:15   Page 2/15  cumulative: 20 sns
-16:37:15   Page 3/15  cumulative: 30 sns
-16:37:16   Page 4/15  cumulative: 40 sns
-16:37:16   Page 5/15  cumulative: 50 sns
-16:37:17   Page 6/15  cumulative: 60 sns
-16:37:17   Page 7/15  cumulative: 70 sns
-16:37:17   Page 8/15  cumulative: 80 sns
-16:37:18   Page 9/15  cumulative: 90 sns
-16:37:18   Page 10/15  cumulative: 100 sns
-16:37:19   Page 11/15  cumulative: 110 sns
-16:37:19   Page 12/15  cumulative: 120 sns
-16:37:20   Page 13/15  cumulative: 130 sns
-16:37:20   Page 14/15  cumulative: 140 sns
-16:37:20   Page 15/15  cumulative: 150 sns
-16:37:20   Collected 150 bbsSn values to check
-16:37:20 Step 2: 3301 dates already saved - will skip
-16:37:20 Step 3: scraping 150 detail pages …
-16:38:39 DONE - saved=1 dup=149 old=0 err=0
-16:38:39 Output: C:\Choi_Sales\98_Private\Claude\data\prices.csv
+16:30:32 Step 1: collecting new bbsSn values …
+16:30:34   Total posts: 3,682  →  369 pages
+16:30:34   Page 1/15  cumulative: 10 sns
+16:30:36   Page 2/15  cumulative: 20 sns
+16:30:37   Page 3/15  cumulative: 30 sns
+16:30:38   Page 4/15  cumulative: 40 sns
+16:30:39   Page 5/15  cumulative: 50 sns
+16:30:39   Page 6/15  cumulative: 60 sns
+16:30:40   Page 7/15  cumulative: 70 sns
+16:30:40   Page 8/15  cumulative: 80 sns
+16:30:41   Page 9/15  cumulative: 90 sns
+16:30:41   Page 10/15  cumulative: 100 sns
+16:30:42   Page 11/15  cumulative: 110 sns
+16:30:42   Page 12/15  cumulative: 120 sns
+16:30:42   Page 13/15  cumulative: 130 sns
+16:30:43   Page 14/15  cumulative: 140 sns
+16:30:43   Page 15/15  cumulative: 150 sns
+16:30:44   Collected 150 bbsSn values to check
+16:30:44 Step 2: 3302 dates already saved - will skip
+16:30:44 Step 3: scraping 150 detail pages …
+20:48:34   retry 1/3: ('Connection aborted.', ConnectionResetError(10054, '현재 연결은 원격 호스트에 의해 강제로 끊겼습니다', None, 10054, None))
+20:49:39 DONE - saved=1 dup=149 old=0 err=0
+20:49:39 Output: C:\Choi_Sales\98_Private\Claude\data\prices.csv
