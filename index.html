@@ -311,10 +311,81 @@
   .issues-filter-tab:hover { color: var(--text); }
   .issues-filter-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
   .issues-board-body {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    gap: 0;
+  }
+  .issues-main-col {
+    flex: 1;
+    min-width: 0;
     padding: 24px 28px;
     overflow-y: auto;
-    flex: 1;
   }
+  .issues-side-col {
+    width: 300px;
+    flex-shrink: 0;
+    border-left: 1px solid var(--border);
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .issues-side-header {
+    padding: 16px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    background: #F8FAFC;
+    flex-shrink: 0;
+  }
+  .issues-side-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 16px;
+  }
+  .side-section {
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+  .side-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--sub);
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    margin-bottom: 6px;
+  }
+  .side-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  .side-table th {
+    font-size: 11px;
+    color: var(--sub);
+    font-weight: 600;
+    text-align: left;
+    padding: 3px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .side-table td {
+    padding: 4px 0;
+    border-bottom: 1px solid #F1F5F9;
+    vertical-align: top;
+    color: var(--text);
+    font-weight: normal;
+    text-align: left;
+    white-space: normal;
+  }
+  .side-val { text-align: right !important; font-weight: 600; white-space: nowrap; padding-left: 8px; }
+  .side-up { color: #DC2626; }
+  .side-dn { color: #2563EB; }
   .issue-card {
     background: var(--white);
     border: 1px solid var(--border);
@@ -408,7 +479,87 @@
     <button class="issues-filter-tab" onclick="filterIssues('주석', this)">주석</button>
     <button class="issues-filter-tab" onclick="filterIssues('니켈', this)">니켈</button>
   </div>
-  <div class="issues-board-body" id="issues-list"></div>
+  <div class="issues-board-body">
+    <div class="issues-main-col" id="issues-list"></div>
+    <div class="issues-side-col">
+      <div class="issues-side-header">참고사항</div>
+      <div class="issues-side-body" id="issues-side-content">
+
+        <div class="side-section">
+          <div class="side-label">핵심 결론</div>
+          <p>알루미늄 압출시장은 숫자만 보면 매력적이나(연 9% 성장 전망), 실제로는 세 가지 현실이 작용한다.</p>
+          <ol style="padding-left:16px;margin-top:6px;">
+            <li>원자재를 사다 가공비만 붙여 파는 <strong>박리다매형 임가공 구조</strong>로, 알루미늄 가격이 올라도 이익이 함께 늘지 않는다.</li>
+            <li>신재생에너지·전력 인프라(성장) vs. 건축용(침체) 수요가 <strong>극심하게 양극화</strong>되어 시장 평균 성장률이 개별 기업 실적을 설명하지 못한다.</li>
+            <li>미국 관세(50%)와 중국 저가 물량이 <strong>아시아 압출업체 수익성을 구조적으로 압박</strong>한다.</li>
+          </ol>
+        </div>
+
+        <div class="side-section">
+          <div class="side-label">가격 현황 (2026. 5 기준)</div>
+          <table class="side-table">
+            <tr><td>LME 알루미늄</td><td class="side-val">$3,575.75/톤</td></tr>
+            <tr><td>연초 대비</td><td class="side-val side-up">+18.2%</td></tr>
+            <tr><td>전년 대비</td><td class="side-val side-up">+47%</td></tr>
+            <tr><td>연말 전망</td><td class="side-val">$2,700~2,800</td></tr>
+          </table>
+        </div>
+
+        <div class="side-section">
+          <div class="side-label">수요 축별 전망</div>
+          <table class="side-table">
+            <tr><th>부문</th><th>성격</th></tr>
+            <tr><td>태양광·ESS·데이터센터·철도</td><td class="side-val side-up">구조적 성장</td></tr>
+            <tr><td>전기차 경량화</td><td class="side-val side-up">구조적 성장 (변동 있음)</td></tr>
+            <tr><td>건축용 (창호·커튼월)</td><td class="side-val side-dn">반등 근거 약함</td></tr>
+            <tr><td>저탄소·재활용 알루미늄</td><td class="side-val" style="color:var(--sub)">중장기 형성 중</td></tr>
+          </table>
+        </div>
+
+        <div class="side-section">
+          <div class="side-label">조일알미늄 사례 (2025년)</div>
+          <table class="side-table">
+            <tr><td>LME 가격</td><td class="side-val side-up">+40~47%</td></tr>
+            <tr><td>연간 매출</td><td class="side-val" style="color:var(--sub)">+0.1% (사실상 정체)</td></tr>
+            <tr><td>연간 영업이익</td><td class="side-val side-dn">−5.2%</td></tr>
+            <tr><td>1Q 영업이익</td><td class="side-val side-up">+158.7% (시차 효과)</td></tr>
+          </table>
+          <p style="margin-top:6px;font-style:italic;">→ 원가 상승분 판가 전가 시차로 연간 실적 악화</p>
+        </div>
+
+        <div class="side-section">
+          <div class="side-label">주요 리스크</div>
+          <ul style="padding-left:16px;">
+            <li><strong>미국 관세</strong>: 2026.4~ 알루미늄 관련 전 품목 50% 관세 (종전 금속 투입분 기준 → 수입품 전체 가치 기준으로 확대)</li>
+            <li><strong>중국 물량 압박</strong>: 내수 건축 부진으로 잉여 물량을 동남아·중남미로 우회 수출</li>
+            <li><strong>건설경기 침체</strong>: 한·중 모두 부동산 거래 부진 지속</li>
+            <li><strong>원가 변동성</strong>: 가격 급등기 반등 이익보다 급락기 역마진 리스크가 더 큼</li>
+          </ul>
+        </div>
+
+        <div class="side-section">
+          <div class="side-label">글로벌 시장 규모</div>
+          <table class="side-table">
+            <tr><td>2025년 시장 규모</td><td class="side-val">$982억</td></tr>
+            <tr><td>2033년 전망</td><td class="side-val">$1,933억</td></tr>
+            <tr><td>2026~2033 CAGR</td><td class="side-val">9.0%</td></tr>
+            <tr><td>아태 비중</td><td class="side-val">71.7%</td></tr>
+            <tr><td>중국 (아태 내)</td><td class="side-val">58.4%</td></tr>
+          </table>
+          <p style="margin-top:6px;font-style:italic;">※ 성장률의 상당 부분은 물량 증가가 아닌 원자재 가격 상승 반영</p>
+        </div>
+
+        <div class="side-section" style="border-bottom:none;">
+          <div class="side-label">출처</div>
+          <div style="font-size:11px;color:var(--sub);line-height:1.7;">
+            Grand View Research · Shanghai Metals Market · H&amp;I글로벌리서치 · White &amp; Case · AlCircle · 한국경제 · 철강금속신문 · 리드경제<br>
+            <span style="opacity:.7;">작성: 2026년 8월 24일</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </div><!-- /issues-board -->
 
 <div class="layout">
