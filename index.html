@@ -333,8 +333,7 @@
     gap: 12px;
     flex-shrink: 0;
   }
-  .column-view-header h1 { font-size: 20px; font-weight: 700; }
-  .column-view-header span { font-size: 12px; opacity: 0.6; }
+  .column-view-header h1 { font-size: 13px; font-weight: 600; opacity: .7; letter-spacing: .5px; text-transform: uppercase; }
   .column-view-body {
     flex: 1;
     overflow-y: auto;
@@ -482,7 +481,6 @@
 <div class="column-view" id="column-view">
   <div class="column-view-header">
     <h1 id="column-view-title"></h1>
-    <span id="column-view-date"></span>
   </div>
   <div class="column-view-body" id="column-view-body"></div>
 </div>
@@ -541,9 +539,18 @@ const COMPANIES = [
 const SIDE_COLUMNS = [
   {
     id: 'al-extrusion-2608',
-    title: '알루미늄 압출시장',
+    title: '칼럼',
     date: '2026.08',
     html: `
+      <div class="side-section" style="border-bottom:2px solid var(--border);margin-bottom:4px;">
+        <h2 style="font-size:17px;font-weight:800;color:var(--text);line-height:1.45;margin-bottom:8px;">알루미늄 압출시장에 대한 정보와 비전, 냉정한 판단</h2>
+        <a href="알루미늄_압출시장_분석.pdf" target="_blank" rel="noopener"
+           style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:var(--accent);color:#fff;border-radius:7px;font-size:12px;font-weight:600;text-decoration:none;transition:opacity .15s;"
+           onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          PDF 원문 보기 (새 창)
+        </a>
+      </div>
       <div class="side-section">
         <div class="side-label">핵심 결론</div>
         <p>알루미늄 압출시장은 숫자만 보면 매력적이나(연 9% 성장 전망), 실제로는 세 가지 현실이 작용한다.</p>
@@ -606,7 +613,7 @@ const SIDE_COLUMNS = [
         <div class="side-label">출처</div>
         <div style="font-size:11px;color:var(--sub);line-height:1.7;">
           Grand View Research · Shanghai Metals Market · H&amp;I글로벌리서치 · White &amp; Case · AlCircle · 한국경제 · 철강금속신문 · 리드경제<br>
-          <span style="opacity:.7;">작성: 2026년 8월 24일</span>
+          <span style="opacity:.7;">작성: 2026년 8월 24일 &nbsp;|&nbsp; <a href="https://www.rcoa.co.kr" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">www.rcoa.co.kr</a></span>
         </div>
       </div>`
   },
@@ -635,8 +642,7 @@ function injectColumnNavTabs() {
 function showColumnView(colId) {
   const col = SIDE_COLUMNS.find(c => c.id === colId);
   if (!col) return;
-  document.getElementById('column-view-title').textContent = col.title;
-  document.getElementById('column-view-date').textContent = col.date;
+  document.getElementById('column-view-title').textContent = '칼럼';
   document.getElementById('column-view-body').innerHTML = col.html;
 }
 
