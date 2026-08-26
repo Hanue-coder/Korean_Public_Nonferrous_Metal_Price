@@ -1,4 +1,4 @@
-const ISSUES_META = {"latest": "2026-08-21", "generated": "2026-08-25 11:36"};
+const ISSUES_META = {"latest": "2026-08-21", "generated": "2026-08-26 11:13"};
 const ISSUES_DATA = [
   {
     "date": "2026-08-21",
@@ -1735,27 +1735,5 @@ const ISSUES_DATA = [
         "url": "https://www.snmnews.com/news/articleView.html?idxno=569187"
       }
     ]
-  },
-  {
-    "date": "2026-02-24",
-    "date_fmt": "26년 02월 24일",
-    "tag": "주석 일제 상승",
-    "tag_type": "up",
-    "items": [
-      {
-        "name": "주석(99.85%)",
-        "diff": 1530,
-        "pct": 2.0,
-        "direction": "up"
-      },
-      {
-        "name": "주석(99.99%)",
-        "diff": 1530,
-        "pct": 2.0,
-        "direction": "up"
-      }
-    ],
-    "body": "LME 주석 선물 가격이 상승세를 보이면서 국내 조달청 고시가에 반영된 것으로 보인다. 글로벌 반도체·태양광 수요 회복과 함께 인도네시아 등 주요 생산국의 공급 부족이 가격 상승 압력으로 작용했으며, 최근 약세 원화가 수입 기반 금속 가격을 상향 견인했다.",
-    "sources": []
   }
 ];
