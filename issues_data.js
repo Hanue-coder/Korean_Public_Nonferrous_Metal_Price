@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 const ISSUES_META = {"latest": "2026-08-21", "generated": "2026-08-26 03:09"};
+=======
+const ISSUES_META = {"latest": "2026-08-21", "generated": "2026-08-27 07:11"};
+>>>>>>> Stashed changes
 const ISSUES_DATA = [
   {
     "date": "2026-08-21",
@@ -1684,51 +1688,6 @@ const ISSUES_DATA = [
       }
     ],
     "body": "전일(25일) 강세 흐름이 이어지며 주석이 추가 상승했습니다. 인도네시아 수출 허가 지연 장기화와 미국 관세 정책 불확실성이 공급 우려를 지속시켰습니다.",
-    "sources": [
-      {
-        "title": "철강금속신문 — 공급 차질 우려 커진 비철시장",
-        "url": "https://www.snmnews.com/news/articleView.html?idxno=569187"
-      }
-    ]
-  },
-  {
-    "date": "2026-02-25",
-    "date_fmt": "26년 02월 25일",
-    "tag": "비철금속 급등",
-    "tag_type": "up",
-    "items": [
-      {
-        "name": "구리(99.99%)",
-        "diff": 500,
-        "pct": 2.4,
-        "direction": "up"
-      },
-      {
-        "name": "주석(99.85%)",
-        "diff": 4290,
-        "pct": 5.6,
-        "direction": "up"
-      },
-      {
-        "name": "주석(99.99%)",
-        "diff": 4290,
-        "pct": 5.6,
-        "direction": "up"
-      },
-      {
-        "name": "니켈(합금용)",
-        "diff": 1020,
-        "pct": 3.7,
-        "direction": "up"
-      },
-      {
-        "name": "니켈(도금용)",
-        "diff": 1030,
-        "pct": 3.7,
-        "direction": "up"
-      }
-    ],
-    "body": "미-러 우크라이나 종전 협상 기대감과 중국의 경기 부양책 발표가 맞물리며 비철금속 전반에 강한 매수세가 유입됐습니다. 주석은 인도네시아 수출 허가 지연이 지속되는 가운데 미국 관세 리스크가 겹치며 공급 우려가 재부각됐습니다.",
     "sources": [
       {
         "title": "철강금속신문 — 공급 차질 우려 커진 비철시장",
