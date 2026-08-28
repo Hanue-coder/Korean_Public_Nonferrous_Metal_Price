@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 const ISSUES_META = {"latest": "2026-08-21", "generated": "2026-08-27 12:38"};
+=======
+const ISSUES_META = {"latest": "2026-08-21", "generated": "2026-08-28 10:44"};
+>>>>>>> Stashed changes
 const ISSUES_DATA = [
   {
     "date": "2026-08-21",
@@ -1657,38 +1661,5 @@ const ISSUES_DATA = [
     ],
     "body": "LME 니켈 선물가가 약보합세를 보이면서 조달청 고시가에 반영되었으며, 글로벌 전기차 수요 부진과 인도네시아의 니켈 광석 수출 물량 증가로 공급 우려가 커지고 있다. 더불어 최근 달러 강세 기조가 달러 표시 원자재 가격 하락을 견인하면서 합금용과 도금용 니켈이 동반 하락한 것으로 보인다.",
     "sources": []
-  },
-  {
-    "date": "2026-02-26",
-    "date_fmt": "26년 02월 26일",
-    "tag": "비철금속 급등",
-    "tag_type": "up",
-    "items": [
-      {
-        "name": "알루미늄(서구산)",
-        "diff": 110,
-        "pct": 2.1,
-        "direction": "up"
-      },
-      {
-        "name": "주석(99.85%)",
-        "diff": 4660,
-        "pct": 5.8,
-        "direction": "up"
-      },
-      {
-        "name": "주석(99.99%)",
-        "diff": 4670,
-        "pct": 5.8,
-        "direction": "up"
-      }
-    ],
-    "body": "전일(25일) 강세 흐름이 이어지며 주석이 추가 상승했습니다. 인도네시아 수출 허가 지연 장기화와 미국 관세 정책 불확실성이 공급 우려를 지속시켰습니다.",
-    "sources": [
-      {
-        "title": "철강금속신문 — 공급 차질 우려 커진 비철시장",
-        "url": "https://www.snmnews.com/news/articleView.html?idxno=569187"
-      }
-    ]
   }
 ];
