@@ -224,6 +224,30 @@ def parse_prices(html: str) -> dict[str, tuple[int | None, int | None]]:
 # Resume support
 # ---------------------------------------------------------------------------
 
+def dedup_csv(csv_path: str) -> None:
+    """날짜 기준 중복 행 제거 후 CSV 재저장 (동일 날짜 첫 번째만 유지)."""
+    if not os.path.exists(csv_path):
+        return
+    with open(csv_path, encoding="utf-8-sig", newline="") as f:
+        reader = csv.reader(f)
+        header = next(reader)
+        seen: set[str] = set()
+        unique_rows = []
+        for row in reader:
+            if not row or not row[0]:
+                continue
+            if row[0] in seen:
+                continue
+            seen.add(row[0])
+            unique_rows.append(row)
+    unique_rows.sort(key=lambda r: r[0])
+    with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
+        writer = csv.writer(f)
+        writer.writerow(header)
+        writer.writerows(unique_rows)
+    print(f"dedup: {len(unique_rows)}행 유지")
+
+
 def load_scraped_dates(csv_path: str) -> set[str]:
     if not os.path.exists(csv_path):
         return set()
@@ -359,6 +383,7 @@ def main(debug_sn: str | None = None) -> None:
     csv_file.close()
     log(f"DONE - saved={saved} dup={skipped_dup} old={skipped_old} err={errors}")
     log(f"Output: {OUTPUT_CSV}")
+    dedup_csv(OUTPUT_CSV)
     _log_f.close()
 
 
