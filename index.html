@@ -467,6 +467,7 @@
     <button class="header-nav-tab active" onclick="switchView('main', this)">원자재 비철금속 시세</button>
     <button class="header-nav-tab" onclick="switchView('issues', this)">원자재이슈사항</button>
     <!-- 칼럼 탭이 JS로 여기에 추가됩니다 -->
+    <button class="header-nav-tab" onclick="switchView('aluminum', this)">알루미늄</button>
   </nav>
 </header>
 
@@ -493,6 +494,27 @@
   </div>
   <div class="issues-board-body" id="issues-list"></div>
 </div><!-- /issues-board -->
+
+<!-- Aluminum view (알루미늄 탭 클릭 시 표시) -->
+<div class="column-view" id="aluminum-view" style="display:none;flex-direction:column;">
+  <div class="column-view-header" style="display:flex;align-items:center;gap:20px;">
+    <h1 style="font-size:13px;font-weight:600;opacity:.7;letter-spacing:.5px;text-transform:uppercase;">알루미늄</h1>
+    <div style="display:flex;gap:0;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.25);">
+      <button id="al-tab-weight" onclick="switchAlTab('weight',this)"
+        style="padding:6px 18px;font-size:12px;font-weight:600;background:rgba(255,255,255,.25);color:#fff;border:none;cursor:pointer;transition:background .15s;">중량</button>
+      <button id="al-tab-comp" onclick="switchAlTab('comp',this)"
+        style="padding:6px 18px;font-size:12px;font-weight:600;background:transparent;color:rgba(255,255,255,.65);border:none;cursor:pointer;transition:background .15s;">성분</button>
+    </div>
+  </div>
+  <div style="flex:1;min-height:0;overflow-y:auto;padding:32px 36px;background:var(--bg);">
+    <div id="al-panel-weight">
+      <p style="color:var(--sub);font-size:14px;">중량 계산 내용이 여기에 표시됩니다.</p>
+    </div>
+    <div id="al-panel-comp" style="display:none;">
+      <p style="color:var(--sub);font-size:14px;">성분 표 내용이 여기에 표시됩니다.</p>
+    </div>
+  </div>
+</div>
 
 <!-- Column view (칼럼 탭 클릭 시 표시) -->
 <div class="column-view" id="column-view">
@@ -737,10 +759,20 @@ function renderIssueCards() {
 function switchView(view, btn, colId) {
   document.querySelectorAll('.header-nav-tab').forEach(t => t.classList.remove('active'));
   if (btn) btn.classList.add('active');
-  document.querySelector('.layout').style.display        = view === 'main'    ? 'flex'  : 'none';
-  document.getElementById('issues-board').style.display  = view === 'issues'  ? 'flex'  : 'none';
-  document.getElementById('column-view').style.display   = view === 'column'  ? 'flex'  : 'none';
+  document.querySelector('.layout').style.display          = view === 'main'     ? 'flex' : 'none';
+  document.getElementById('issues-board').style.display    = view === 'issues'   ? 'flex' : 'none';
+  document.getElementById('column-view').style.display     = view === 'column'   ? 'flex' : 'none';
+  document.getElementById('aluminum-view').style.display   = view === 'aluminum' ? 'flex' : 'none';
   if (view === 'column' && colId) showColumnView(colId);
+}
+
+function switchAlTab(tab, btn) {
+  document.getElementById('al-panel-weight').style.display = tab === 'weight' ? 'block' : 'none';
+  document.getElementById('al-panel-comp').style.display   = tab === 'comp'   ? 'block' : 'none';
+  document.getElementById('al-tab-weight').style.background = tab === 'weight' ? 'rgba(255,255,255,.25)' : 'transparent';
+  document.getElementById('al-tab-weight').style.color      = tab === 'weight' ? '#fff' : 'rgba(255,255,255,.65)';
+  document.getElementById('al-tab-comp').style.background   = tab === 'comp'   ? 'rgba(255,255,255,.25)' : 'transparent';
+  document.getElementById('al-tab-comp').style.color        = tab === 'comp'   ? '#fff' : 'rgba(255,255,255,.65)';
 }
 
 // Directory toggle (desktop)
