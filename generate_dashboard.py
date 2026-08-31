@@ -5,6 +5,7 @@ Run this script whenever the CSV is updated.
 
 import csv
 import json
+import math
 import os
 from datetime import datetime
 
@@ -40,8 +41,11 @@ def load_csv():
             for m in MATERIALS:
                 ci = m["col"]
                 try:
-                    entry[m["key"] + "_excl"] = int(row[ci])     if row[ci]   else None
-                    entry[m["key"] + "_incl"] = int(row[ci + 1]) if row[ci+1] else None
+                    incl_val = int(row[ci + 1]) if row[ci + 1] else None
+                    # 세액=floor(공급가액×0.1) 기준: 공급가액 = ceil(고시가 / 1.1)
+                    excl_val = math.ceil(incl_val / 1.1) if incl_val else None
+                    entry[m["key"] + "_excl"] = excl_val
+                    entry[m["key"] + "_incl"] = incl_val
                 except (ValueError, IndexError):
                     entry[m["key"] + "_excl"] = None
                     entry[m["key"] + "_incl"] = None
