@@ -526,12 +526,15 @@
           <label style="display:block;font-size:12px;font-weight:600;color:var(--sub);margin-bottom:6px;">품목</label>
           <select id="rpt-metal"
             style="width:100%;padding:9px 12px;font-size:14px;border:1.5px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);outline:none;cursor:pointer;">
-            <option value="AL">알루미늄</option>
-            <option value="CU">구리</option>
-            <option value="PB">납</option>
+            <option value="AL">알루미늄(서구산)</option>
+            <option value="AL2">알루미늄(비서구산)</option>
+            <option value="CU">구리(99.99%이상)</option>
+            <option value="PB">납(99.99%이상)</option>
             <option value="ZN">아연</option>
-            <option value="SN">주석</option>
-            <option value="NI">니켈</option>
+            <option value="SN">주석(99.85%이상)</option>
+            <option value="SN2">주석(99.99%이상)</option>
+            <option value="NI">니켈(합금용)</option>
+            <option value="NI2">니켈(도금용)</option>
           </select>
         </div>
         <!-- 보고서 유형 -->
@@ -1059,17 +1062,27 @@ function calcAlWeight(shapeId) {
 }
 
 // ── 시세 보고서 ──
-var RPT_METAL_NAMES = {AL:'알루미늄',CU:'구리',PB:'납',ZN:'아연',SN:'주석',NI:'니켈'};
+var _RPT_DATA = null; // prices.json 캐시
+
+function _loadRptData(cb) {
+  if (_RPT_DATA) { cb(_RPT_DATA); return; }
+  fetch('data/prices.json')
+    .then(function(r){ return r.json(); })
+    .then(function(d){ _RPT_DATA = d; cb(d); })
+    .catch(function(e){ alert('가격 데이터 로드 실패: ' + e); });
+}
 
 (function initReportControls() {
   var yearSel = document.getElementById('rpt-year');
   var now = new Date();
-  for (var y = now.getFullYear(); y >= 2020; y--) {
+  for (var y = now.getFullYear(); y >= 2012; y--) {
     var opt = document.createElement('option');
     opt.value = y; opt.textContent = y + '년';
     yearSel.appendChild(opt);
   }
   onRptChange();
+  // 데이터 미리 로드
+  _loadRptData(function(){});
 })();
 
 function onRptChange() {
@@ -1093,39 +1106,45 @@ function onRptChange() {
   }
 }
 
-// 샘플 일별 데이터 생성 (실제 데이터 연동 전 미리보기용)
-function _genDailyData(year, month, basePrice) {
-  var days = new Date(year, month, 0).getDate();
-  var data = [];
-  var price = basePrice;
-  for (var d = 1; d <= days; d++) {
-    var dow = new Date(year, month-1, d).getDay();
-    if (dow === 0 || dow === 6) continue; // 주말 제외
-    var chg = (Math.random() - 0.48) * basePrice * 0.018;
-    price = Math.max(price + chg, basePrice * 0.7);
-    data.push({day: d, price: Math.round(price)});
-  }
-  return data;
+// JSON rows에서 특정 년월의 일별 데이터 추출
+function _getDailyFromJson(rows, year, month, colExcl) {
+  var prefix = year + '-' + (month < 10 ? '0' + month : '' + month) + '-';
+  var result = [];
+  rows.forEach(function(r) {
+    if (r.date.indexOf(prefix) === 0 && r[colExcl] != null) {
+      var day = parseInt(r.date.slice(8, 10));
+      result.push({day: day, date: r.date, price: r[colExcl]});
+    }
+  });
+  result.sort(function(a,b){return a.day-b.day;});
+  return result;
 }
 
-// 샘플 기준가
-var RPT_BASE = {AL:2400,CU:9200,PB:2050,ZN:2800,SN:26000,NI:16000};
+// 품목 코드 → CSV 컬럼명 매핑
+var RPT_COL = {
+  AL: 'AL_excl', AL2: 'AL2_excl', CU: 'CU_excl', PB: 'PB_excl',
+  ZN: 'ZN_excl', SN: 'SN_excl', SN2: 'SN2_excl', NI: 'NI_excl', NI2: 'NI2_excl'
+};
 
 function generateReport() {
   var year   = parseInt(document.getElementById('rpt-year').value);
   var type   = document.getElementById('rpt-type').value;
   var period = parseInt(document.getElementById('rpt-period').value);
   var metal  = document.getElementById('rpt-metal').value;
-  var metalName = RPT_METAL_NAMES[metal];
-  var out = document.getElementById('rpt-output');
+  var out    = document.getElementById('rpt-output');
 
-  if (type === 'monthly') {
-    _renderMonthlyReport(out, year, period, metal, metalName);
-  } else {
-    _renderQuarterlyReport(out, year, period, metal, metalName);
-  }
-  // PDF 버튼 표시
-  document.querySelector('.rpt-pdf-btn').style.display = 'block';
+  out.innerHTML = '<div style="padding:40px;text-align:center;color:var(--sub);font-size:14px;">데이터 로딩 중...</div>';
+
+  _loadRptData(function(data) {
+    var metalName = data.metals[metal] ? data.metals[metal].label : metal;
+    var colExcl   = RPT_COL[metal];
+    if (type === 'monthly') {
+      _renderMonthlyReport(out, year, period, metal, metalName, data.rows, colExcl);
+    } else {
+      _renderQuarterlyReport(out, year, period, metal, metalName, data.rows, colExcl);
+    }
+    document.querySelector('.rpt-pdf-btn').style.display = 'block';
+  });
 }
 
 function printReport() { window.print(); }
@@ -1133,15 +1152,28 @@ function printReport() { window.print(); }
 // ── A4 보고서 공통 래퍼 / 푸터 ──
 var _A4_OPEN = '<div id="rpt-print-area" style="width:794px;min-height:1123px;background:#fff;color:#0f172a;font-family:\'Noto Sans KR\',sans-serif;padding:40px 48px;box-sizing:border-box;margin:0 auto;">';
 var _A4_FOOTER = '<div style="margin-top:40px;padding-top:16px;border-top:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;">'
-  + '<span style="font-size:11px;color:#94a3b8;">출처 : 조달청 &nbsp;·&nbsp; 단위 : USD/MT &nbsp;·&nbsp; 영업일 기준</span>'
+  + '<span style="font-size:11px;color:#94a3b8;">출처 : 조달청 &nbsp;·&nbsp; 단위 : 원/kg (부가세 제외) &nbsp;·&nbsp; 영업일 기준</span>'
   + '<span style="font-size:11px;color:#94a3b8;">제작 : rcoa.co.kr</span>'
   + '</div></div>';
 
-function _renderMonthlyReport(out, year, month, metal, metalName) {
-  var base = RPT_BASE[metal];
-  var daily = _genDailyData(year, month, base);
-  var prevMonthBase = base * (0.96 + Math.random() * 0.08);
-  var prevYearBase  = base * (0.90 + Math.random() * 0.20);
+function _renderMonthlyReport(out, year, month, metal, metalName, rows, colExcl) {
+  var daily = _getDailyFromJson(rows, year, month, colExcl);
+
+  if (daily.length === 0) {
+    out.innerHTML = '<div style="padding:40px;text-align:center;color:var(--sub);font-size:14px;">'
+      + year + '년 ' + month + '월 데이터가 없습니다. 조달청 고시가 없는 기간이거나 아직 수집되지 않은 기간입니다.</div>';
+    return;
+  }
+
+  // 전월/전년 데이터
+  var prevMonth = month === 1 ? 12 : month - 1;
+  var prevMonthYear = month === 1 ? year - 1 : year;
+  var prevYearDaily = _getDailyFromJson(rows, year - 1, month, colExcl);
+  var prevMonthDaily = _getDailyFromJson(rows, prevMonthYear, prevMonth, colExcl);
+  var prevMonthBase = prevMonthDaily.length > 0
+    ? Math.round(prevMonthDaily.reduce(function(a,d){return a+d.price;},0)/prevMonthDaily.length) : null;
+  var prevYearBase = prevYearDaily.length > 0
+    ? Math.round(prevYearDaily.reduce(function(a,d){return a+d.price;},0)/prevYearDaily.length) : null;
 
   var prices = daily.map(function(d){return d.price;});
   var avg  = Math.round(prices.reduce(function(a,b){return a+b;},0) / prices.length);
@@ -1149,11 +1181,11 @@ function _renderMonthlyReport(out, year, month, metal, metalName) {
   var low  = Math.min.apply(null, prices);
   var open = prices[0];
   var close= prices[prices.length-1];
-  var momChg = ((avg - prevMonthBase) / prevMonthBase * 100).toFixed(1);
-  var yoyChg = ((avg - prevYearBase)  / prevYearBase  * 100).toFixed(1);
-  var momColor = parseFloat(momChg) >= 0 ? '#EF4444' : '#3B82F6';
-  var yoyColor = parseFloat(yoyChg) >= 0 ? '#EF4444' : '#3B82F6';
-  var prevMonthName = month === 1 ? (year-1) + '년 12월' : year + '년 ' + (month-1) + '월';
+  var momChg = prevMonthBase ? ((avg - prevMonthBase) / prevMonthBase * 100).toFixed(1) : null;
+  var yoyChg = prevYearBase  ? ((avg - prevYearBase)  / prevYearBase  * 100).toFixed(1) : null;
+  var momColor = momChg !== null ? (parseFloat(momChg) >= 0 ? '#EF4444' : '#3B82F6') : '#94a3b8';
+  var yoyColor = yoyChg !== null ? (parseFloat(yoyChg) >= 0 ? '#EF4444' : '#3B82F6') : '#94a3b8';
+  var prevMonthName = prevMonthYear + '년 ' + prevMonth + '월';
   var prevYearName  = (year-1) + '년 ' + month + '월';
   var title = year + '년 ' + month + '월 ' + metalName + ' 월간 시세 보고서';
 
@@ -1197,28 +1229,28 @@ function _renderMonthlyReport(out, year, month, metal, metalName) {
     // 전월/전년 대비
     + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">'
     + '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;">'
-    + '<div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;">전월 대비 (' + prevMonthName + ' 평균 ' + Math.round(prevMonthBase).toLocaleString() + ')</div>'
-    + '<div style="font-size:28px;font-weight:900;color:' + momColor + ';">' + (parseFloat(momChg)>=0?'+':'') + momChg + '%</div>'
-    + '<div style="font-size:11px;color:#64748b;margin-top:4px;">평균가 기준 · ' + (parseFloat(momChg)>=0?'상승':'하락') + '</div>'
+    + '<div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;">전월 대비 (' + prevMonthName + (prevMonthBase !== null ? ' 평균 ' + prevMonthBase.toLocaleString() : '') + ')</div>'
+    + '<div style="font-size:28px;font-weight:900;color:' + momColor + ';">' + (momChg !== null ? (parseFloat(momChg)>=0?'+':'') + momChg + '%' : 'N/A') + '</div>'
+    + '<div style="font-size:11px;color:#64748b;margin-top:4px;">' + (momChg !== null ? '평균가 기준 · ' + (parseFloat(momChg)>=0?'상승':'하락') : '전월 데이터 없음') + '</div>'
     + '</div>'
     + '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;">'
-    + '<div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;">전년 동월 대비 (' + prevYearName + ' 평균 ' + Math.round(prevYearBase).toLocaleString() + ')</div>'
-    + '<div style="font-size:28px;font-weight:900;color:' + yoyColor + ';">' + (parseFloat(yoyChg)>=0?'+':'') + yoyChg + '%</div>'
-    + '<div style="font-size:11px;color:#64748b;margin-top:4px;">평균가 기준 · ' + (parseFloat(yoyChg)>=0?'상승':'하락') + '</div>'
+    + '<div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;">전년 동월 대비 (' + prevYearName + (prevYearBase !== null ? ' 평균 ' + prevYearBase.toLocaleString() : '') + ')</div>'
+    + '<div style="font-size:28px;font-weight:900;color:' + yoyColor + ';">' + (yoyChg !== null ? (parseFloat(yoyChg)>=0?'+':'') + yoyChg + '%' : 'N/A') + '</div>'
+    + '<div style="font-size:11px;color:#64748b;margin-top:4px;">' + (yoyChg !== null ? '평균가 기준 · ' + (parseFloat(yoyChg)>=0?'상승':'하락') : '전년 데이터 없음') + '</div>'
     + '</div></div>'
     // 시장 동향
     + '<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:14px 20px;margin-bottom:20px;">'
     + '<div style="font-size:11px;font-weight:700;color:#1d4ed8;margin-bottom:6px;">시장 동향 요약</div>'
     + '<p style="font-size:13px;color:#1e3a5f;line-height:1.75;margin:0;">'
-    + year + '년 ' + month + '월 ' + metalName + ' 평균 시세는 <strong>' + avg.toLocaleString() + ' USD/MT</strong>으로,'
-    + ' 전월 대비 <strong style="color:' + momColor + ';">' + (parseFloat(momChg)>=0?'+':'') + momChg + '%</strong>,'
-    + ' 전년 동월 대비 <strong style="color:' + yoyColor + ';">' + (parseFloat(yoyChg)>=0?'+':'') + yoyChg + '%</strong> 변동하였습니다.'
-    + ' 월중 최고가 ' + high.toLocaleString() + ' USD/MT, 최저가 ' + low.toLocaleString() + ' USD/MT으로'
-    + ' 변동폭은 ' + (high-low).toLocaleString() + ' USD/MT(약 ' + ((high-low)/avg*100).toFixed(1) + '%)이었습니다.'
+    + year + '년 ' + month + '월 ' + metalName + ' 평균 시세는 <strong>' + avg.toLocaleString() + ' 원/kg</strong>으로,'
+    + ' 전월 대비 <strong style="color:' + momColor + ';">' + (momChg !== null ? (parseFloat(momChg)>=0?'+':'') + momChg + '%' : 'N/A') + '</strong>,'
+    + ' 전년 동월 대비 <strong style="color:' + yoyColor + ';">' + (yoyChg !== null ? (parseFloat(yoyChg)>=0?'+':'') + yoyChg + '%' : 'N/A') + '</strong> 변동하였습니다.'
+    + ' 월중 최고가 ' + high.toLocaleString() + ' 원/kg, 최저가 ' + low.toLocaleString() + ' 원/kg으로'
+    + ' 변동폭은 ' + (high-low).toLocaleString() + ' 원/kg(약 ' + ((high-low)/avg*100).toFixed(1) + '%)이었습니다.'
     + '</p></div>'
     // 차트
     + '<div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin-bottom:20px;">'
-    + '<div style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:700;color:#0f172a;">일별 시세 추이 (USD/MT)</div>'
+    + '<div style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:700;color:#0f172a;">일별 시세 추이 (원/kg, 부가세 제외)</div>'
     + '<div style="padding:12px;"><canvas id="rpt-chart-monthly" width="698" height="180" style="display:block;width:100%;height:180px;"></canvas></div>'
     + '</div>'
     // 일별 시세 테이블
@@ -1227,11 +1259,11 @@ function _renderMonthlyReport(out, year, month, metal, metalName) {
     + '<table style="width:100%;border-collapse:collapse;font-size:12px;">'
     + '<thead><tr style="background:#f1f5f9;">'
     + '<th style="padding:8px 12px;text-align:left;font-size:10px;font-weight:700;color:#64748b;">날짜</th>'
-    + '<th style="padding:8px 12px;text-align:right;font-size:10px;font-weight:700;color:#64748b;">종가 (USD/MT)</th>'
+    + '<th style="padding:8px 12px;text-align:right;font-size:10px;font-weight:700;color:#64748b;">종가 (원/kg)</th>'
     + '<th style="padding:8px 12px;text-align:right;font-size:10px;font-weight:700;color:#64748b;">전일대비</th>'
     + '<th style="padding:8px 12px;text-align:right;font-size:10px;font-weight:700;color:#64748b;">등락률</th>'
     + '</tr></thead><tbody>' + dRows + '</tbody></table>'
-    + '<div style="padding:10px 16px;background:#f8fafc;font-size:10px;color:#94a3b8;">※ 주말·공휴일 제외 영업일 기준. 샘플 미리보기입니다.</div>'
+    + '<div style="padding:10px 16px;background:#f8fafc;font-size:10px;color:#94a3b8;">단위: 원/kg (부가세 제외) · 출처: 조달청 · 주말·공휴일 제외 영업일 기준</div>'
     + '</div>'
     + _A4_FOOTER;
 
@@ -1245,7 +1277,7 @@ function _kpiBox(label, val, color) {
   return '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px 12px;text-align:center;">'
     + '<div style="font-size:10px;font-weight:700;color:#64748b;letter-spacing:.4px;margin-bottom:5px;">' + label + '</div>'
     + '<div style="font-size:18px;font-weight:900;color:' + color + ';">' + val + '</div>'
-    + '<div style="font-size:10px;color:#94a3b8;margin-top:2px;">USD/MT</div>'
+    + '<div style="font-size:10px;color:#94a3b8;margin-top:2px;">원/kg</div>'
     + '</div>';
 }
 
@@ -1334,30 +1366,59 @@ function _drawLineChart(canvasId, daily, avg) {
   });
 }
 
-function _renderQuarterlyReport(out, year, quarter, metal, metalName) {
-  var base = RPT_BASE[metal];
+function _renderQuarterlyReport(out, year, quarter, metal, metalName, rows, colExcl) {
   var qStart = (quarter - 1) * 3 + 1;
   var qNames = ['','1분기 (1~3월)','2분기 (4~6월)','3분기 (7~9월)','4분기 (10~12월)'];
   var title = year + '년 ' + qNames[quarter] + ' ' + metalName + ' 분기별 시세 보고서';
 
   var monthData = [qStart, qStart+1, qStart+2].map(function(m) {
-    var daily = _genDailyData(year, m, base * (0.95 + Math.random()*0.10));
+    var daily = _getDailyFromJson(rows, year, m, colExcl);
+    if (daily.length === 0) return {month: m, daily: [], avg: null, high: null, low: null};
     var prices = daily.map(function(d){return d.price;});
     var avg = Math.round(prices.reduce(function(a,b){return a+b;},0)/prices.length);
     return {month: m, daily: daily, avg: avg, high: Math.max.apply(null,prices), low: Math.min.apply(null,prices)};
   });
 
-  var allAvg  = Math.round(monthData.reduce(function(a,d){return a+d.avg;},0)/3);
-  var allHigh = Math.max.apply(null, monthData.map(function(d){return d.high;}));
-  var allLow  = Math.min.apply(null, monthData.map(function(d){return d.low;}));
-  var prevQBase = base * (0.94 + Math.random()*0.12);
-  var prevYBase = base * (0.88 + Math.random()*0.24);
-  var qoqChg = ((allAvg - prevQBase)/prevQBase*100).toFixed(1);
-  var yoyChg = ((allAvg - prevYBase)/prevYBase*100).toFixed(1);
-  var qoqColor = parseFloat(qoqChg)>=0?'#EF4444':'#3B82F6';
-  var yoyColor = parseFloat(yoyChg)>=0?'#EF4444':'#3B82F6';
+  var validMonths = monthData.filter(function(d){return d.avg !== null;});
+  if (validMonths.length === 0) {
+    out.innerHTML = '<div style="padding:40px;text-align:center;color:#64748b;">' + year + '년 ' + qNames[quarter] + ' 데이터가 없습니다.</div>';
+    return;
+  }
+
+  var allAvg  = Math.round(validMonths.reduce(function(a,d){return a+d.avg;},0)/validMonths.length);
+  var allHigh = Math.max.apply(null, validMonths.map(function(d){return d.high;}));
+  var allLow  = Math.min.apply(null, validMonths.map(function(d){return d.low;}));
+
+  // 전분기
+  var prevQStart = qStart === 1 ? 10 : qStart - 3;
+  var prevQYear  = qStart === 1 ? year - 1 : year;
+  var prevQMonths = [prevQStart, prevQStart+1, prevQStart+2].map(function(m) {
+    var d = _getDailyFromJson(rows, prevQYear, m, colExcl);
+    if (d.length === 0) return null;
+    return Math.round(d.reduce(function(a,r){return a+r.price;},0)/d.length);
+  }).filter(function(v){return v!==null;});
+  var prevQBase = prevQMonths.length > 0 ? Math.round(prevQMonths.reduce(function(a,b){return a+b;},0)/prevQMonths.length) : null;
+
+  // 전년 동분기
+  var prevYMonths = [qStart, qStart+1, qStart+2].map(function(m) {
+    var d = _getDailyFromJson(rows, year-1, m, colExcl);
+    if (d.length === 0) return null;
+    return Math.round(d.reduce(function(a,r){return a+r.price;},0)/d.length);
+  }).filter(function(v){return v!==null;});
+  var prevYBase = prevYMonths.length > 0 ? Math.round(prevYMonths.reduce(function(a,b){return a+b;},0)/prevYMonths.length) : null;
+
+  var qoqChg = prevQBase ? ((allAvg - prevQBase)/prevQBase*100).toFixed(1) : null;
+  var yoyChg = prevYBase ? ((allAvg - prevYBase)/prevYBase*100).toFixed(1) : null;
+  var qoqColor = qoqChg !== null ? (parseFloat(qoqChg)>=0?'#EF4444':'#3B82F6') : '#94a3b8';
+  var yoyColor = yoyChg !== null ? (parseFloat(yoyChg)>=0?'#EF4444':'#3B82F6') : '#94a3b8';
 
   var mRows = monthData.map(function(d) {
+    if (d.avg === null) {
+      return '<tr style="border-bottom:1px solid #e2e8f0;">'
+        + '<td style="padding:10px 14px;font-weight:700;color:#0f172a;">' + year + '년 ' + d.month + '월</td>'
+        + '<td colspan="4" style="padding:10px 14px;text-align:center;color:#94a3b8;font-size:12px;">데이터 없음</td>'
+        + '</tr>';
+    }
     var chg = ((d.avg - allAvg)/allAvg*100).toFixed(1);
     var clr = parseFloat(chg)>=0?'#EF4444':'#3B82F6';
     return '<tr style="border-bottom:1px solid #e2e8f0;">'
@@ -1371,7 +1432,7 @@ function _renderQuarterlyReport(out, year, quarter, metal, metalName) {
 
   // 분기 전체 일별 데이터 합산 (차트용)
   var allDaily = [];
-  monthData.forEach(function(md){ allDaily = allDaily.concat(md.daily); });
+  monthData.forEach(function(md){ if (md.daily.length > 0) allDaily = allDaily.concat(md.daily); });
 
   out.innerHTML = _A4_OPEN
     + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #0f172a;">'
@@ -1390,15 +1451,15 @@ function _renderQuarterlyReport(out, year, quarter, metal, metalName) {
     + '</div>'
     + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">'
     + '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;">'
-    + '<div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;">전분기 대비</div>'
-    + '<div style="font-size:28px;font-weight:900;color:' + qoqColor + ';">' + (parseFloat(qoqChg)>=0?'+':'') + qoqChg + '%</div>'
+    + '<div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;">전분기 대비' + (prevQBase ? ' (평균 ' + prevQBase.toLocaleString() + ')' : '') + '</div>'
+    + '<div style="font-size:28px;font-weight:900;color:' + qoqColor + ';">' + (qoqChg !== null ? (parseFloat(qoqChg)>=0?'+':'') + qoqChg + '%' : 'N/A') + '</div>'
     + '</div><div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;">'
-    + '<div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;">전년 동분기 대비</div>'
-    + '<div style="font-size:28px;font-weight:900;color:' + yoyColor + ';">' + (parseFloat(yoyChg)>=0?'+':'') + yoyChg + '%</div>'
+    + '<div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;">전년 동분기 대비' + (prevYBase ? ' (평균 ' + prevYBase.toLocaleString() + ')' : '') + '</div>'
+    + '<div style="font-size:28px;font-weight:900;color:' + yoyColor + ';">' + (yoyChg !== null ? (parseFloat(yoyChg)>=0?'+':'') + yoyChg + '%' : 'N/A') + '</div>'
     + '</div></div>'
     // 분기 차트
     + '<div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin-bottom:20px;">'
-    + '<div style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:700;color:#0f172a;">분기 시세 추이 (USD/MT)</div>'
+    + '<div style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:700;color:#0f172a;">분기 시세 추이 (원/kg, 부가세 제외)</div>'
     + '<div style="padding:12px;"><canvas id="rpt-chart-quarterly" width="698" height="180" style="display:block;width:100%;height:180px;"></canvas></div>'
     + '</div>'
     // 월별 요약 테이블
@@ -1412,7 +1473,7 @@ function _renderQuarterlyReport(out, year, quarter, metal, metalName) {
     + '<th style="padding:10px 14px;text-align:right;font-size:10px;font-weight:700;color:#64748b;">최저가</th>'
     + '<th style="padding:10px 14px;text-align:right;font-size:10px;font-weight:700;color:#64748b;">분기평균 대비</th>'
     + '</tr></thead><tbody>' + mRows + '</tbody></table>'
-    + '<div style="padding:10px 16px;background:#f8fafc;font-size:10px;color:#94a3b8;">※ 샘플 미리보기입니다.</div>'
+    + '<div style="padding:10px 16px;background:#f8fafc;font-size:10px;color:#94a3b8;">단위: 원/kg (부가세 제외) · 출처: 조달청</div>'
     + '</div>'
     + _A4_FOOTER;
 
