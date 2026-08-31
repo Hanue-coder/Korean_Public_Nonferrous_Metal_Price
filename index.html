@@ -457,6 +457,21 @@
   .issue-source a { color: var(--accent); text-decoration: none; }
   .issue-source a:hover { text-decoration: underline; }
 
+/* ── 인쇄/PDF ── */
+@media print {
+  @page { size: A4 portrait; margin: 10mm; }
+  body * { visibility: hidden; }
+  #rpt-print-area, #rpt-print-area * { visibility: visible; }
+  #rpt-print-area {
+    position: fixed; inset: 0;
+    width: 190mm; margin: 0 auto;
+    background: #fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .rpt-pdf-btn { display: none !important; }
+}
+
 </style>
 </head>
 <body>
@@ -543,6 +558,9 @@
       <button onclick="generateReport()"
         style="width:100%;padding:12px;font-size:14px;font-weight:700;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;letter-spacing:.3px;transition:opacity .15s;"
         onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">보고서 생성</button>
+      <button class="rpt-pdf-btn" onclick="printReport()"
+        style="width:100%;margin-top:8px;padding:12px;font-size:14px;font-weight:700;background:#1e293b;color:#fff;border:none;border-radius:8px;cursor:pointer;letter-spacing:.3px;transition:opacity .15s;display:none;"
+        onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">🖨 PDF 출력</button>
     </div>
     <!-- 보고서 출력 영역 -->
     <div id="rpt-output"></div>
@@ -1106,7 +1124,18 @@ function generateReport() {
   } else {
     _renderQuarterlyReport(out, year, period, metal, metalName);
   }
+  // PDF 버튼 표시
+  document.querySelector('.rpt-pdf-btn').style.display = 'block';
 }
+
+function printReport() { window.print(); }
+
+// ── A4 보고서 공통 래퍼 / 푸터 ──
+var _A4_OPEN = '<div id="rpt-print-area" style="width:794px;min-height:1123px;background:#fff;color:#0f172a;font-family:\'Noto Sans KR\',sans-serif;padding:40px 48px;box-sizing:border-box;margin:0 auto;">';
+var _A4_FOOTER = '<div style="margin-top:40px;padding-top:16px;border-top:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;">'
+  + '<span style="font-size:11px;color:#94a3b8;">출처 : 조달청 &nbsp;·&nbsp; 단위 : USD/MT &nbsp;·&nbsp; 영업일 기준</span>'
+  + '<span style="font-size:11px;color:#94a3b8;">제작 : rcoa.co.kr</span>'
+  + '</div></div>';
 
 function _renderMonthlyReport(out, year, month, metal, metalName) {
   var base = RPT_BASE[metal];
@@ -1124,85 +1153,100 @@ function _renderMonthlyReport(out, year, month, metal, metalName) {
   var yoyChg = ((avg - prevYearBase)  / prevYearBase  * 100).toFixed(1);
   var momColor = parseFloat(momChg) >= 0 ? '#EF4444' : '#3B82F6';
   var yoyColor = parseFloat(yoyChg) >= 0 ? '#EF4444' : '#3B82F6';
-
   var prevMonthName = month === 1 ? (year-1) + '년 12월' : year + '년 ' + (month-1) + '월';
   var prevYearName  = (year-1) + '년 ' + month + '월';
+  var title = year + '년 ' + month + '월 ' + metalName + ' 월간 시세 보고서';
 
-  // 일별 테이블 행
   var dRows = daily.map(function(d, i) {
     var prev = i === 0 ? open : daily[i-1].price;
     var diff = d.price - prev;
     var pct  = (diff / prev * 100).toFixed(2);
-    var clr  = diff > 0 ? '#EF4444' : diff < 0 ? '#3B82F6' : 'var(--sub)';
+    var clr  = diff > 0 ? '#EF4444' : diff < 0 ? '#3B82F6' : '#64748b';
     var sign = diff > 0 ? '▲' : diff < 0 ? '▼' : '─';
-    var bg   = i % 2 === 0 ? 'var(--bg)' : 'var(--white)';
+    var bg   = i % 2 === 0 ? '#f8fafc' : '#fff';
     var dow  = new Date(year, month-1, d.day).getDay();
     var dowStr = ['일','월','화','수','목','금','토'][dow];
     return '<tr style="background:' + bg + ';">'
-      + '<td style="padding:8px 14px;font-size:13px;color:var(--sub);">' + month + '/' + d.day + ' (' + dowStr + ')</td>'
-      + '<td style="padding:8px 14px;font-size:13px;text-align:right;font-weight:600;color:var(--text);">' + d.price.toLocaleString() + '</td>'
-      + '<td style="padding:8px 14px;font-size:13px;text-align:right;color:' + clr + ';font-weight:600;">'
-      + sign + ' ' + Math.abs(diff).toLocaleString() + '</td>'
-      + '<td style="padding:8px 14px;font-size:13px;text-align:right;color:' + clr + ';">'
-      + (diff >= 0 ? '+' : '') + pct + '%</td>'
+      + '<td style="padding:7px 12px;font-size:12px;color:#64748b;">' + month + '/' + d.day + ' (' + dowStr + ')</td>'
+      + '<td style="padding:7px 12px;font-size:12px;text-align:right;font-weight:600;color:#0f172a;">' + d.price.toLocaleString() + '</td>'
+      + '<td style="padding:7px 12px;font-size:12px;text-align:right;color:' + clr + ';font-weight:600;">' + sign + ' ' + Math.abs(diff).toLocaleString() + '</td>'
+      + '<td style="padding:7px 12px;font-size:12px;text-align:right;color:' + clr + ';">' + (diff >= 0 ? '+' : '') + pct + '%</td>'
       + '</tr>';
   }).join('');
 
-  var title = year + '년 ' + month + '월 ' + metalName + ' 월간 시세 보고서';
-
-  out.innerHTML =
+  out.innerHTML = _A4_OPEN
     // 헤더
-    '<div style="background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:20px;">'
-    + '<div style="padding:22px 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;">'
+    + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #0f172a;">'
     + '<div>'
-    + '<h2 style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:4px;">' + title + '</h2>'
-    + '<p style="font-size:12px;color:var(--sub);">단위: USD/MT &nbsp;·&nbsp; 출처: LME &nbsp;·&nbsp; 영업일 기준</p>'
-    + '</div><span style="font-size:11px;background:var(--accent);color:#fff;border-radius:20px;padding:5px 14px;font-weight:700;">월간</span>'
+    + '<div style="font-size:11px;font-weight:700;color:#3b82f6;letter-spacing:1px;margin-bottom:6px;">MONTHLY REPORT</div>'
+    + '<h1 style="font-size:22px;font-weight:900;color:#0f172a;margin:0 0 4px;">' + title + '</h1>'
+    + '<p style="font-size:12px;color:#64748b;margin:0;">보고기간: ' + year + '년 ' + month + '월 &nbsp;·&nbsp; 생성일: ' + new Date().toLocaleDateString('ko-KR') + '</p>'
     + '</div>'
-    // 요약 KPI
-    + '<div style="display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--border);">'
-    + _kpi('월평균가', avg.toLocaleString(), 'USD/MT', 'var(--accent)')
-    + _kpi('시가 (1일)', open.toLocaleString(), 'USD/MT', 'var(--text)')
-    + _kpi('종가 (말일)', close.toLocaleString(), 'USD/MT', 'var(--text)')
-    + _kpi('월중 최고', high.toLocaleString(), 'USD/MT', '#EF4444')
-    + _kpi('월중 최저', low.toLocaleString(), 'USD/MT', '#3B82F6')
+    + '<div style="text-align:right;">'
+    + '<div style="font-size:10px;color:#94a3b8;margin-bottom:2px;">제작</div>'
+    + '<div style="font-size:13px;font-weight:700;color:#3b82f6;">rcoa.co.kr</div>'
+    + '</div></div>'
+    // KPI 5칸
+    + '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px;">'
+    + _kpiBox('월평균가', avg.toLocaleString(), '#3b82f6')
+    + _kpiBox('시가', open.toLocaleString(), '#0f172a')
+    + _kpiBox('종가', close.toLocaleString(), '#0f172a')
+    + _kpiBox('최고가', high.toLocaleString(), '#EF4444')
+    + _kpiBox('최저가', low.toLocaleString(), '#3B82F6')
     + '</div>'
     // 전월/전년 대비
-    + '<div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);">'
-    + '<div style="padding:18px 28px;border-right:1px solid var(--border);">'
-    + '<div style="font-size:11px;font-weight:700;color:var(--sub);letter-spacing:.4px;margin-bottom:8px;">전월 대비 (' + prevMonthName + ' 평균 ' + Math.round(prevMonthBase).toLocaleString() + ')</div>'
-    + '<div style="font-size:26px;font-weight:800;color:' + momColor + ';">' + (parseFloat(momChg)>=0?'+':'') + momChg + '%</div>'
-    + '<div style="font-size:12px;color:var(--sub);margin-top:4px;">평균가 기준 · ' + (parseFloat(momChg)>=0?'상승':'하락') + '</div>'
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">'
+    + '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;">'
+    + '<div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;">전월 대비 (' + prevMonthName + ' 평균 ' + Math.round(prevMonthBase).toLocaleString() + ')</div>'
+    + '<div style="font-size:28px;font-weight:900;color:' + momColor + ';">' + (parseFloat(momChg)>=0?'+':'') + momChg + '%</div>'
+    + '<div style="font-size:11px;color:#64748b;margin-top:4px;">평균가 기준 · ' + (parseFloat(momChg)>=0?'상승':'하락') + '</div>'
     + '</div>'
-    + '<div style="padding:18px 28px;">'
-    + '<div style="font-size:11px;font-weight:700;color:var(--sub);letter-spacing:.4px;margin-bottom:8px;">전년 동월 대비 (' + prevYearName + ' 평균 ' + Math.round(prevYearBase).toLocaleString() + ')</div>'
-    + '<div style="font-size:26px;font-weight:800;color:' + yoyColor + ';">' + (parseFloat(yoyChg)>=0?'+':'') + yoyChg + '%</div>'
-    + '<div style="font-size:12px;color:var(--sub);margin-top:4px;">평균가 기준 · ' + (parseFloat(yoyChg)>=0?'상승':'하락') + '</div>'
+    + '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;">'
+    + '<div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;">전년 동월 대비 (' + prevYearName + ' 평균 ' + Math.round(prevYearBase).toLocaleString() + ')</div>'
+    + '<div style="font-size:28px;font-weight:900;color:' + yoyColor + ';">' + (parseFloat(yoyChg)>=0?'+':'') + yoyChg + '%</div>'
+    + '<div style="font-size:11px;color:#64748b;margin-top:4px;">평균가 기준 · ' + (parseFloat(yoyChg)>=0?'상승':'하락') + '</div>'
     + '</div></div>'
-    // 시장 동향 (자동 코멘트)
-    + '<div style="padding:18px 28px;border-bottom:1px solid var(--border);background:var(--bg);">'
-    + '<div style="font-size:11px;font-weight:700;color:var(--sub);letter-spacing:.4px;margin-bottom:8px;">시장 동향 요약</div>'
-    + '<p style="font-size:13px;color:var(--text);line-height:1.7;margin:0;">'
+    // 시장 동향
+    + '<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:14px 20px;margin-bottom:20px;">'
+    + '<div style="font-size:11px;font-weight:700;color:#1d4ed8;margin-bottom:6px;">시장 동향 요약</div>'
+    + '<p style="font-size:13px;color:#1e3a5f;line-height:1.75;margin:0;">'
     + year + '년 ' + month + '월 ' + metalName + ' 평균 시세는 <strong>' + avg.toLocaleString() + ' USD/MT</strong>으로,'
     + ' 전월 대비 <strong style="color:' + momColor + ';">' + (parseFloat(momChg)>=0?'+':'') + momChg + '%</strong>,'
     + ' 전년 동월 대비 <strong style="color:' + yoyColor + ';">' + (parseFloat(yoyChg)>=0?'+':'') + yoyChg + '%</strong> 변동하였습니다.'
-    + ' 월중 최고가는 ' + high.toLocaleString() + ' USD/MT, 최저가는 ' + low.toLocaleString() + ' USD/MT으로'
-    + ' 변동폭은 ' + (high - low).toLocaleString() + ' USD/MT(약 ' + ((high-low)/avg*100).toFixed(1) + '%)이었습니다.'
+    + ' 월중 최고가 ' + high.toLocaleString() + ' USD/MT, 최저가 ' + low.toLocaleString() + ' USD/MT으로'
+    + ' 변동폭은 ' + (high-low).toLocaleString() + ' USD/MT(약 ' + ((high-low)/avg*100).toFixed(1) + '%)이었습니다.'
     + '</p></div>'
+    // 차트
+    + '<div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin-bottom:20px;">'
+    + '<div style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:700;color:#0f172a;">일별 시세 추이 (USD/MT)</div>'
+    + '<div style="padding:12px;"><canvas id="rpt-chart-monthly" width="698" height="180" style="display:block;width:100%;height:180px;"></canvas></div>'
     + '</div>'
     // 일별 시세 테이블
-    + '<div style="background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;">'
-    + '<div style="padding:16px 20px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;color:var(--text);">일별 시세</div>'
-    + '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">'
-    + '<thead><tr style="background:var(--bg);">'
-    + '<th style="padding:9px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--sub);">날짜</th>'
-    + '<th style="padding:9px 14px;text-align:right;font-size:11px;font-weight:700;color:var(--sub);">종가 (USD/MT)</th>'
-    + '<th style="padding:9px 14px;text-align:right;font-size:11px;font-weight:700;color:var(--sub);">전일대비</th>'
-    + '<th style="padding:9px 14px;text-align:right;font-size:11px;font-weight:700;color:var(--sub);">등락률</th>'
-    + '</tr></thead><tbody>' + dRows + '</tbody></table></div>'
-    + '<div style="padding:12px 20px;background:var(--bg);border-top:1px solid var(--border);font-size:11px;color:var(--sub);">'
-    + '※ 주말·공휴일 제외 영업일 기준. 실제 데이터 연동 전 샘플 미리보기입니다.'
-    + '</div></div>';
+    + '<div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin-bottom:20px;">'
+    + '<div style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:700;color:#0f172a;">일별 시세</div>'
+    + '<table style="width:100%;border-collapse:collapse;font-size:12px;">'
+    + '<thead><tr style="background:#f1f5f9;">'
+    + '<th style="padding:8px 12px;text-align:left;font-size:10px;font-weight:700;color:#64748b;">날짜</th>'
+    + '<th style="padding:8px 12px;text-align:right;font-size:10px;font-weight:700;color:#64748b;">종가 (USD/MT)</th>'
+    + '<th style="padding:8px 12px;text-align:right;font-size:10px;font-weight:700;color:#64748b;">전일대비</th>'
+    + '<th style="padding:8px 12px;text-align:right;font-size:10px;font-weight:700;color:#64748b;">등락률</th>'
+    + '</tr></thead><tbody>' + dRows + '</tbody></table>'
+    + '<div style="padding:10px 16px;background:#f8fafc;font-size:10px;color:#94a3b8;">※ 주말·공휴일 제외 영업일 기준. 샘플 미리보기입니다.</div>'
+    + '</div>'
+    + _A4_FOOTER;
+
+  // 차트 그리기 (DOM 삽입 직후)
+  requestAnimationFrame(function() {
+    _drawLineChart('rpt-chart-monthly', daily, avg);
+  });
+}
+
+function _kpiBox(label, val, color) {
+  return '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px 12px;text-align:center;">'
+    + '<div style="font-size:10px;font-weight:700;color:#64748b;letter-spacing:.4px;margin-bottom:5px;">' + label + '</div>'
+    + '<div style="font-size:18px;font-weight:900;color:' + color + ';">' + val + '</div>'
+    + '<div style="font-size:10px;color:#94a3b8;margin-top:2px;">USD/MT</div>'
+    + '</div>';
 }
 
 function _kpi(label, val, unit, color) {
@@ -1211,6 +1255,83 @@ function _kpi(label, val, unit, color) {
     + '<div style="font-size:20px;font-weight:800;color:' + color + ';">' + val + '</div>'
     + '<div style="font-size:11px;color:var(--sub);margin-top:2px;">' + unit + '</div>'
     + '</div>';
+}
+
+// 라인 차트 (Canvas, 외부 라이브러리 없음)
+function _drawLineChart(canvasId, daily, avg) {
+  var canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  var dpr = window.devicePixelRatio || 1;
+  var W = canvas.offsetWidth || 698;
+  var H = 180;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+  var ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  var pad = {top: 16, right: 16, bottom: 28, left: 62};
+  var pw = W - pad.left - pad.right;
+  var ph = H - pad.top - pad.bottom;
+  var prices = daily.map(function(d){return d.price;});
+  var n = prices.length;
+  var minP = Math.min.apply(null, prices);
+  var maxP = Math.max.apply(null, prices);
+  var range = maxP - minP || 1;
+  minP -= range * 0.05; maxP += range * 0.05; range = maxP - minP;
+
+  var xS = function(i){ return pad.left + i/(n-1)*pw; };
+  var yS = function(p){ return pad.top + ph - (p-minP)/range*ph; };
+
+  // 배경
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0,0,W,H);
+
+  // 격자선 + y 레이블
+  ctx.font = '10px sans-serif';
+  ctx.textAlign = 'right';
+  for (var t=0; t<=4; t++) {
+    var v = minP + range*t/4;
+    var y = yS(v);
+    ctx.strokeStyle = '#f1f5f9'; ctx.lineWidth = 1;
+    ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(W-pad.right, y); ctx.stroke();
+    ctx.fillStyle = '#94a3b8';
+    ctx.fillText(Math.round(v).toLocaleString(), pad.left-6, y+3);
+  }
+
+  // 평균가 점선
+  ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 1.5; ctx.setLineDash([4,4]);
+  var ya = yS(avg);
+  ctx.beginPath(); ctx.moveTo(pad.left, ya); ctx.lineTo(W-pad.right, ya); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#f59e0b'; ctx.font = '9px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('평균 ' + avg.toLocaleString(), W-pad.right+2, ya+3);
+
+  // 영역 채우기
+  ctx.beginPath();
+  ctx.moveTo(xS(0), yS(prices[0]));
+  prices.forEach(function(p,i){ ctx.lineTo(xS(i), yS(p)); });
+  ctx.lineTo(xS(n-1), pad.top+ph);
+  ctx.lineTo(xS(0), pad.top+ph);
+  ctx.closePath();
+  var grad = ctx.createLinearGradient(0, pad.top, 0, pad.top+ph);
+  grad.addColorStop(0, 'rgba(59,130,246,0.22)');
+  grad.addColorStop(1, 'rgba(59,130,246,0)');
+  ctx.fillStyle = grad; ctx.fill();
+
+  // 라인
+  ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 2; ctx.lineJoin = 'round';
+  ctx.beginPath();
+  prices.forEach(function(p,i){ i===0?ctx.moveTo(xS(i),yS(p)):ctx.lineTo(xS(i),yS(p)); });
+  ctx.stroke();
+
+  // x 레이블 (5일 간격)
+  ctx.fillStyle = '#94a3b8'; ctx.font = '9px sans-serif'; ctx.textAlign = 'center';
+  daily.forEach(function(d,i){
+    if (d.day===1 || d.day%5===0) ctx.fillText(d.day+'일', xS(i), H-8);
+  });
 }
 
 function _renderQuarterlyReport(out, year, quarter, metal, metalName) {
@@ -1223,10 +1344,10 @@ function _renderQuarterlyReport(out, year, quarter, metal, metalName) {
     var daily = _genDailyData(year, m, base * (0.95 + Math.random()*0.10));
     var prices = daily.map(function(d){return d.price;});
     var avg = Math.round(prices.reduce(function(a,b){return a+b;},0)/prices.length);
-    return {month: m, avg: avg, high: Math.max.apply(null,prices), low: Math.min.apply(null,prices)};
+    return {month: m, daily: daily, avg: avg, high: Math.max.apply(null,prices), low: Math.min.apply(null,prices)};
   });
 
-  var allAvg = Math.round(monthData.reduce(function(a,d){return a+d.avg;},0)/3);
+  var allAvg  = Math.round(monthData.reduce(function(a,d){return a+d.avg;},0)/3);
   var allHigh = Math.max.apply(null, monthData.map(function(d){return d.high;}));
   var allLow  = Math.min.apply(null, monthData.map(function(d){return d.low;}));
   var prevQBase = base * (0.94 + Math.random()*0.12);
@@ -1239,47 +1360,65 @@ function _renderQuarterlyReport(out, year, quarter, metal, metalName) {
   var mRows = monthData.map(function(d) {
     var chg = ((d.avg - allAvg)/allAvg*100).toFixed(1);
     var clr = parseFloat(chg)>=0?'#EF4444':'#3B82F6';
-    return '<tr style="border-bottom:1px solid var(--border);">'
-      + '<td style="padding:12px 16px;font-weight:700;color:var(--text);">' + year + '년 ' + d.month + '월</td>'
-      + '<td style="padding:12px 16px;text-align:right;font-weight:700;color:var(--accent);">' + d.avg.toLocaleString() + '</td>'
-      + '<td style="padding:12px 16px;text-align:right;color:#EF4444;">' + d.high.toLocaleString() + '</td>'
-      + '<td style="padding:12px 16px;text-align:right;color:#3B82F6;">' + d.low.toLocaleString() + '</td>'
-      + '<td style="padding:12px 16px;text-align:right;color:' + clr + ';font-weight:600;">' + (parseFloat(chg)>=0?'+':'') + chg + '%</td>'
+    return '<tr style="border-bottom:1px solid #e2e8f0;">'
+      + '<td style="padding:10px 14px;font-weight:700;color:#0f172a;">' + year + '년 ' + d.month + '월</td>'
+      + '<td style="padding:10px 14px;text-align:right;font-weight:700;color:#3b82f6;">' + d.avg.toLocaleString() + '</td>'
+      + '<td style="padding:10px 14px;text-align:right;color:#EF4444;">' + d.high.toLocaleString() + '</td>'
+      + '<td style="padding:10px 14px;text-align:right;color:#3B82F6;">' + d.low.toLocaleString() + '</td>'
+      + '<td style="padding:10px 14px;text-align:right;color:' + clr + ';font-weight:600;">' + (parseFloat(chg)>=0?'+':'') + chg + '%</td>'
       + '</tr>';
   }).join('');
 
-  out.innerHTML =
-    '<div style="background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:20px;">'
-    + '<div style="padding:22px 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;">'
-    + '<div><h2 style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:4px;">' + title + '</h2>'
-    + '<p style="font-size:12px;color:var(--sub);">단위: USD/MT &nbsp;·&nbsp; 출처: LME &nbsp;·&nbsp; 영업일 평균</p>'
-    + '</div><span style="font-size:11px;background:var(--accent);color:#fff;border-radius:20px;padding:5px 14px;font-weight:700;">분기별</span>'
+  // 분기 전체 일별 데이터 합산 (차트용)
+  var allDaily = [];
+  monthData.forEach(function(md){ allDaily = allDaily.concat(md.daily); });
+
+  out.innerHTML = _A4_OPEN
+    + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #0f172a;">'
+    + '<div>'
+    + '<div style="font-size:11px;font-weight:700;color:#3b82f6;letter-spacing:1px;margin-bottom:6px;">QUARTERLY REPORT</div>'
+    + '<h1 style="font-size:22px;font-weight:900;color:#0f172a;margin:0 0 4px;">' + title + '</h1>'
+    + '<p style="font-size:12px;color:#64748b;margin:0;">보고기간: ' + year + '년 ' + qNames[quarter] + ' &nbsp;·&nbsp; 생성일: ' + new Date().toLocaleDateString('ko-KR') + '</p>'
     + '</div>'
-    + '<div style="display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border);">'
-    + _kpi('분기 평균가', allAvg.toLocaleString(), 'USD/MT', 'var(--accent)')
-    + _kpi('분기 최고가', allHigh.toLocaleString(), 'USD/MT', '#EF4444')
-    + _kpi('분기 최저가', allLow.toLocaleString(), 'USD/MT', '#3B82F6')
-    + _kpi('변동폭', (allHigh-allLow).toLocaleString(), 'USD/MT', 'var(--text)')
+    + '<div style="text-align:right;"><div style="font-size:10px;color:#94a3b8;margin-bottom:2px;">제작</div><div style="font-size:13px;font-weight:700;color:#3b82f6;">rcoa.co.kr</div></div>'
     + '</div>'
-    + '<div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);">'
-    + '<div style="padding:18px 28px;border-right:1px solid var(--border);">'
-    + '<div style="font-size:11px;font-weight:700;color:var(--sub);letter-spacing:.4px;margin-bottom:8px;">전분기 대비</div>'
-    + '<div style="font-size:26px;font-weight:800;color:' + qoqColor + ';">' + (parseFloat(qoqChg)>=0?'+':'') + qoqChg + '%</div>'
-    + '</div><div style="padding:18px 28px;">'
-    + '<div style="font-size:11px;font-weight:700;color:var(--sub);letter-spacing:.4px;margin-bottom:8px;">전년 동분기 대비</div>'
-    + '<div style="font-size:26px;font-weight:800;color:' + yoyColor + ';">' + (parseFloat(yoyChg)>=0?'+':'') + yoyChg + '%</div>'
+    + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;">'
+    + _kpiBox('분기 평균가', allAvg.toLocaleString(), '#3b82f6')
+    + _kpiBox('분기 최고가', allHigh.toLocaleString(), '#EF4444')
+    + _kpiBox('분기 최저가', allLow.toLocaleString(), '#3B82F6')
+    + _kpiBox('변동폭', (allHigh-allLow).toLocaleString(), '#0f172a')
+    + '</div>'
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">'
+    + '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;">'
+    + '<div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;">전분기 대비</div>'
+    + '<div style="font-size:28px;font-weight:900;color:' + qoqColor + ';">' + (parseFloat(qoqChg)>=0?'+':'') + qoqChg + '%</div>'
+    + '</div><div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;">'
+    + '<div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;">전년 동분기 대비</div>'
+    + '<div style="font-size:28px;font-weight:900;color:' + yoyColor + ';">' + (parseFloat(yoyChg)>=0?'+':'') + yoyChg + '%</div>'
     + '</div></div>'
-    + '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">'
-    + '<thead><tr style="background:var(--bg);">'
-    + '<th style="padding:10px 16px;text-align:left;font-size:11px;font-weight:700;color:var(--sub);">월</th>'
-    + '<th style="padding:10px 16px;text-align:right;font-size:11px;font-weight:700;color:var(--sub);">평균가</th>'
-    + '<th style="padding:10px 16px;text-align:right;font-size:11px;font-weight:700;color:var(--sub);">최고가</th>'
-    + '<th style="padding:10px 16px;text-align:right;font-size:11px;font-weight:700;color:var(--sub);">최저가</th>'
-    + '<th style="padding:10px 16px;text-align:right;font-size:11px;font-weight:700;color:var(--sub);">분기평균 대비</th>'
-    + '</tr></thead><tbody>' + mRows + '</tbody></table></div>'
-    + '<div style="padding:12px 20px;background:var(--bg);border-top:1px solid var(--border);font-size:11px;color:var(--sub);">'
-    + '※ 실제 데이터 연동 전 샘플 미리보기입니다.'
-    + '</div></div>';
+    // 분기 차트
+    + '<div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin-bottom:20px;">'
+    + '<div style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:700;color:#0f172a;">분기 시세 추이 (USD/MT)</div>'
+    + '<div style="padding:12px;"><canvas id="rpt-chart-quarterly" width="698" height="180" style="display:block;width:100%;height:180px;"></canvas></div>'
+    + '</div>'
+    // 월별 요약 테이블
+    + '<div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin-bottom:20px;">'
+    + '<div style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:700;color:#0f172a;">월별 시세 요약</div>'
+    + '<table style="width:100%;border-collapse:collapse;font-size:13px;">'
+    + '<thead><tr style="background:#f1f5f9;">'
+    + '<th style="padding:10px 14px;text-align:left;font-size:10px;font-weight:700;color:#64748b;">월</th>'
+    + '<th style="padding:10px 14px;text-align:right;font-size:10px;font-weight:700;color:#64748b;">평균가</th>'
+    + '<th style="padding:10px 14px;text-align:right;font-size:10px;font-weight:700;color:#64748b;">최고가</th>'
+    + '<th style="padding:10px 14px;text-align:right;font-size:10px;font-weight:700;color:#64748b;">최저가</th>'
+    + '<th style="padding:10px 14px;text-align:right;font-size:10px;font-weight:700;color:#64748b;">분기평균 대비</th>'
+    + '</tr></thead><tbody>' + mRows + '</tbody></table>'
+    + '<div style="padding:10px 16px;background:#f8fafc;font-size:10px;color:#94a3b8;">※ 샘플 미리보기입니다.</div>'
+    + '</div>'
+    + _A4_FOOTER;
+
+  requestAnimationFrame(function() {
+    _drawLineChart('rpt-chart-quarterly', allDaily, allAvg);
+  });
 }
 
 initAlWeightCalc();
