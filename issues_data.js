@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-const ISSUES_META = {"latest": "2026-08-21", "generated": "2026-08-28 14:08"};
-=======
-const ISSUES_META = {"latest": "2026-08-21", "generated": "2026-08-29 03:14"};
->>>>>>> Stashed changes
+const ISSUES_META = {"latest": "2026-08-21", "generated": "2026-08-31 09:45"};
 const ISSUES_DATA = [
   {
     "date": "2026-08-21",
@@ -1605,39 +1601,5 @@ const ISSUES_DATA = [
         "url": "https://www.internationaltin.org/tin-hits-nominal-all-time-high/"
       }
     ]
-  },
-  {
-    "date": "2026-03-03",
-    "date_fmt": "26년 03월 03일",
-    "tag": "알루미늄 상승·니켈 하락 혼조",
-    "tag_type": "mixed",
-    "items": [
-      {
-        "name": "알루미늄(서구산)",
-        "diff": 130,
-        "pct": 2.5,
-        "direction": "up"
-      },
-      {
-        "name": "알루미늄(비서구산)",
-        "diff": 110,
-        "pct": 2.1,
-        "direction": "up"
-      },
-      {
-        "name": "니켈(합금용)",
-        "diff": 610,
-        "pct": -2.2,
-        "direction": "down"
-      },
-      {
-        "name": "니켈(도금용)",
-        "diff": 600,
-        "pct": -2.1,
-        "direction": "down"
-      }
-    ],
-    "body": "알루미늄은 글로벌 건설 및 자동차 산업의 수요 회복과 LME 선물 시장에서의 기술적 상승세에 힘입어 서구산과 비서구산 모두 상승했다. 반면 니켈은 스테인리스강 생산 부진과 과잉 공급 우려로 인해 합금용과 도금용 모두 약세를 보였으며, 최근 원달러 환율 약세도 달러 표시 상품인 니켈 수입가 인하 요인으로 작용했다.",
-    "sources": []
   }
 ];
