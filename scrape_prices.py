@@ -213,7 +213,7 @@ def parse_prices(html: str) -> dict[str, tuple[int | None, int | None]]:
         # Convert to KRW/kg. 공급가액×10% 세액에서 소수점 이하 절사(버림) 기준 적용.
         import math
         price_incl = base_price // 1000
-        price_excl = math.floor(base_price / 1.1 / 1000)  # 역산 시 소수점 이하 절사
+        price_excl = math.ceil(base_price / 1.1 / 1000)  # 세액=floor(공급가액×0.1) 기준 역산
 
         results[material] = (price_excl, price_incl)
 

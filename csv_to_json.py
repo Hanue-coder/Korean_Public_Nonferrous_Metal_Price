@@ -16,6 +16,7 @@ JSON 구조:
 
 import csv
 import json
+import math
 import os
 
 BASE_DIR = os.path.dirname(__file__)
@@ -45,10 +46,12 @@ def convert():
                 continue
             entry = {"date": date}
             for code, meta in METAL_MAP.items():
-                excl = row.get(meta["col_excl"], "").strip()
                 incl = row.get(meta["col_incl"], "").strip()
-                entry[code + "_excl"] = int(excl) if excl else None
-                entry[code + "_incl"] = int(incl) if incl else None
+                incl_val = int(incl) if incl else None
+                # 세액=floor(공급가액×0.1) 기준: 공급가액 = ceil(고시가 / 1.1)
+                excl_val = math.ceil(incl_val / 1.1) if incl_val else None
+                entry[code + "_excl"] = excl_val
+                entry[code + "_incl"] = incl_val
             rows.append(entry)
 
     rows.sort(key=lambda r: r["date"])
