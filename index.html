@@ -1208,7 +1208,7 @@ function _renderMonthlyReport(out, year, month, metal, metalName, rows, colExcl)
 
   out.innerHTML = _A4_OPEN
     // 헤더
-    + '<div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #0f172a;">'
+    + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #0f172a;">'
     + '<div>'
     + '<div style="font-size:11px;font-weight:700;color:#3b82f6;letter-spacing:1px;margin-bottom:6px;">MONTHLY REPORT (RCOA.CO.KR)</div>'
     + '<h1 style="font-size:22px;font-weight:900;color:#0f172a;margin:0;">' + title + '</h1>'
@@ -1433,7 +1433,7 @@ function _renderQuarterlyReport(out, year, quarter, metal, metalName, rows, colE
   monthData.forEach(function(md){ if (md.daily.length > 0) allDaily = allDaily.concat(md.daily); });
 
   out.innerHTML = _A4_OPEN
-    + '<div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #0f172a;">'
+    + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #0f172a;">'
     + '<div>'
     + '<div style="font-size:11px;font-weight:700;color:#3b82f6;letter-spacing:1px;margin-bottom:6px;">QUARTERLY REPORT (RCOA.CO.KR)</div>'
     + '<h1 style="font-size:22px;font-weight:900;color:#0f172a;margin:0;">' + title + '</h1>'
