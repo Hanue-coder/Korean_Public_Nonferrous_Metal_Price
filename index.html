@@ -1153,6 +1153,7 @@ function printReport() { window.print(); }
 var _A4_OPEN = '<div id="rpt-print-area" style="width:794px;min-height:1123px;background:#fff;color:#0f172a;font-family:\'Noto Sans KR\',sans-serif;padding:40px 48px;box-sizing:border-box;margin:0 auto;">';
 var _A4_FOOTER = '<div style="margin-top:40px;padding-top:16px;border-top:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;">'
   + '<span style="font-size:11px;color:#94a3b8;">출처 : 조달청 &nbsp;·&nbsp; 단위 : 원/kg (부가세 제외) &nbsp;·&nbsp; 영업일 기준</span>'
+  + '<span style="font-size:11px;color:#94a3b8;">제작 : rcoa.co.kr</span>'
   + '</div></div>';
 
 function _renderMonthlyReport(out, year, month, metal, metalName, rows, colExcl) {
@@ -1211,10 +1212,10 @@ function _renderMonthlyReport(out, year, month, metal, metalName, rows, colExcl)
     + '<div>'
     + '<div style="font-size:11px;font-weight:700;color:#3b82f6;letter-spacing:1px;margin-bottom:6px;">MONTHLY REPORT (RCOA.CO.KR)</div>'
     + '<h1 style="font-size:22px;font-weight:900;color:#0f172a;margin:0 0 4px;">' + title + '</h1>'
-    + '<p style="font-size:12px;color:#64748b;margin:0;">생성일: ' + new Date().toLocaleDateString('ko-KR') + '</p>'
     + '</div>'
     + '<div style="text-align:right;">'
     + '<div style="font-size:12px;color:#64748b;">보고기간: ' + year + '년 ' + month + '월</div>'
+    + '<div style="font-size:12px;color:#64748b;">생성일: ' + new Date().toLocaleDateString('ko-KR') + '</div>'
     + '</div></div>'
     // KPI 5칸
     + '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px;">'
@@ -1437,9 +1438,11 @@ function _renderQuarterlyReport(out, year, quarter, metal, metalName, rows, colE
     + '<div>'
     + '<div style="font-size:11px;font-weight:700;color:#3b82f6;letter-spacing:1px;margin-bottom:6px;">QUARTERLY REPORT (RCOA.CO.KR)</div>'
     + '<h1 style="font-size:22px;font-weight:900;color:#0f172a;margin:0 0 4px;">' + title + '</h1>'
-    + '<p style="font-size:12px;color:#64748b;margin:0;">생성일: ' + new Date().toLocaleDateString('ko-KR') + '</p>'
     + '</div>'
-    + '<div style="text-align:right;"><div style="font-size:12px;color:#64748b;">보고기간: ' + year + '년 ' + qNames[quarter] + '</div></div>'
+    + '<div style="text-align:right;">'
+    + '<div style="font-size:12px;color:#64748b;">보고기간: ' + year + '년 ' + qNames[quarter] + '</div>'
+    + '<div style="font-size:12px;color:#64748b;">생성일: ' + new Date().toLocaleDateString('ko-KR') + '</div>'
+    + '</div>'
     + '</div>'
     + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;">'
     + _kpiBox('분기 평균가', allAvg.toLocaleString(), '#3b82f6')
