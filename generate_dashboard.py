@@ -118,6 +118,7 @@ def build_html(rows):
   td:first-child {{ text-align: left; font-weight: 600; color: #334155; }}
   tr:hover td {{ background: #F8FAFC; }}
   .empty {{ color: #CBD5E1; }}
+  tr.month-sep td {{ border-top: 2px solid #3B82F6; }}
 </style>
 </head>
 <body>
@@ -636,13 +637,22 @@ function buildTable() {{
     MATERIALS.map(m => `<th>${{m.label}}</th>`).join('') +
     '</tr></thead>';
 
-  const tbody = '<tbody>' + recent.map(r => {{
+  // For day gran: skip rows where all values are null
+  const rows = (gran === 'day')
+    ? recent.filter(r => MATERIALS.some(m => r[m.key + suffix] != null))
+    : recent;
+
+  let prevMonth = null;
+  const tbody = '<tbody>' + rows.map(r => {{
     const cells = MATERIALS.map(m => {{
       const v = r[m.key + suffix];
       return `<td>${{v != null ? v.toLocaleString() : '<span class="empty">-</span>'}}</td>`;
     }}).join('');
-    const dateLabel = gran === 'day' ? r.date : r.date;
-    return `<tr><td>${{dateLabel}}</td>${{cells}}</tr>`;
+    const dateLabel = r.date;
+    const curMonth = r.date.slice(0, 7);
+    const sepClass = (prevMonth && curMonth !== prevMonth) ? ' class="month-sep"' : '';
+    prevMonth = curMonth;
+    return '<tr' + sepClass + `><td>${{dateLabel}}</td>${{cells}}</tr>`;
   }}).join('') + '</tbody>';
 
   table.innerHTML = thead + tbody;
