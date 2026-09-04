@@ -118,7 +118,7 @@ def build_html(rows):
   td:first-child {{ text-align: left; font-weight: 600; color: #334155; }}
   tr:hover td {{ background: #F8FAFC; }}
   .empty {{ color: #CBD5E1; }}
-  tr.month-sep td {{ border-top: 2px solid #3B82F6; }}
+  tr.month-sep td {{ border-top: 2px solid #E2E8F0; }}
 </style>
 </head>
 <body>
