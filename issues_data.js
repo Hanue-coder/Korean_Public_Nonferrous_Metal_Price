@@ -1,5 +1,21 @@
-const ISSUES_META = {"latest": "2026-08-21", "generated": "2026-09-01 10:39"};
+const ISSUES_META = {"latest": "2026-09-03", "generated": "2026-09-04 11:32"};
 const ISSUES_DATA = [
+  {
+    "date": "2026-09-03",
+    "date_fmt": "26년 09월 03일",
+    "tag": "아연 약세",
+    "tag_type": "down",
+    "items": [
+      {
+        "name": "아연",
+        "diff": 130,
+        "pct": -2.0,
+        "direction": "down"
+      }
+    ],
+    "body": "LME 아연 선물 시장에서 글로벌 경기 둔화에 따른 건설·자동차 산업 수요 감소 우려가 가격 하락을 주도했다. 달러화 강세로 인한 달러 표시 상품의 상대적 가격 상승도 수입 수요를 억제하는 요인으로 작용했다. 중국의 부동산 부진 심화가 아연의 주요 소비처 수요 전망을 악화시키며 하락세를 심화시켰다.",
+    "sources": []
+  },
   {
     "date": "2026-08-21",
     "date_fmt": "26년 08월 21일",
@@ -1504,102 +1520,5 @@ const ISSUES_DATA = [
     ],
     "body": "LME 주요 비철금속 선물 시장에서 글로벌 경기 둔화 우려와 중국의 경기 부양 신호 약화로 수요 전망이 하향 조정되었다. 아연의 낙폭(-3.7%)이 상대적으로 크게 나타난 것은 건설·자동차 산업 위축에 따른 수요 감소 반영이며, 알루미늄과 니켈도 같은 맥락에서 동반 하락했다. 원달러 환율 약세도 달러 표시 비철금속 가격에 하방 압력을 가했을 것으로 판단된다.",
     "sources": []
-  },
-  {
-    "date": "2026-03-05",
-    "date_fmt": "26년 03월 05일",
-    "tag": "비철금속 전반 동반 상승",
-    "tag_type": "up",
-    "items": [
-      {
-        "name": "알루미늄(서구산)",
-        "diff": 180,
-        "pct": 3.2,
-        "direction": "up"
-      },
-      {
-        "name": "알루미늄(비서구산)",
-        "diff": 180,
-        "pct": 3.2,
-        "direction": "up"
-      },
-      {
-        "name": "납(99.99%)",
-        "diff": 70,
-        "pct": 2.1,
-        "direction": "up"
-      },
-      {
-        "name": "아연",
-        "diff": 130,
-        "pct": 2.3,
-        "direction": "up"
-      },
-      {
-        "name": "주석(99.85%)",
-        "diff": 4200,
-        "pct": 5.3,
-        "direction": "up"
-      },
-      {
-        "name": "주석(99.99%)",
-        "diff": 4200,
-        "pct": 5.3,
-        "direction": "up"
-      },
-      {
-        "name": "니켈(합금용)",
-        "diff": 810,
-        "pct": 2.9,
-        "direction": "up"
-      },
-      {
-        "name": "니켈(도금용)",
-        "diff": 810,
-        "pct": 2.9,
-        "direction": "up"
-      }
-    ],
-    "body": "글로벌 경기 회복 기대감과 함께 LME 선물 시장에서 기초금속 전반에 대한 수요 심화로 인한 동반 상승세를 보였으며, 특히 주석은 전자·반도체 산업의 재고 소진과 공급 부족 우려로 5%대의 가파른 상승률을 기록했다. 달러 약세 기조에 따른 달러화 기반 원자재 가격의 상대적 매력도 상승과 함께 중국의 제조업 활동 회복 신호가 알루미늄, 니켈 등 산업용 금속의 수요 전망을 개선시켰다.",
-    "sources": []
-  },
-  {
-    "date": "2026-03-04",
-    "date_fmt": "26년 03월 04일",
-    "tag": "주석 급락",
-    "tag_type": "down",
-    "items": [
-      {
-        "name": "알루미늄(서구산)",
-        "diff": 220,
-        "pct": 4.1,
-        "direction": "up"
-      },
-      {
-        "name": "알루미늄(비서구산)",
-        "diff": 220,
-        "pct": 4.1,
-        "direction": "up"
-      },
-      {
-        "name": "주석(99.85%)",
-        "diff": 6480,
-        "pct": -7.5,
-        "direction": "down"
-      },
-      {
-        "name": "주석(99.99%)",
-        "diff": 6480,
-        "pct": -7.5,
-        "direction": "down"
-      }
-    ],
-    "body": "미얀마 와주(Wa State) 주석광산 수출 제한 완화 가능성이 보도되며 공급 우려가 일부 해소됐습니다. 고가(LME $50,000/t 이상) 부담에 따른 수요 억제 심리와 투기 세력의 단기 차익 실현 매물이 동시에 출회하며 낙폭이 확대됐습니다.",
-    "sources": [
-      {
-        "title": "International Tin Association — Tin Hits Nominal All-Time High",
-        "url": "https://www.internationaltin.org/tin-hits-nominal-all-time-high/"
-      }
-    ]
   }
 ];
