@@ -483,7 +483,6 @@
     <button class="header-nav-tab" onclick="switchView('report', this)">시세 보고서</button>
     <button class="header-nav-tab" onclick="switchView('issues', this)">비철금속 이슈사항</button>
     <!-- 칼럼 탭이 JS로 여기에 추가됩니다 -->
-    <button class="header-nav-tab" onclick="switchView('aluminum', this)">알루미늄</button>
   </nav>
 </header>
 
@@ -573,7 +572,7 @@
 <!-- Aluminum view (알루미늄 탭 클릭 시 표시) -->
 <div class="column-view" id="aluminum-view" style="display:none;flex-direction:column;">
   <div class="column-view-header" style="display:flex;align-items:center;gap:20px;">
-    <h1 style="font-size:13px;font-weight:600;opacity:.7;letter-spacing:.5px;text-transform:uppercase;">알루미늄</h1>
+    <h1 style="font-size:13px;font-weight:600;opacity:.7;letter-spacing:.5px;text-transform:uppercase;">계산기</h1>
     <div style="display:flex;gap:0;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.25);">
       <button id="al-tab-weight" onclick="switchAlTab('weight',this)"
         style="padding:6px 18px;font-size:12px;font-weight:600;background:rgba(255,255,255,.25);color:#fff;border:none;cursor:pointer;transition:background .15s;">중량</button>
@@ -708,6 +707,11 @@ function injectColumnNavTabs() {
     btn.onclick = function() { switchView('column', this, col.id); };
     nav.appendChild(btn);
   });
+  const calcBtn = document.createElement('button');
+  calcBtn.className = 'header-nav-tab';
+  calcBtn.textContent = '계산기';
+  calcBtn.onclick = function() { switchView('aluminum', this); };
+  nav.appendChild(calcBtn);
 }
 
 function showColumnView(colId) {
