@@ -1,4 +1,4 @@
-const ISSUES_META = {"latest": "2026-09-03", "generated": "2026-09-04 11:32"};
+const ISSUES_META = {"latest": "2026-09-03", "generated": "2026-09-07 11:31"};
 const ISSUES_DATA = [
   {
     "date": "2026-09-03",
@@ -1418,107 +1418,6 @@ const ISSUES_DATA = [
       }
     ],
     "body": "LME 주석 선물 시장에서 글로벌 반도체·태양광 산업의 수요 회복에 따른 매수 심화로 가격이 상승했다. 동시에 인도네시아 등 주요 생산국의 공급 차질과 달러 약세 기조가 비달러 통화 기반의 현물 구매력을 높이면서 상승 압력을 가했다. 기술적으로도 저점 매수 심화로 매물 소진이 진행되며 상승 모멘텀이 지속되고 있다.",
-    "sources": []
-  },
-  {
-    "date": "2026-03-09",
-    "date_fmt": "26년 03월 09일",
-    "tag": "알루미늄 급등",
-    "tag_type": "up",
-    "items": [
-      {
-        "name": "알루미늄(서구산)",
-        "diff": 360,
-        "pct": 6.4,
-        "direction": "up"
-      },
-      {
-        "name": "알루미늄(비서구산)",
-        "diff": 360,
-        "pct": 6.4,
-        "direction": "up"
-      },
-      {
-        "name": "아연",
-        "diff": 160,
-        "pct": 2.9,
-        "direction": "up"
-      },
-      {
-        "name": "니켈(합금용)",
-        "diff": 570,
-        "pct": 2.0,
-        "direction": "up"
-      },
-      {
-        "name": "니켈(도금용)",
-        "diff": 580,
-        "pct": 2.0,
-        "direction": "up"
-      }
-    ],
-    "body": "미국 Section 232 알루미늄 관세의 50% 상향 확정 발표로 미국 수입업체들의 선매 수요가 급증했습니다. LME 현물가는 $3,520/t에 도달했으며, LME 창고 재고가 역사적 저점(27만 톤)으로 하락하며 공급 긴박감이 극대화됐습니다.",
-    "sources": [
-      {
-        "title": "Discovery Alert — LME Aluminium Price Surge $3,520",
-        "url": "https://discoveryalert.com.au/lme-aluminium-price-increase-geopolitical-supply-constraints-2026/"
-      },
-      {
-        "title": "한국경제 — 천장 뚫린 알루미늄값",
-        "url": "https://www.hankyung.com/amp/2026041371345"
-      }
-    ]
-  },
-  {
-    "date": "2026-03-06",
-    "date_fmt": "26년 03월 06일",
-    "tag": "비철금속 전반 하락",
-    "tag_type": "down",
-    "items": [
-      {
-        "name": "알루미늄(서구산)",
-        "diff": 120,
-        "pct": -2.1,
-        "direction": "down"
-      },
-      {
-        "name": "알루미늄(비서구산)",
-        "diff": 120,
-        "pct": -2.1,
-        "direction": "down"
-      },
-      {
-        "name": "아연",
-        "diff": 210,
-        "pct": -3.7,
-        "direction": "down"
-      },
-      {
-        "name": "주석(99.85%)",
-        "diff": 2290,
-        "pct": -2.7,
-        "direction": "down"
-      },
-      {
-        "name": "주석(99.99%)",
-        "diff": 2290,
-        "pct": -2.7,
-        "direction": "down"
-      },
-      {
-        "name": "니켈(합금용)",
-        "diff": 590,
-        "pct": -2.1,
-        "direction": "down"
-      },
-      {
-        "name": "니켈(도금용)",
-        "diff": 600,
-        "pct": -2.1,
-        "direction": "down"
-      }
-    ],
-    "body": "LME 주요 비철금속 선물 시장에서 글로벌 경기 둔화 우려와 중국의 경기 부양 신호 약화로 수요 전망이 하향 조정되었다. 아연의 낙폭(-3.7%)이 상대적으로 크게 나타난 것은 건설·자동차 산업 위축에 따른 수요 감소 반영이며, 알루미늄과 니켈도 같은 맥락에서 동반 하락했다. 원달러 환율 약세도 달러 표시 비철금속 가격에 하방 압력을 가했을 것으로 판단된다.",
     "sources": []
   }
 ];
