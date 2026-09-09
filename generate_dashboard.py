@@ -73,7 +73,7 @@ def build_html(rows):
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
 <style>
   *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
-  body {{ font-family: "Pretendard", "Noto Sans KR", sans-serif; background: #F8FAFC; color: #1E293B; font-size: 14px; }}
+  body {{ font-family: "Pretendard", "Noto Sans KR", sans-serif; background: #F5F7FA; color: #222222; font-size: 14px; }}
   header {{ background: #0c1528; color: white; padding: 18px 28px; display: flex; justify-content: space-between; align-items: center; }}
   header h1 {{ font-size: 20px; font-weight: 700; }}
   header span {{ font-size: 12px; opacity: 0.7; }}
@@ -83,23 +83,23 @@ def build_html(rows):
   .cards {{ display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }}
   .card {{ background: white; border-radius: 10px; padding: 12px 16px; box-shadow: 0 1px 4px rgba(0,0,0,.08); cursor: pointer; border: 2px solid transparent; transition: border-color .15s; flex: 0 0 auto; min-width: 140px; }}
   .card.active {{ border-color: var(--c); }}
-  .card-label {{ font-size: 12px; color: #64748B; margin-bottom: 4px; }}
-  .card-price {{ font-size: 20px; font-weight: 700; color: #1E293B; }}
+  .card-label {{ font-size: 12px; color: #555555; margin-bottom: 4px; }}
+  .card-price {{ font-size: 20px; font-weight: 700; color: #222222; }}
   .card-unit {{ font-size: 11px; color: #94A3B8; margin-left: 2px; }}
   .card-change {{ font-size: 12px; margin-top: 4px; }}
   .up {{ color: #EF4444; }} .dn {{ color: #3B82F6; }} .nc {{ color: #94A3B8; }}
 
   /* Controls */
   .controls {{ background: white; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 4px rgba(0,0,0,.08); margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }}
-  .controls label {{ font-size: 12px; color: #64748B; margin-right: 6px; font-weight: 600; }}
-  .controls input[type=date] {{ border: 1px solid #E2E8F0; border-radius: 6px; padding: 5px 10px; font-size: 13px; color: #1E293B; }}
+  .controls label {{ font-size: 12px; color: #555555; margin-right: 6px; font-weight: 600; }}
+  .controls input[type=date] {{ border: 1px solid #E5E8EF; border-radius: 6px; padding: 5px 10px; font-size: 13px; color: #222222; }}
   .btn-group {{ display: flex; gap: 6px; }}
-  .btn {{ padding: 5px 14px; border-radius: 6px; border: 1px solid #E2E8F0; background: white; cursor: pointer; font-size: 12px; color: #475569; transition: all .15s; }}
-  .btn:hover {{ background: #F1F5F9; }}
+  .btn {{ padding: 5px 14px; border-radius: 6px; border: 1px solid #E5E8EF; background: white; cursor: pointer; font-size: 12px; color: #444444; transition: all .15s; }}
+  .btn:hover {{ background: #F0F2F5; }}
   .btn.active {{ background: #0c1528; color: white; border-color: #0c1528; }}
-  .vat-toggle {{ display: flex; background: #F1F5F9; border-radius: 8px; padding: 3px; }}
-  .vat-btn {{ padding: 5px 16px; border-radius: 6px; border: none; cursor: pointer; font-size: 12px; color: #64748B; background: transparent; transition: all .15s; }}
-  .vat-btn.active {{ background: white; color: #1E293B; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.1); }}
+  .vat-toggle {{ display: flex; background: #EBEEF3; border-radius: 8px; padding: 3px; }}
+  .vat-btn {{ padding: 5px 16px; border-radius: 6px; border: none; cursor: pointer; font-size: 12px; color: #555555; background: transparent; transition: all .15s; }}
+  .vat-btn.active {{ background: white; color: #222222; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.1); }}
 
   /* Chart */
   .chart-wrap {{ background: white; border-radius: 10px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.08); margin-bottom: 16px; position: relative; }}
@@ -110,15 +110,15 @@ def build_html(rows):
   /* Table */
   .table-wrap {{ background: white; border-radius: 10px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.08); overflow-x: auto; cursor: grab; user-select: none; }}
   .table-wrap.dragging {{ cursor: grabbing; }}
-  .table-wrap h2 {{ font-size: 14px; font-weight: 700; margin-bottom: 14px; color: #1E293B; }}
+  .table-wrap h2 {{ font-size: 14px; font-weight: 700; margin-bottom: 14px; color: #222222; }}
   table {{ width: 100%; border-collapse: collapse; font-size: 13px; }}
-  th {{ background: #F8FAFC; padding: 8px 12px; text-align: right; color: #64748B; font-weight: 600; white-space: nowrap; border-bottom: 2px solid #E2E8F0; }}
+  th {{ background: #F5F7FA; padding: 8px 12px; text-align: right; color: #555555; font-weight: 600; white-space: nowrap; border-bottom: 2px solid #E5E8EF; }}
   th:first-child {{ text-align: left; }}
-  td {{ padding: 7px 12px; text-align: right; border-bottom: 1px solid #F1F5F9; white-space: nowrap; }}
-  td:first-child {{ text-align: left; font-weight: 600; color: #334155; }}
-  tr:hover td {{ background: #F8FAFC; }}
+  td {{ padding: 7px 12px; text-align: right; border-bottom: 1px solid #EBEEF3; white-space: nowrap; }}
+  td:first-child {{ text-align: left; font-weight: 600; color: #333333; }}
+  tr:hover td {{ background: #F5F7FA; }}
   .empty {{ color: #CBD5E1; }}
-  tr.month-sep td {{ border-top: 2px solid #E2E8F0; }}
+  tr.month-sep td {{ border-top: 2px solid #E5E8EF; }}
 </style>
 </head>
 <body>
