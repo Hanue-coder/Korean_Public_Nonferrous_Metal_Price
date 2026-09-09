@@ -242,13 +242,13 @@
     align-items: center;
     gap: 12px;
     padding: 11px 16px;
-    border-bottom: 1px solid #F1F5F9;
+    border-bottom: 1px solid var(--border);
     text-decoration: none;
     color: inherit;
     transition: background .12s;
     cursor: pointer;
   }
-  .company-item:hover { background: #F8FAFC; }
+  .company-item:hover { background: var(--bg); }
   .company-item:last-child { border-bottom: none; }
   .company-icon {
     width: 38px;
@@ -327,7 +327,7 @@
     display: none;
     flex: 1;
     min-height: 0;
-    background: #F8FAFC;
+    background: var(--bg);
     flex-direction: column;
   }
   .issues-board-header {
@@ -425,7 +425,7 @@
     display: none;
     flex: 1;
     min-height: 0;
-    background: #F8FAFC;
+    background: var(--bg);
     flex-direction: column;
   }
   .column-view-header {
@@ -494,7 +494,7 @@
   }
   .side-table td {
     padding: 4px 0;
-    border-bottom: 1px solid #F1F5F9;
+    border-bottom: 1px solid var(--border);
     vertical-align: top;
     color: var(--text);
     font-weight: normal;
@@ -676,7 +676,7 @@
         style="width:100%;padding:12px;font-size:14px;font-weight:700;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;letter-spacing:.3px;transition:opacity .15s;"
         onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">보고서 생성</button>
       <button class="rpt-pdf-btn" onclick="printReport()"
-        style="width:100%;margin-top:8px;padding:12px;font-size:14px;font-weight:700;background:#1e293b;color:#fff;border:none;border-radius:8px;cursor:pointer;letter-spacing:.3px;transition:opacity .15s;display:none;"
+        style="width:100%;margin-top:8px;padding:12px;font-size:14px;font-weight:700;background:var(--navy);color:#fff;border:none;border-radius:8px;cursor:pointer;letter-spacing:.3px;transition:opacity .15s;display:none;"
         onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">🖨 PDF 출력</button>
     </div>
     <!-- 보고서 출력 영역 -->
