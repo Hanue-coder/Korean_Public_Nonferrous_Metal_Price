@@ -7,16 +7,69 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --navy: #1E3A5F;
-    --navy-light: #274e7a;
+    --navy: #0c1528;
+    --navy-light: #1a2744;
     --bg: #F0F4F8;
     --white: #ffffff;
     --border: #DDE3EC;
     --text: #1E293B;
     --sub: #64748B;
-    --accent: #2563EB;
+    --accent: #2058BE;
+    --rise: #0F9B58;
+    --fall: #D93040;
   }
   body { font-family: "Pretendard", "Noto Sans KR", sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* ── Ticker bar (Design B) ── */
+  .ticker-bar {
+    background: #0d1c38;
+    overflow: hidden;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  .ticker-label {
+    background: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    padding: 0 14px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+    z-index: 2;
+  }
+  .ticker-track-wrap { overflow: hidden; flex: 1; height: 100%; display: flex; align-items: center; }
+  .ticker-track {
+    display: flex;
+    animation: ticker-scroll 28s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-track:hover { animation-play-state: paused; }
+  @keyframes ticker-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .ti {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 18px;
+    border-right: 1px solid rgba(255,255,255,.07);
+    color: rgba(255,255,255,.85);
+    font-size: 12px;
+    line-height: 1;
+  }
+  .ti-name { color: rgba(255,255,255,.5); font-size: 10px; }
+  .ti-price { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .ti-chg.up   { color: var(--rise); }
+  .ti-chg.down { color: var(--fall); }
+  .ti-chg.flat { color: rgba(255,255,255,.4); }
 
   /* ── Header ── */
   header {
@@ -277,7 +330,7 @@
     flex-direction: column;
   }
   .issues-board-header {
-    background: #1E3A5F;
+    background: var(--navy);
     color: white;
     padding: 18px 28px;
     display: flex;
@@ -287,29 +340,79 @@
   }
   .issues-board-header h1 { font-size: 20px; font-weight: 700; }
   .issues-board-header span { font-size: 12px; opacity: 0.7; }
+  /* ── Issues card grid (Design C) ── */
   .issues-filter-tabs {
     display: flex;
-    gap: 0;
+    gap: 8px;
     background: var(--white);
     border-bottom: 1px solid var(--border);
     flex-shrink: 0;
     overflow-x: auto;
-    padding: 0 28px;
+    padding: 12px 28px;
   }
   .issues-filter-tab {
-    padding: 10px 16px;
-    font-size: 13px;
+    padding: 5px 14px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--sub);
-    border: none;
-    border-bottom: 2px solid transparent;
+    border: 1.5px solid var(--border);
+    border-radius: 999px;
     background: transparent;
     cursor: pointer;
     white-space: nowrap;
     transition: all .15s;
   }
-  .issues-filter-tab:hover { color: var(--text); }
-  .issues-filter-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .issues-filter-tab:hover { color: var(--text); border-color: #aab4c4; }
+  .issues-filter-tab.active { color: var(--accent); border-color: var(--accent); background: #eef3ff; }
+  .issue-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 20px 28px;
+  }
+  .icard {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: box-shadow .15s;
+  }
+  .icard:hover { box-shadow: 0 3px 12px rgba(0,0,0,.1); }
+  .icard-top { display: flex; align-items: center; justify-content: space-between; }
+  .icard-tag {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: .3px;
+  }
+  .t-al { background: #dde8ff; color: #2058BE; }
+  .t-cu { background: #fde8d8; color: #b84a00; }
+  .t-pb { background: #e8e8e8; color: #555; }
+  .t-zn { background: #f0e6ff; color: #6a2ea0; }
+  .t-sn { background: #fff3d6; color: #8a5a00; }
+  .t-ni { background: #e2f0e8; color: #1a6e45; }
+  .icard-date { font-size: 11px; color: var(--sub); }
+  .icard-title { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.4; }
+  .icard-chg {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    align-self: flex-start;
+  }
+  .icard-chg.up   { background: #e6f8f0; color: var(--rise); }
+  .icard-chg.down { background: #fdeaec; color: var(--fall); }
+  .icard-chg.flat { background: #f0f0f0; color: var(--sub); }
+  .icard-body { font-size: 12px; color: var(--sub); line-height: 1.6; }
+  .icard-source { font-size: 11px; color: #aab; }
+
   .issues-board-body {
     flex: 1;
     min-height: 0;
@@ -486,6 +589,16 @@
   </nav>
 </header>
 
+<!-- Ticker bar (Design B) -->
+<div class="ticker-bar" id="ticker-bar">
+  <div class="ticker-label">실시간 시세</div>
+  <div class="ticker-track-wrap">
+    <div class="ticker-track" id="ticker-track">
+      <!-- JS로 채워집니다 -->
+    </div>
+  </div>
+</div>
+
 <div class="mobile-tabs">
   <button class="mobile-tab active" onclick="switchTab('left', this)">📊 가격 시세</button>
   <button class="mobile-tab" onclick="switchTab('right', this)">🏢 업체 디렉토리</button>
@@ -493,6 +606,7 @@
 
 <!-- Issues Board -->
 <script src="issues_data.js"></script>
+<script src="ticker_prices.js"></script>
 <div class="issues-board" id="issues-board">
   <div class="issues-board-header">
     <h1>비철금속 이슈사항</h1>
@@ -714,6 +828,39 @@ function injectColumnNavTabs() {
   nav.appendChild(calcBtn);
 }
 
+function initTickerBar() {
+  const track = document.getElementById('ticker-track');
+  if (!track) return;
+
+  // dashboard.html iframe에서 최신 가격 읽기 시도, 없으면 하드코딩 fallback
+  let prices = [];
+  try {
+    const iframe = document.querySelector('iframe');
+    if (iframe && iframe.contentWindow && iframe.contentWindow.LATEST_PRICES) {
+      prices = iframe.contentWindow.LATEST_PRICES;
+    }
+  } catch(e) {}
+
+  if (!prices || prices.length === 0) {
+    // prices.csv 최신 행 기반 fallback (generate_dashboard.py가 주입)
+    if (typeof TICKER_PRICES !== 'undefined') {
+      prices = TICKER_PRICES;
+    }
+  }
+
+  if (!prices || prices.length === 0) return;
+
+  const html = prices.map(p => {
+    const chgCls = p.chg > 0 ? 'up' : p.chg < 0 ? 'down' : 'flat';
+    const chgIcon = p.chg > 0 ? '▲' : p.chg < 0 ? '▼' : '–';
+    const chgStr = p.chg !== 0 ? `${chgIcon} ${Math.abs(p.chg).toLocaleString()}원` : `${chgIcon}`;
+    return `<span class="ti"><span class="ti-name">${p.name}</span><span class="ti-price">${p.price.toLocaleString()}원/kg</span><span class="ti-chg ${chgCls}">${chgStr}</span></span>`;
+  }).join('');
+
+  // 심리스 루프를 위해 두 번 반복
+  track.innerHTML = html + html;
+}
+
 function showColumnView(colId) {
   const col = SIDE_COLUMNS.find(c => c.id === colId);
   if (!col) return;
@@ -784,6 +931,7 @@ function setCategory(cat, el) {
 renderCompanies(COMPANIES);
 renderIssues();
 injectColumnNavTabs();
+initTickerBar();
 
 // Header tab view switching
 // Render issues from issues_data.js
@@ -820,35 +968,45 @@ function renderIssueCards() {
     return;
   }
 
-  list.innerHTML = filtered.map(issue => {
-    const items = issue.items.map(x => {
-      const dir = x.direction === 'up' ? '▲' : '▼';
-      const cls = x.direction === 'up' ? 'item-up' : 'item-down';
-      const sign = x.direction === 'up' ? '+' : '-';
-      return `<span class="issue-item ${cls}">${x.name} ${dir} ${x.diff.toLocaleString()}원 (${sign}${Math.abs(x.pct)}%)</span>`;
-    }).join('');
+  const METAL_TAG_CLASS = { '알루미늄': 't-al', '구리': 't-cu', '납': 't-pb', '아연': 't-zn', '주석': 't-sn', '니켈': 't-ni' };
 
-    const sources = issue.sources && issue.sources.length
-      ? '출처: ' + issue.sources.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>`).join(' · ')
-      : '';
+  const cards = filtered.map(issue => {
+    const firstItem = issue.items[0] || {};
+    const metalName = firstItem.name ? Object.keys(METAL_TAG_CLASS).find(k => firstItem.name.includes(k)) : null;
+    const tagClass = metalName ? METAL_TAG_CLASS[metalName] : 't-al';
+    const tagLabel = metalName || (issue.items.map(x => x.name.split('(')[0]).join('/'));
+
+    const allUp = issue.items.every(x => x.direction === 'up');
+    const allDown = issue.items.every(x => x.direction === 'down');
+    const chgCls = allUp ? 'up' : allDown ? 'down' : 'flat';
+    const chgIcon = allUp ? '▲' : allDown ? '▼' : '±';
+    const chgText = issue.items.map(x => {
+      const sign = x.direction === 'up' ? '+' : x.direction === 'down' ? '-' : '';
+      return `${sign}${Math.abs(x.pct)}%`;
+    }).join(' / ');
 
     const bodyHtml = issue.body
-      ? `<div class="issue-body">${issue.body}</div>`
-      : `<div class="issue-body" style="color:var(--sub);font-style:italic;">원인 분석 준비 중입니다.</div>`;
+      ? `<div class="icard-body">${issue.body.length > 120 ? issue.body.slice(0, 120) + '…' : issue.body}</div>`
+      : '';
 
-    const sourceHtml = sources ? `<div class="issue-source">${sources}</div>` : '';
+    const sources = issue.sources && issue.sources.length
+      ? issue.sources.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.title}</a>`).join(' · ')
+      : '';
+    const sourceHtml = sources ? `<div class="icard-source">출처: ${sources}</div>` : '';
 
-    return `
-      <div class="issue-card">
-        <div class="issue-title">
-          <span class="issue-date">${issue.date_fmt}</span>
-          <span class="issue-tag tag-${issue.tag_type}">${issue.tag}</span>
-        </div>
-        <div class="issue-items">${items}</div>
-        ${bodyHtml}
-        ${sourceHtml}
-      </div>`;
+    return `<div class="icard">
+      <div class="icard-top">
+        <span class="icard-tag ${tagClass}">${tagLabel}</span>
+        <span class="icard-date">${issue.date_fmt}</span>
+      </div>
+      <div class="icard-title">${issue.tag}</div>
+      <div class="icard-chg ${chgCls}">${chgIcon} ${chgText}</div>
+      ${bodyHtml}
+      ${sourceHtml}
+    </div>`;
   }).join('');
+
+  list.innerHTML = `<div class="issue-grid">${cards}</div>`;
 }
 
 function switchView(view, btn, colId) {

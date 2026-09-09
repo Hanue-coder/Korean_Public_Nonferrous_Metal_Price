@@ -1,0 +1,1 @@
+var TICKER_PRICES = [{"name": "알루미늄(서구산)", "price": 5480, "chg": 70}, {"name": "구리", "price": 22130, "chg": 310}, {"name": "납", "price": 3040, "chg": 40}, {"name": "아연", "price": 6420, "chg": 60}, {"name": "주석(99.85%)", "price": 81890, "chg": -40}, {"name": "니켈(합금용)", "price": 25560, "chg": 350}];

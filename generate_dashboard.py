@@ -74,7 +74,7 @@ def build_html(rows):
 <style>
   *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
   body {{ font-family: "Pretendard", "Noto Sans KR", sans-serif; background: #F8FAFC; color: #1E293B; font-size: 14px; }}
-  header {{ background: #1E3A5F; color: white; padding: 18px 28px; display: flex; justify-content: space-between; align-items: center; }}
+  header {{ background: #0c1528; color: white; padding: 18px 28px; display: flex; justify-content: space-between; align-items: center; }}
   header h1 {{ font-size: 20px; font-weight: 700; }}
   header span {{ font-size: 12px; opacity: 0.7; }}
   .main {{ max-width: 1400px; margin: 0 auto; padding: 20px 20px 40px; }}
@@ -96,7 +96,7 @@ def build_html(rows):
   .btn-group {{ display: flex; gap: 6px; }}
   .btn {{ padding: 5px 14px; border-radius: 6px; border: 1px solid #E2E8F0; background: white; cursor: pointer; font-size: 12px; color: #475569; transition: all .15s; }}
   .btn:hover {{ background: #F1F5F9; }}
-  .btn.active {{ background: #1E3A5F; color: white; border-color: #1E3A5F; }}
+  .btn.active {{ background: #0c1528; color: white; border-color: #0c1528; }}
   .vat-toggle {{ display: flex; background: #F1F5F9; border-radius: 8px; padding: 3px; }}
   .vat-btn {{ padding: 5px 16px; border-radius: 6px; border: none; cursor: pointer; font-size: 12px; color: #64748B; background: transparent; transition: all .15s; }}
   .vat-btn.active {{ background: white; color: #1E293B; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.1); }}
@@ -819,6 +819,31 @@ def main():
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"Dashboard written to: {OUT_PATH}")
+
+    # Write ticker_prices.js for index.html ticker bar
+    TICKER_METALS = [
+        {"key": "알루미늄_서구산", "label": "알루미늄(서구산)"},
+        {"key": "구리",            "label": "구리"},
+        {"key": "납",              "label": "납"},
+        {"key": "아연",            "label": "아연"},
+        {"key": "주석_9985",       "label": "주석(99.85%)"},
+        {"key": "니켈_합금",       "label": "니켈(합금용)"},
+    ]
+    ticker_data = []
+    if len(rows) >= 2:
+        latest = rows[-1]
+        prev   = rows[-2]
+        for m in TICKER_METALS:
+            incl_key = m["key"] + "_incl"
+            cur  = latest.get(incl_key)
+            prv  = prev.get(incl_key)
+            if cur is not None:
+                chg = (cur - prv) if prv is not None else 0
+                ticker_data.append({"name": m["label"], "price": cur, "chg": chg})
+    ticker_js_path = os.path.join(os.path.dirname(__file__), "ticker_prices.js")
+    with open(ticker_js_path, "w", encoding="utf-8") as f:
+        f.write(f"var TICKER_PRICES = {json.dumps(ticker_data, ensure_ascii=False)};")
+    print(f"Ticker prices written to: {ticker_js_path}")
 
 if __name__ == "__main__":
     main()
