@@ -696,6 +696,13 @@
       <button id="al-tab-comp" onclick="switchAlTab('comp',this)"
         style="padding:4px 16px;font-size:12px;font-weight:600;background:transparent;color:rgba(255,255,255,.65);border:none;cursor:pointer;transition:background .15s;">성분</button>
     </div>
+    <div id="al-mat-selector" style="display:flex;gap:0;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.25);margin-left:12px;">
+      <button class="al-mat-btn" data-mat="AL" onclick="setAlMaterial('AL')" style="padding:4px 14px;font-size:12px;font-weight:600;background:rgba(255,255,255,.25);color:#fff;border:none;cursor:pointer;transition:background .15s;">알루미늄</button>
+      <button class="al-mat-btn" data-mat="CU" onclick="setAlMaterial('CU')" style="padding:4px 14px;font-size:12px;font-weight:600;background:transparent;color:rgba(255,255,255,.65);border:none;cursor:pointer;transition:background .15s;">구리</button>
+      <button class="al-mat-btn" data-mat="BS" onclick="setAlMaterial('BS')" style="padding:4px 14px;font-size:12px;font-weight:600;background:transparent;color:rgba(255,255,255,.65);border:none;cursor:pointer;transition:background .15s;">황동</button>
+      <button class="al-mat-btn" data-mat="PB" onclick="setAlMaterial('PB')" style="padding:4px 14px;font-size:12px;font-weight:600;background:transparent;color:rgba(255,255,255,.65);border:none;cursor:pointer;transition:background .15s;">인청동</button>
+      <button class="al-mat-btn" data-mat="SS" onclick="setAlMaterial('SS')" style="padding:4px 14px;font-size:12px;font-weight:600;background:transparent;color:rgba(255,255,255,.65);border:none;cursor:pointer;transition:background .15s;">스테인리스</button>
+    </div>
   </div>
   <div style="flex:1;min-height:0;overflow-y:auto;padding:32px 36px;background:var(--bg);">
     <div id="al-panel-weight" style="display:flex;gap:20px;align-items:flex-start;min-height:520px;">
@@ -706,16 +713,16 @@
           <div id="al-shape-list"></div>
         </div>
       </div>
-      <!-- 가운데: 입력 폼 + 결과 -->
+      <!-- 가운데: 형상 -->
+      <div style="width:480px;flex-shrink:0;align-self:stretch;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;display:flex;flex-direction:column;justify-content:center;">
+        <div style="font-size:11px;font-weight:600;color:var(--sub);letter-spacing:.4px;margin-bottom:12px;">형 상</div>
+        <svg id="al-shape-svg" viewBox="0 0 160 160" width="416" height="416" style="display:block;margin:auto;max-width:100%;max-height:calc(100% - 32px);"></svg>
+      </div>
+      <!-- 오른쪽: 입력 폼 + 결과 -->
       <div style="flex:1;min-width:0;" id="al-spec-area">
         <div style="background:var(--white);border:1px solid var(--border);border-radius:10px;padding:40px;text-align:center;">
           <p style="color:var(--sub);font-size:14px;">← 왼쪽에서 형상을 선택하세요.</p>
         </div>
-      </div>
-      <!-- 오른쪽: 형상 -->
-      <div style="width:480px;flex-shrink:0;align-self:stretch;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;display:flex;flex-direction:column;justify-content:center;">
-        <div style="font-size:11px;font-weight:600;color:var(--sub);letter-spacing:.4px;margin-bottom:12px;">형 상</div>
-        <svg id="al-shape-svg" viewBox="0 0 160 160" width="416" height="416" style="display:block;margin:auto;max-width:100%;max-height:calc(100% - 32px);"></svg>
       </div>
     </div>
     <div id="al-panel-comp" style="display:none;">
@@ -1056,7 +1063,24 @@ function switchTab(side, btn) {
 }
 
 // ── 알루미늄 중량 계산기 ──
-const AL_DENSITY = 2.7e-6; // kg/mm³
+const AL_MATERIALS = {
+  AL: { label: '알루미늄', density: 2.70e-6 },
+  CU: { label: '구리',     density: 8.96e-6 },
+  BS: { label: '황동',     density: 8.50e-6 },
+  PB: { label: '인청동',   density: 8.80e-6 },
+  SS: { label: '스테인리스', density: 7.93e-6 },
+};
+var _alMaterialKey = 'AL';
+function getCurrentDensity() { return AL_MATERIALS[_alMaterialKey].density; }
+function setAlMaterial(key) {
+  _alMaterialKey = key;
+  document.querySelectorAll('.al-mat-btn').forEach(function(b) {
+    var active = b.dataset.mat === key;
+    b.style.background = active ? 'rgba(255,255,255,.25)' : 'transparent';
+    b.style.color = active ? '#fff' : 'rgba(255,255,255,.65)';
+  });
+  recalcAlShape();
+}
 
 function _hexPts(cx, cy, af, off) {
   // af = across-flats distance; circumradius r = (af/2) / cos(30°)
@@ -1070,46 +1094,46 @@ function _hexPts(cx, cy, af, off) {
 var AL_SHAPES = [
   { id:'RBE', label:'봉재 (RBE)',
     inputs:[{id:'d',label:'외경 D',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
-    calc: function(v) { return Math.PI*(v.d/2)*(v.d/2)*v.l*AL_DENSITY; },
+    calc: function(v) { return Math.PI*(v.d/2)*(v.d/2)*v.l*getCurrentDensity(); },
     svg: '<circle cx="80" cy="80" r="65" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5"/>'
   },
   { id:'TE', label:'관재 (TE)',
     inputs:[{id:'od',label:'외경 OD',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
-    calc: function(v) { var id=v.od-2*v.t; if(id<=0) return null; return Math.PI*((v.od/2)*(v.od/2)-(id/2)*(id/2))*v.l*AL_DENSITY; },
+    calc: function(v) { var id=v.od-2*v.t; if(id<=0) return null; return Math.PI*((v.od/2)*(v.od/2)-(id/2)*(id/2))*v.l*getCurrentDensity(); },
     svg: '<circle cx="80" cy="80" r="65" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5"/>'
        + '<circle cx="80" cy="80" r="42" fill="white" stroke="#2563EB" stroke-width="2"/>'
   },
   { id:'QBE', label:'판재 (QBE)',
     inputs:[{id:'w',label:'폭 W',unit:'mm'},{id:'t',label:'두께 T',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
-    calc: function(v) { return v.w*v.t*v.l*AL_DENSITY; },
+    calc: function(v) { return v.w*v.t*v.l*getCurrentDensity(); },
     svg: '<rect x="6" y="56" width="148" height="48" rx="2" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5"/>'
   },
   { id:'HBE', label:'육각 (HBE)',
     inputs:[{id:'af',label:'대변거리 AF',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
-    calc: function(v) { return (Math.sqrt(3)/2)*v.af*v.af*v.l*AL_DENSITY; },
+    calc: function(v) { return (Math.sqrt(3)/2)*v.af*v.af*v.l*getCurrentDensity(); },
     svg: '<polygon points="15,80 47,24 113,24 145,80 113,136 47,136" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
   },
   { id:'QTE', label:'사각관 (QTE)',
     inputs:[{id:'w',label:'폭 W',unit:'mm'},{id:'h',label:'높이 H',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
-    calc: function(v) { var iw=v.w-2*v.t,ih=v.h-2*v.t; if(iw<=0||ih<=0) return null; return (v.w*v.h-iw*ih)*v.l*AL_DENSITY; },
+    calc: function(v) { var iw=v.w-2*v.t,ih=v.h-2*v.t; if(iw<=0||ih<=0) return null; return (v.w*v.h-iw*ih)*v.l*getCurrentDensity(); },
     svg: '<rect x="8" y="8" width="144" height="144" rx="2" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5"/>'
        + '<rect x="28" y="28" width="104" height="104" rx="1" fill="white" stroke="#2563EB" stroke-width="2"/>'
   },
   { id:'HTE', label:'육각관 (HTE)',
     inputs:[{id:'af',label:'대변거리 AF',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
-    calc: function(v) { var afi=v.af-2*v.t; if(afi<=0) return null; return (Math.sqrt(3)/2)*(v.af*v.af-afi*afi)*v.l*AL_DENSITY; },
+    calc: function(v) { var afi=v.af-2*v.t; if(afi<=0) return null; return (Math.sqrt(3)/2)*(v.af*v.af-afi*afi)*v.l*getCurrentDensity(); },
     svg: '<polygon points="15,80 47,24 113,24 145,80 113,136 47,136" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
        + '<polygon points="28,80 54,36 106,36 132,80 106,124 54,124" fill="white" stroke="#2563EB" stroke-width="2" stroke-linejoin="round"/>'
   },
   { id:'HTEO', label:'육각관 (HTE(O))',
     inputs:[{id:'af',label:'대변거리 AF',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
-    calc: function(v) { var afi=v.af-2*v.t; if(afi<=0) return null; return (Math.sqrt(3)/2)*(v.af*v.af-afi*afi)*v.l*AL_DENSITY; },
+    calc: function(v) { var afi=v.af-2*v.t; if(afi<=0) return null; return (Math.sqrt(3)/2)*(v.af*v.af-afi*afi)*v.l*getCurrentDensity(); },
     svg: '<polygon points="15,80 47,24 113,24 145,80 113,136 47,136" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
        + '<circle cx="80" cy="80" r="36" fill="white" stroke="#2563EB" stroke-width="2"/>'
   },
   { id:'PINUT', label:'땅콩 (Pinut)',
     inputs:[{id:'d',label:'외경 D',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
-    calc: function(v) { var id=v.d-2*v.t; if(id<=0) return null; return 2*Math.PI*((v.d/2)*(v.d/2)-(id/2)*(id/2))*v.l*AL_DENSITY; },
+    calc: function(v) { var id=v.d-2*v.t; if(id<=0) return null; return 2*Math.PI*((v.d/2)*(v.d/2)-(id/2)*(id/2))*v.l*getCurrentDensity(); },
     svg: '<circle cx="42" cy="80" r="36" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5"/>'
        + '<circle cx="118" cy="80" r="36" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5"/>'
        + '<circle cx="42" cy="80" r="20" fill="white" stroke="#2563EB" stroke-width="2"/>'
@@ -1117,32 +1141,32 @@ var AL_SHAPES = [
   },
   { id:'DISC', label:'원판 (DISC)',
     inputs:[{id:'d',label:'직경 D',unit:'mm'},{id:'t',label:'두께 T',unit:'mm'}],
-    calc: function(v) { return Math.PI*(v.d/2)*(v.d/2)*v.t*AL_DENSITY; },
+    calc: function(v) { return Math.PI*(v.d/2)*(v.d/2)*v.t*getCurrentDensity(); },
     svg: '<circle cx="80" cy="80" r="65" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5"/>'
   },
   { id:'SQBE', label:'사각봉 (SQBE)',
     inputs:[{id:'a',label:'변 A',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
-    calc: function(v) { return v.a*v.a*v.l*AL_DENSITY; },
+    calc: function(v) { return v.a*v.a*v.l*getCurrentDensity(); },
     svg: '<rect x="8" y="8" width="144" height="144" rx="2" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5"/>'
   },
   { id:'ANG', label:'앵글 (ANG)',
     inputs:[{id:'w',label:'폭 W',unit:'mm'},{id:'h',label:'높이 H',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
-    calc: function(v) { return (v.w*v.t + (v.h-v.t)*v.t)*v.l*AL_DENSITY; },
+    calc: function(v) { return (v.w*v.t + (v.h-v.t)*v.t)*v.l*getCurrentDensity(); },
     svg: '<path d="M 10,10 H 150 V 50 H 50 V 150 H 10 Z" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
   },
   { id:'HBEAM', label:'H빔 (H-BEAM)',
     inputs:[{id:'b',label:'플랜지폭 B',unit:'mm'},{id:'h',label:'높이 H',unit:'mm'},{id:'tf',label:'플랜지두께 tf',unit:'mm'},{id:'tw',label:'웹두께 tw',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
-    calc: function(v) { return (2*v.b*v.tf + (v.h-2*v.tf)*v.tw)*v.l*AL_DENSITY; },
+    calc: function(v) { return (2*v.b*v.tf + (v.h-2*v.tf)*v.tw)*v.l*getCurrentDensity(); },
     svg: '<path d="M 10,10 H 150 V 50 H 95 V 110 H 150 V 150 H 10 V 110 H 65 V 50 H 10 Z" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
   },
   { id:'CHAN', label:'U형강 (CHAN)',
     inputs:[{id:'b',label:'폭 B',unit:'mm'},{id:'h',label:'높이 H',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
-    calc: function(v) { return (2*v.b*v.t + (v.h-2*v.t)*v.t)*v.l*AL_DENSITY; },
+    calc: function(v) { return (2*v.b*v.t + (v.h-2*v.t)*v.t)*v.l*getCurrentDensity(); },
     svg: '<path d="M 10,10 H 130 V 50 H 50 V 110 H 130 V 150 H 10 Z" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
   },
   { id:'TBAR', label:'T형강 (T-BAR)',
     inputs:[{id:'b',label:'플랜지폭 B',unit:'mm'},{id:'h',label:'높이 H',unit:'mm'},{id:'tf',label:'플랜지두께 tf',unit:'mm'},{id:'tw',label:'웹두께 tw',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
-    calc: function(v) { return (v.b*v.tf + (v.h-v.tf)*v.tw)*v.l*AL_DENSITY; },
+    calc: function(v) { return (v.b*v.tf + (v.h-v.tf)*v.tw)*v.l*getCurrentDensity(); },
     svg: '<path d="M 10,10 H 150 V 50 H 95 V 150 H 65 V 50 H 10 Z" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
   }
 ];
@@ -1194,7 +1218,13 @@ function selectAlShape(id) {
     + '</div></div>';
 }
 
+var _currentAlShapeId = null;
+function recalcAlShape() {
+  if (_currentAlShapeId) calcAlWeight(_currentAlShapeId);
+}
+
 function calcAlWeight(shapeId) {
+  _currentAlShapeId = shapeId;
   var shape = AL_SHAPES.find(function(s){return s.id===shapeId;});
   if (!shape) return;
   var vals = {}, allFilled = true;
