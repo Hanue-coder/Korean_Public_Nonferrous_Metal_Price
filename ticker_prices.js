@@ -1,1 +1,2 @@
+var TICKER_DATE = "26.09.10";
 var TICKER_PRICES = [{"name": "알루미늄(서구산)", "price": 5480, "chg": 0}, {"name": "구리", "price": 22070, "chg": -60}, {"name": "납", "price": 3020, "chg": -20}, {"name": "아연", "price": 6440, "chg": 20}, {"name": "주석(99.85%)", "price": 81880, "chg": -10}, {"name": "니켈(합금용)", "price": 25430, "chg": -130}];

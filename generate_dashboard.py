@@ -841,7 +841,14 @@ def main():
                 chg = (cur - prv) if prv is not None else 0
                 ticker_data.append({"name": m["label"], "price": cur, "chg": chg})
     ticker_js_path = os.path.join(os.path.dirname(__file__), "ticker_prices.js")
+    latest_date = rows[-1]["date"] if rows else ""
+    try:
+        d = datetime.strptime(latest_date, "%Y-%m-%d")
+        ticker_date_str = d.strftime("%y.%m.%d")
+    except Exception:
+        ticker_date_str = latest_date
     with open(ticker_js_path, "w", encoding="utf-8") as f:
+        f.write(f"var TICKER_DATE = \"{ticker_date_str}\";\n")
         f.write(f"var TICKER_PRICES = {json.dumps(ticker_data, ensure_ascii=False)};")
     print(f"Ticker prices written to: {ticker_js_path}")
 
