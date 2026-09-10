@@ -1064,14 +1064,62 @@ function switchTab(side, btn) {
 
 // ── 알루미늄 중량 계산기 ──
 const AL_MATERIALS = {
-  AL: { label: '알루미늄', density: 2.70e-6 },
+  AL: { label: '알루미늄', density: null },
   CU: { label: '구리',     density: 8.96e-6 },
   BS: { label: '황동',     density: 8.50e-6 },
   PB: { label: '인청동',   density: 8.80e-6 },
   SS: { label: '스테인리스', density: 7.93e-6 },
 };
+const AL_ALLOYS = [
+  { id:'1060', label:'1060 (순수 Al 99.6%)', density: 2.71e-6 },
+  { id:'1070', label:'1070 (순수 Al 99.7%)', density: 2.71e-6 },
+  { id:'1100', label:'1100 (순수 Al 99.0%)', density: 2.71e-6 },
+  { id:'2011', label:'2011 (Cu 5.5%)',        density: 2.83e-6 },
+  { id:'2014', label:'2014 (Cu 4.4%, Mg 0.5%)', density: 2.80e-6 },
+  { id:'2017', label:'2017 (Cu 4.0%, Mg 0.6%)', density: 2.79e-6 },
+  { id:'2024', label:'2024 (Cu 4.4%, Mg 1.5%)', density: 2.78e-6 },
+  { id:'2219', label:'2219 (Cu 6.3%)',        density: 2.84e-6 },
+  { id:'3003', label:'3003 (Mn 1.2%)',         density: 2.73e-6 },
+  { id:'3004', label:'3004 (Mn 1.2%, Mg 1.0%)', density: 2.72e-6 },
+  { id:'3105', label:'3105 (Mn 0.5%)',         density: 2.72e-6 },
+  { id:'4032', label:'4032 (Si 12.2%, Mg 1.0%)', density: 2.68e-6 },
+  { id:'4043', label:'4043 (Si 5.2%)',         density: 2.69e-6 },
+  { id:'4047', label:'4047 (Si 12.0%)',        density: 2.66e-6 },
+  { id:'5005', label:'5005 (Mg 0.8%)',         density: 2.70e-6 },
+  { id:'5052', label:'5052 (Mg 2.5%)',         density: 2.68e-6 },
+  { id:'5083', label:'5083 (Mg 4.4%)',         density: 2.66e-6 },
+  { id:'5086', label:'5086 (Mg 4.0%)',         density: 2.66e-6 },
+  { id:'5154', label:'5154 (Mg 3.5%)',         density: 2.66e-6 },
+  { id:'5454', label:'5454 (Mg 2.7%)',         density: 2.69e-6 },
+  { id:'5754', label:'5754 (Mg 3.0%)',         density: 2.67e-6 },
+  { id:'6005', label:'6005 (Si 0.8%, Mg 0.5%)', density: 2.70e-6 },
+  { id:'6061', label:'6061 (Mg 1.0%, Si 0.6%)', density: 2.70e-6 },
+  { id:'6063', label:'6063 (Mg 0.7%, Si 0.4%)', density: 2.70e-6 },
+  { id:'6082', label:'6082 (Si 1.0%, Mg 0.7%)', density: 2.71e-6 },
+  { id:'6351', label:'6351 (Mg 0.6%, Si 1.0%)', density: 2.71e-6 },
+  { id:'7005', label:'7005 (Zn 4.5%, Mg 1.4%)', density: 2.78e-6 },
+  { id:'7050', label:'7050 (Zn 6.2%, Mg 2.3%)', density: 2.83e-6 },
+  { id:'7075', label:'7075 (Zn 5.6%, Mg 2.5%)', density: 2.81e-6 },
+  { id:'8011', label:'8011 (Fe 0.7%)',         density: 2.71e-6 },
+  { id:'8079', label:'8079 (Fe 1.0%)',         density: 2.72e-6 },
+];
 var _alMaterialKey = 'AL';
-function getCurrentDensity() { return AL_MATERIALS[_alMaterialKey].density; }
+var _alAlloyId = '6061';
+function getCurrentDensity() {
+  if (_alMaterialKey === 'AL') {
+    var a = AL_ALLOYS.find(function(x){ return x.id === _alAlloyId; });
+    return a ? a.density : 2.70e-6;
+  }
+  return AL_MATERIALS[_alMaterialKey].density;
+}
+function getCurrentDensityLabel() {
+  if (_alMaterialKey === 'AL') {
+    var a = AL_ALLOYS.find(function(x){ return x.id === _alAlloyId; });
+    return a ? 'Al ' + a.id + ' &nbsp;·&nbsp; ' + (a.density * 1e6).toFixed(2) + ' g/cm³' : '';
+  }
+  var m = AL_MATERIALS[_alMaterialKey];
+  return m.label + ' &nbsp;·&nbsp; ' + (m.density * 1e6).toFixed(2) + ' g/cm³';
+}
 function setAlMaterial(key) {
   _alMaterialKey = key;
   document.querySelectorAll('.al-mat-btn').forEach(function(b) {
@@ -1079,6 +1127,13 @@ function setAlMaterial(key) {
     b.style.background = active ? 'rgba(255,255,255,.25)' : 'transparent';
     b.style.color = active ? '#fff' : 'rgba(255,255,255,.65)';
   });
+  if (activeAlShape) selectAlShape(activeAlShape);
+  else recalcAlShape();
+}
+function setAlAlloy(alloyId) {
+  _alAlloyId = alloyId;
+  var el = document.getElementById('al-density-label');
+  if (el) el.innerHTML = getCurrentDensityLabel() + ' &nbsp;·&nbsp; 단위: mm';
   recalcAlShape();
 }
 
@@ -1211,7 +1266,13 @@ function selectAlShape(id) {
   inputsHtml += '</div>';
   specArea.innerHTML = '<div style="background:var(--white);border:1px solid var(--border);border-radius:10px;padding:28px;">'
     + '<h3 style="font-size:16px;font-weight:500;color:var(--text);margin-bottom:4px;">' + shape.label + '</h3>'
-    + '<p style="font-size:12px;color:var(--sub);margin-bottom:22px;">알루미늄 밀도 2.7 g/cm³ 기준 &nbsp;·&nbsp; 단위: mm</p>'
+    + (_alMaterialKey === 'AL'
+        ? '<div style="margin-bottom:18px;"><label style="font-size:11px;color:var(--sub);display:block;margin-bottom:5px;">합금 등급</label>'
+          + '<select onchange="setAlAlloy(this.value)" style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;background:var(--white);color:var(--text);cursor:pointer;">'
+          + AL_ALLOYS.map(function(a){ return '<option value="'+a.id+'"'+(a.id===_alAlloyId?' selected':'')+'>'+a.label+' — '+(a.density*1e6).toFixed(2)+' g/cm³</option>'; }).join('')
+          + '</select></div>'
+        : '<p id="al-density-label" style="font-size:12px;color:var(--sub);margin-bottom:22px;">' + getCurrentDensityLabel() + ' &nbsp;·&nbsp; 단위: mm</p>'
+      )
     + inputsHtml
     + '<div id="al-result" style="background:var(--bg);border-radius:9px;padding:20px;border:1.5px solid var(--border);text-align:center;">'
     + '<p style="color:var(--sub);font-size:13px;margin:0;">치수를 입력하면 중량이 계산됩니다.</p>'
