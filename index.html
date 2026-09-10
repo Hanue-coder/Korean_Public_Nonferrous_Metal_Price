@@ -594,7 +594,7 @@
 
 <!-- Ticker bar (Design B) -->
 <div class="ticker-bar" id="ticker-bar">
-  <div class="ticker-label">실시간 시세</div>
+  <div class="ticker-label" id="ticker-label">실시간 시세</div>
   <div class="ticker-track-wrap">
     <div class="ticker-track" id="ticker-track">
       <!-- JS로 채워집니다 -->
@@ -835,6 +835,12 @@ function initTickerBar() {
   const track = document.getElementById('ticker-track');
   if (!track) return;
 
+  // 날짜 레이블 업데이트
+  const label = document.getElementById('ticker-label');
+  if (label && typeof TICKER_DATE !== 'undefined' && TICKER_DATE) {
+    label.textContent = "'" + TICKER_DATE + ' 시세';
+  }
+
   // dashboard.html iframe에서 최신 가격 읽기 시도, 없으면 하드코딩 fallback
   let prices = [];
   try {
@@ -845,7 +851,6 @@ function initTickerBar() {
   } catch(e) {}
 
   if (!prices || prices.length === 0) {
-    // prices.csv 최신 행 기반 fallback (generate_dashboard.py가 주입)
     if (typeof TICKER_PRICES !== 'undefined') {
       prices = TICKER_PRICES;
     }
@@ -860,8 +865,11 @@ function initTickerBar() {
     return `<span class="ti"><span class="ti-name">${p.name}</span><span class="ti-price">${p.price.toLocaleString()}원/kg</span><span class="ti-chg ${chgCls}">${chgStr}</span></span>`;
   }).join('');
 
-  // 심리스 루프를 위해 두 번 반복
+  // 심리스 루프: 두 벌 삽입 후 애니메이션 리셋으로 갭 방지
   track.innerHTML = html + html;
+  track.style.animation = 'none';
+  track.offsetWidth; // reflow
+  track.style.animation = '';
 }
 
 function showColumnView(colId) {
