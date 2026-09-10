@@ -1087,7 +1087,7 @@ var AL_SHAPES = [
   { id:'HBE', label:'육각 (HBE)',
     inputs:[{id:'af',label:'대변거리 AF',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
     calc: function(v) { return (Math.sqrt(3)/2)*v.af*v.af*v.l*AL_DENSITY; },
-    svg: '<polygon points="80,15 145,52 145,108 80,145 15,108 15,52" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
+    svg: '<polygon points="15,80 47,24 113,24 145,80 113,136 47,136" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
   },
   { id:'QTE', label:'사각관 (QTE)',
     inputs:[{id:'w',label:'폭 W',unit:'mm'},{id:'h',label:'높이 H',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
@@ -1098,14 +1098,14 @@ var AL_SHAPES = [
   { id:'HTE', label:'육각관 (HTE)',
     inputs:[{id:'af',label:'대변거리 AF',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
     calc: function(v) { var afi=v.af-2*v.t; if(afi<=0) return null; return (Math.sqrt(3)/2)*(v.af*v.af-afi*afi)*v.l*AL_DENSITY; },
-    svg: '<polygon points="80,15 145,52 145,108 80,145 15,108 15,52" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
-       + '<polygon points="80,35 125,60 125,100 80,125 35,100 35,60" fill="white" stroke="#2563EB" stroke-width="2" stroke-linejoin="round"/>'
+    svg: '<polygon points="15,80 47,24 113,24 145,80 113,136 47,136" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
+       + '<polygon points="28,80 54,36 106,36 132,80 106,124 54,124" fill="white" stroke="#2563EB" stroke-width="2" stroke-linejoin="round"/>'
   },
-  { id:'HTEO', label:'육각관 HTE(O)',
+  { id:'HTEO', label:'육각관(HTE(O))',
     inputs:[{id:'af',label:'대변거리 AF',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
     calc: function(v) { var afi=v.af-2*v.t; if(afi<=0) return null; return (Math.sqrt(3)/2)*(v.af*v.af-afi*afi)*v.l*AL_DENSITY; },
     svg: '<polygon points="15,80 47,24 113,24 145,80 113,136 47,136" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
-       + '<polygon points="28,80 54,36 106,36 132,80 106,124 54,124" fill="white" stroke="#2563EB" stroke-width="2" stroke-linejoin="round"/>'
+       + '<circle cx="80" cy="80" r="44" fill="white" stroke="#2563EB" stroke-width="2"/>'
   },
   { id:'PINUT', label:'땅콩 (Pinut)',
     inputs:[{id:'d',label:'외경 D',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
