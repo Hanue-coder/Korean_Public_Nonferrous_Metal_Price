@@ -1101,11 +1101,11 @@ var AL_SHAPES = [
     svg: '<polygon points="15,80 47,24 113,24 145,80 113,136 47,136" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
        + '<polygon points="28,80 54,36 106,36 132,80 106,124 54,124" fill="white" stroke="#2563EB" stroke-width="2" stroke-linejoin="round"/>'
   },
-  { id:'HTEO', label:'육각관(HTE(O))',
+  { id:'HTEO', label:'육각관 (HTE(O))',
     inputs:[{id:'af',label:'대변거리 AF',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
     calc: function(v) { var afi=v.af-2*v.t; if(afi<=0) return null; return (Math.sqrt(3)/2)*(v.af*v.af-afi*afi)*v.l*AL_DENSITY; },
     svg: '<polygon points="15,80 47,24 113,24 145,80 113,136 47,136" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
-       + '<circle cx="80" cy="80" r="44" fill="white" stroke="#2563EB" stroke-width="2"/>'
+       + '<circle cx="80" cy="80" r="36" fill="white" stroke="#2563EB" stroke-width="2"/>'
   },
   { id:'PINUT', label:'땅콩 (Pinut)',
     inputs:[{id:'d',label:'외경 D',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
