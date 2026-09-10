@@ -821,14 +821,7 @@ def main():
     print(f"Dashboard written to: {OUT_PATH}")
 
     # Write ticker_prices.js for index.html ticker bar
-    TICKER_METALS = [
-        {"key": "알루미늄_서구산", "label": "알루미늄(서구산)"},
-        {"key": "구리",            "label": "구리"},
-        {"key": "납",              "label": "납"},
-        {"key": "아연",            "label": "아연"},
-        {"key": "주석_9985",       "label": "주석(99.85%)"},
-        {"key": "니켈_합금",       "label": "니켈(합금용)"},
-    ]
+    TICKER_METALS = [m for m in MATERIALS]  # MATERIALS와 동일한 순서·키 사용
     ticker_data = []
     if len(rows) >= 2:
         latest = rows[-1]
