@@ -716,7 +716,10 @@
       <!-- 가운데: 형상 -->
       <div style="width:480px;flex-shrink:0;align-self:stretch;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;display:flex;flex-direction:column;justify-content:center;">
         <div style="font-size:11px;font-weight:600;color:var(--sub);letter-spacing:.4px;margin-bottom:12px;">형 상</div>
-        <svg id="al-shape-svg" viewBox="0 0 160 160" width="416" height="416" style="display:block;margin:auto;max-width:100%;max-height:calc(100% - 32px);"></svg>
+        <div style="position:relative;display:inline-block;">
+          <svg id="al-shape-svg" viewBox="0 0 160 160" width="416" height="416" style="display:block;margin:auto;max-width:100%;max-height:calc(100% - 32px);"></svg>
+          <div id="al-dim-labels" style="position:absolute;bottom:8px;left:0;right:0;text-align:center;pointer-events:none;"></div>
+        </div>
       </div>
       <!-- 오른쪽: 입력 폼 + 결과 -->
       <div style="flex:1;min-width:0;" id="al-spec-area">
@@ -1264,6 +1267,13 @@ function selectAlShape(id) {
         : '<p id="al-density-label" style="font-size:12px;color:var(--sub);margin-bottom:22px;">' + getCurrentDensityLabel() + ' &nbsp;·&nbsp; 단위: mm</p>'
       )
     + inputsHtml
+    + '<div style="margin-bottom:20px;">'
+    + '<label style="display:block;font-size:12px;font-weight:600;color:var(--sub);margin-bottom:6px;">수량 (EA)</label>'
+    + '<div style="display:flex;align-items:center;border:1.5px solid var(--border);border-radius:7px;overflow:hidden;background:var(--bg);">'
+    + '<input type="number" id="alinp-qty" min="1" value="1" step="1" oninput="calcAlWeight(\'' + id + '\')"'
+    + ' style="flex:1;padding:9px 12px;font-size:14px;border:none;background:transparent;color:var(--text);outline:none;width:0;">'
+    + '<span style="padding:0 12px;font-size:12px;color:var(--sub);white-space:nowrap;border-left:1px solid var(--border);">EA</span>'
+    + '</div></div>'
     + '<div id="al-result" style="background:var(--bg);border-radius:9px;padding:20px;border:1.5px solid var(--border);text-align:center;">'
     + '<p style="color:var(--sub);font-size:13px;margin:0;">치수를 입력하면 중량이 계산됩니다.</p>'
     + '</div></div>';
@@ -1285,22 +1295,41 @@ function calcAlWeight(shapeId) {
     if (!el || !el.value || isNaN(v) || v <= 0) { allFilled = false; return; }
     vals[inp.id] = v;
   });
+  var dimLabels = document.getElementById('al-dim-labels');
   var result = document.getElementById('al-result');
   if (!allFilled) {
     result.innerHTML = '<p style="color:var(--sub);font-size:13px;margin:0;">치수를 입력하면 중량이 계산됩니다.</p>';
+    if (dimLabels) dimLabels.innerHTML = '';
     return;
+  }
+  if (dimLabels) {
+    var labelParts = shape.inputs.map(function(inp) {
+      var v = vals[inp.id];
+      return v !== undefined ? inp.label.replace(/<[^>]*>/g,'') + ': ' + v + ' mm' : null;
+    }).filter(Boolean);
+    dimLabels.innerHTML = '<span style="display:inline-block;background:rgba(0,0,0,.55);color:#fff;font-size:11px;border-radius:5px;padding:3px 10px;letter-spacing:.3px;">' + labelParts.join(' &nbsp;·&nbsp; ') + '</span>';
   }
   var kg = shape.calc(vals);
   if (kg === null || kg <= 0) {
     result.innerHTML = '<p style="color:#EF4444;font-size:13px;margin:0;">⚠ 입력값을 확인하세요 (두께가 너무 큽니다).</p>';
     return;
   }
+  var qtyEl = document.getElementById('alinp-qty');
+  var qty = qtyEl ? (parseInt(qtyEl.value) || 1) : 1;
+  if (qty < 1) qty = 1;
+  var totalKg = kg * qty;
   var g = kg * 1000;
-  var display = kg >= 1 ? kg.toFixed(3) + ' <span style="font-size:16px;font-weight:500;">kg</span>'
-                        : g.toFixed(1) + ' <span style="font-size:16px;font-weight:500;">g</span>';
+  var totalG = totalKg * 1000;
+  var unitDisplay = kg >= 1 ? kg.toFixed(3) + ' kg' : g.toFixed(1) + ' g';
+  var totalDisplay = totalKg >= 1 ? totalKg.toFixed(3) + ' <span style="font-size:16px;font-weight:500;">kg</span>'
+                                  : totalG.toFixed(1) + ' <span style="font-size:16px;font-weight:500;">g</span>';
   result.innerHTML = '<div style="font-size:11px;font-weight:500;color:var(--sub);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;">계 산 결 과</div>'
-    + '<div style="font-size:34px;font-weight:600;color:var(--accent);line-height:1;">' + display + '</div>'
-    + '<div style="font-size:12px;color:var(--sub);margin-top:8px;">' + kg.toFixed(4) + ' kg &nbsp;/&nbsp; ' + g.toFixed(1) + ' g</div>';
+    + '<div style="font-size:34px;font-weight:600;color:var(--accent);line-height:1;">' + totalDisplay + '</div>'
+    + (qty > 1
+        ? '<div style="font-size:12px;color:var(--sub);margin-top:6px;">합계 ' + totalKg.toFixed(4) + ' kg &nbsp;/&nbsp; ' + totalG.toFixed(1) + ' g</div>'
+          + '<div style="font-size:11px;color:var(--sub);margin-top:4px;">단중 ' + unitDisplay + ' × ' + qty + ' EA</div>'
+        : '<div style="font-size:12px;color:var(--sub);margin-top:8px;">' + kg.toFixed(4) + ' kg &nbsp;/&nbsp; ' + g.toFixed(1) + ' g</div>'
+      );
 }
 
 // ── 시세 보고서 ──
