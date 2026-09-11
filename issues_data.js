@@ -1,5 +1,27 @@
-const ISSUES_META = {"latest": "2026-09-03", "generated": "2026-09-11 03:20"};
+const ISSUES_META = {"latest": "2026-09-11", "generated": "2026-09-11 10:30"};
 const ISSUES_DATA = [
+  {
+    "date": "2026-09-11",
+    "date_fmt": "26년 09월 11일",
+    "tag": "구리·아연 동반 하락",
+    "tag_type": "down",
+    "items": [
+      {
+        "name": "구리(99.99%)",
+        "diff": 810,
+        "pct": -3.7,
+        "direction": "down"
+      },
+      {
+        "name": "아연",
+        "diff": 260,
+        "pct": -4.0,
+        "direction": "down"
+      }
+    ],
+    "body": "LME 시장에서 글로벌 경기 둔화 우려와 중국의 수요 부진이 가중되면서 구리와 아연 등 산업금속에 대한 약세 심화되었다. 달러화 강세 기조도 달러 표시 금속 가격을 하락 압력으로 작용했으며, 공급 과잉 우려까지 더해지면서 두 금속 모두 동반 하락세를 보였다.",
+    "sources": []
+  },
   {
     "date": "2026-09-03",
     "date_fmt": "26년 09월 03일",
