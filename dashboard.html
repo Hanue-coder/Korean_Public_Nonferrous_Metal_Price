@@ -49,7 +49,7 @@
   .table-wrap.dragging { cursor: grabbing; }
   .table-wrap h2 { font-size: 14px; font-weight: 700; margin-bottom: 14px; color: #222222; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { background: #F5F7FA; padding: 8px 12px; text-align: right; color: #555555; font-weight: 600; white-space: nowrap; border-bottom: 2px solid #E5E8EF; }
+  th { background: #F5F7FA; padding: 8px 12px; text-align: right; color: #555555; font-weight: 600; white-space: normal; word-break: keep-all; border-bottom: 2px solid #E5E8EF; }
   th:first-child { text-align: left; }
   td { padding: 7px 12px; text-align: right; border-bottom: 1px solid #EBEEF3; white-space: nowrap; }
   td:first-child { text-align: left; font-weight: 600; color: #333333; }
@@ -570,8 +570,21 @@ function buildTable() {
 
   const recent = [...tableFilteredData(gran)].reverse();
 
+  const colCount = MATERIALS.length + 1; // +1 for 날짜
+  const colPct = (100 / colCount).toFixed(2) + '%';
+  const colgroup = '<colgroup>' +
+    `<col style="width:${colPct};">` +
+    MATERIALS.map(() => `<col style="width:${colPct};">`).join('') +
+    '</colgroup>';
+
   const thead = '<thead><tr><th>날짜</th>' +
-    MATERIALS.map(m => `<th>${m.label}</th>`).join('') +
+    MATERIALS.map(m => {
+      const match = m.label.match(/^([^(]+)(\([^)]+\))?$/);
+      if (match && match[2]) {
+        return `<th>${match[1].trim()}<br><span style="font-weight:400;font-size:10px;">${match[2]}</span></th>`;
+      }
+      return `<th>${m.label}</th>`;
+    }).join('') +
     '</tr></thead>';
 
   // For day gran: skip rows where all values are null
@@ -592,7 +605,8 @@ function buildTable() {
     return '<tr' + sepClass + `><td>${dateLabel}</td>${cells}</tr>`;
   }).join('') + '</tbody>';
 
-  table.innerHTML = thead + tbody;
+  table.style.tableLayout = 'fixed';
+  table.innerHTML = colgroup + thead + tbody;
 }
 
 // ── Event Wiring ───────────────────────────────────────────────────────────
