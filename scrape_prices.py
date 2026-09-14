@@ -384,6 +384,22 @@ def main(debug_sn: str | None = None) -> None:
     log(f"DONE - saved={saved} dup={skipped_dup} old={skipped_old} err={errors}")
     log(f"Output: {OUTPUT_CSV}")
     dedup_csv(OUTPUT_CSV)
+
+    if saved > 0:
+        log("Step 4: converting CSV → JSON …")
+        import subprocess
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        result = subprocess.run(
+            [sys.executable, os.path.join(script_dir, "csv_to_json.py")],
+            capture_output=True, text=True
+        )
+        if result.returncode == 0:
+            log(f"  JSON 변환 완료: {result.stdout.strip()}")
+        else:
+            log(f"  JSON 변환 실패: {result.stderr.strip()}")
+    else:
+        log("Step 4: 새 데이터 없음 - JSON 변환 생략")
+
     _log_f.close()
 
 
