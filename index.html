@@ -88,9 +88,10 @@
     box-shadow: 0 2px 6px rgba(0,0,0,.25);
     z-index: 10;
   }
-  .logo { font-family: "Montserrat", sans-serif; font-size: 20px; font-weight:800; letter-spacing: .08em; color: white; text-decoration: none; flex-shrink: 0; display: flex; align-items: center; gap: 9px; }
+  .logo { font-family: "Montserrat", sans-serif; font-size: 20px; font-weight:800; letter-spacing: .06em; color: white; text-decoration: none; flex-shrink: 0; display: flex; align-items: center; gap: 9px; }
   .logo-symbol { width: 28px; height: 28px; flex-shrink: 0; }
-  .logo span { color: var(--cyan); }
+  .logo-text { display: inline; }
+  .logo-text span { color: var(--cyan); }
   .header-nav { display: flex; align-items: stretch; height: 100%; border-left: 1px solid rgba(255,255,255,.2); margin-left: 8px; }
   .header-nav-tab {
     padding: 0 20px;
@@ -711,9 +712,7 @@
       <line x1="14" y1="23" x2="14" y2="27" stroke="#00C2FF" stroke-width="1.5" stroke-linecap="round"/>
       <line x1="1" y1="14" x2="5" y2="14" stroke="#00C2FF" stroke-width="1.5" stroke-linecap="round"/>
       <line x1="23" y1="14" x2="27" y2="14" stroke="#00C2FF" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-    RC<span>O</span>A
-  </a>
+    </svg><span class="logo-text">RC<span>O</span>A</span></a>
   <!-- logo click → hero view -->
   <script>document.addEventListener('DOMContentLoaded', () => { document.querySelector('.logo').addEventListener('click', e => { e.preventDefault(); document.getElementById('hero-view').style.display='flex'; document.querySelector('.layout').style.display='none'; document.getElementById('issues-board').style.display='none'; document.getElementById('report-view').style.display='none'; document.getElementById('column-view').style.display='none'; document.getElementById('aluminum-view').style.display='none'; document.querySelectorAll('.header-nav-tab').forEach(t=>t.classList.remove('active')); }); }); </script>
   <nav class="header-nav" id="header-nav">
