@@ -88,7 +88,7 @@
     box-shadow: 0 2px 6px rgba(0,0,0,.25);
     z-index: 10;
   }
-  .logo { font-family: "Montserrat", sans-serif; font-size: 20px; font-weight:700; letter-spacing: 3px; color: white; text-decoration: none; flex-shrink: 0; display: flex; align-items: center; gap: 9px; }
+  .logo { font-family: "Montserrat", sans-serif; font-size: 20px; font-weight:800; letter-spacing: .08em; color: white; text-decoration: none; flex-shrink: 0; display: flex; align-items: center; gap: 9px; }
   .logo-symbol { width: 28px; height: 28px; flex-shrink: 0; }
   .logo span { color: var(--cyan); }
   .header-nav { display: flex; align-items: stretch; height: 100%; border-left: 1px solid rgba(255,255,255,.2); margin-left: 8px; }
@@ -325,6 +325,121 @@
 
   /* ── Mobile tab bar ── */
   .mobile-tabs { display: none; }
+
+  /* ── Hero landing view ── */
+  .hero-view {
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+    min-height: 0;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hero-radar {
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(55vw, 540px);
+    height: min(55vw, 540px);
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 72px;
+    max-width: 680px;
+  }
+  .hero-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--cyan);
+    flex-shrink: 0;
+  }
+  .hero-h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(30px, 3.6vw, 50px);
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.12;
+    margin-bottom: 22px;
+    letter-spacing: -0.5px;
+    text-wrap: balance;
+  }
+  .hero-h1 .accent { color: var(--cyan); }
+  .hero-tagline {
+    font-size: 15px;
+    color: rgba(255,255,255,.58);
+    line-height: 1.8;
+    margin-bottom: 40px;
+    font-weight: 400;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity .15s, transform .15s;
+  }
+  .hero-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+  .hero-divider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(0,194,255,.3) 0%, rgba(0,102,255,.15) 50%, transparent 100%);
+  }
+  .hero-stats {
+    position: absolute;
+    bottom: 32px;
+    left: 72px;
+    display: flex;
+    gap: 36px;
+    z-index: 2;
+  }
+  .hero-stat-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.35);
+    margin-bottom: 4px;
+  }
+  .hero-stat-value {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: rgba(255,255,255,.78);
+    font-variant-numeric: tabular-nums;
+  }
+  .hero-stat-chg { font-size: 11px; margin-left: 4px; }
+  .hero-stat-chg.up { color: var(--rise); }
+  .hero-stat-chg.down { color: var(--fall); }
 
   /* ── Issues board ── */
   .issues-board {
@@ -597,8 +712,10 @@
       <line x1="1" y1="14" x2="5" y2="14" stroke="#00C2FF" stroke-width="1.5" stroke-linecap="round"/>
       <line x1="23" y1="14" x2="27" y2="14" stroke="#00C2FF" stroke-width="1.5" stroke-linecap="round"/>
     </svg>
-    R<span>COA</span>
+    RC<span>O</span>A
   </a>
+  <!-- logo click → hero view -->
+  <script>document.addEventListener('DOMContentLoaded', () => { document.querySelector('.logo').addEventListener('click', e => { e.preventDefault(); document.getElementById('hero-view').style.display='flex'; document.querySelector('.layout').style.display='none'; document.getElementById('issues-board').style.display='none'; document.getElementById('report-view').style.display='none'; document.getElementById('column-view').style.display='none'; document.getElementById('aluminum-view').style.display='none'; document.querySelectorAll('.header-nav-tab').forEach(t=>t.classList.remove('active')); }); }); </script>
   <nav class="header-nav" id="header-nav">
     <button class="header-nav-tab active" onclick="switchView('main', this)">비철금속 시세</button>
     <button class="header-nav-tab" onclick="switchView('report', this)">시세 보고서</button>
@@ -760,7 +877,41 @@
   </div>
 </div>
 
-<div class="layout">
+<!-- ── Hero landing view ── -->
+<div class="hero-view" id="hero-view" style="display:flex;">
+  <!-- Decorative large radar SVG -->
+  <svg class="hero-radar" viewBox="0 0 540 540" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" opacity="0.18">
+    <circle cx="270" cy="270" r="265" stroke="#00C2FF" stroke-width="1.5"/>
+    <circle cx="270" cy="270" r="195" stroke="#0066FF" stroke-width="1.2"/>
+    <circle cx="270" cy="270" r="130" stroke="#00C2FF" stroke-width="1"/>
+    <circle cx="270" cy="270" r="65" stroke="#0066FF" stroke-width="1"/>
+    <circle cx="270" cy="270" r="12" fill="#00C2FF"/>
+    <!-- crosshairs -->
+    <line x1="270" y1="2" x2="270" y2="538" stroke="#00C2FF" stroke-width="0.6" stroke-dasharray="4 8"/>
+    <line x1="2" y1="270" x2="538" y2="270" stroke="#00C2FF" stroke-width="0.6" stroke-dasharray="4 8"/>
+    <!-- diagonal faint lines -->
+    <line x1="80" y1="80" x2="460" y2="460" stroke="#0066FF" stroke-width="0.4" opacity="0.5"/>
+    <line x1="460" y1="80" x2="80" y2="460" stroke="#0066FF" stroke-width="0.4" opacity="0.5"/>
+    <!-- scan line -->
+    <line x1="270" y1="270" x2="535" y2="270" stroke="#00C2FF" stroke-width="1.5" opacity="0.6"/>
+  </svg>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Raw Commodity &amp; Aluminum</p>
+    <h1 class="hero-h1">REAL-TIME<br><span class="accent">INSIGHT.</span><br>BETTER DECISIONS.<br>FOR TOMORROW.</h1>
+    <p class="hero-tagline">비철금속 시세를 읽고,<br>더 나은 내일을 만듭니다.</p>
+    <button class="hero-cta" onclick="switchView('main', document.querySelectorAll('.header-nav-tab')[0])">
+      시세 현황 보기 →
+    </button>
+  </div>
+
+  <div class="hero-stats" id="hero-stats">
+    <!-- populated by JS -->
+  </div>
+  <div class="hero-divider"></div>
+</div>
+
+<div class="layout" style="display:none;">
 
   <!-- Left: price dashboard -->
   <div class="panel-left">
@@ -1049,6 +1200,7 @@ function renderIssueCards() {
 function switchView(view, btn, colId) {
   document.querySelectorAll('.header-nav-tab').forEach(t => t.classList.remove('active'));
   if (btn) btn.classList.add('active');
+  document.getElementById('hero-view').style.display       = 'none';
   document.querySelector('.layout').style.display          = view === 'main'     ? 'flex' : 'none';
   document.getElementById('issues-board').style.display    = view === 'issues'   ? 'flex' : 'none';
   document.getElementById('report-view').style.display     = view === 'report'   ? 'flex' : 'none';
