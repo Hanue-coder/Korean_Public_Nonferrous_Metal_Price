@@ -5,17 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RCOA — 비철금속 원자재 포털</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap');
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --navy: #0c1528;
-    --navy-light: #1a2744;
-    --bg: #F5F7FA;
+    --navy: #021B3A;
+    --navy-light: #0a2d5c;
+    --bg: #F0F4F9;
     --white: #ffffff;
-    --border: #E5E8EF;
-    --text: #222222;
-    --sub: #555555;
-    --accent: #2058BE;
+    --border: #D4DCE8;
+    --text: #0D1B2A;
+    --sub: #8A8FA3;
+    --accent: #0066FF;
+    --cyan: #00C2FF;
+    --light-blue: #E6F0FF;
     --rise: #0F9B58;
     --fall: #D93040;
   }
@@ -23,7 +26,7 @@
 
   /* ── Ticker bar (Design B) ── */
   .ticker-bar {
-    background: #0d1c38;
+    background: #010e1f;
     overflow: hidden;
     height: 33px;
     display: flex;
@@ -85,8 +88,9 @@
     box-shadow: 0 2px 6px rgba(0,0,0,.25);
     z-index: 10;
   }
-  .logo { font-size: 22px; font-weight:600; letter-spacing: 2px; color: white; text-decoration: none; flex-shrink: 0; }
-  .logo span { color: #93C5FD; }
+  .logo { font-family: "Montserrat", sans-serif; font-size: 20px; font-weight:700; letter-spacing: 3px; color: white; text-decoration: none; flex-shrink: 0; display: flex; align-items: center; gap: 9px; }
+  .logo-symbol { width: 28px; height: 28px; flex-shrink: 0; }
+  .logo span { color: var(--cyan); }
   .header-nav { display: flex; align-items: stretch; height: 100%; border-left: 1px solid rgba(255,255,255,.2); margin-left: 8px; }
   .header-nav-tab {
     padding: 0 20px;
@@ -102,7 +106,7 @@
     height: 100%;
   }
   .header-nav-tab:hover { color: rgba(255,255,255,.9); background: rgba(255,255,255,.06); }
-  .header-nav-tab.active { color: #fff; border-bottom-color: #93C5FD; font-weight:500; }
+  .header-nav-tab.active { color: #fff; border-bottom-color: var(--cyan); font-weight:600; }
 
   /* ── Body layout ── */
   .layout {
@@ -317,7 +321,7 @@
     justify-content: center;
     gap: 6px;
   }
-  .add-btn:hover { border-color: var(--accent); color: var(--accent); background: #EFF6FF; }
+  .add-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--light-blue); }
 
   /* ── Mobile tab bar ── */
   .mobile-tabs { display: none; }
@@ -365,7 +369,7 @@
     transition: all .15s;
   }
   .issues-filter-tab:hover { color: var(--text); border-color: #aab4c4; }
-  .issues-filter-tab.active { color: var(--accent); border-color: var(--accent); background: #eef3ff; }
+  .issues-filter-tab.active { color: var(--accent); border-color: var(--accent); background: var(--light-blue); }
   .issue-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -583,7 +587,18 @@
 <body>
 
 <header>
-  <a class="logo" href="https://www.rcoa.co.kr/">R<span>COA</span></a>
+  <a class="logo" href="https://www.rcoa.co.kr/">
+    <svg class="logo-symbol" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="14" cy="14" r="13" stroke="#00C2FF" stroke-width="1.5"/>
+      <circle cx="14" cy="14" r="8.5" stroke="#0066FF" stroke-width="1.5"/>
+      <circle cx="14" cy="14" r="3.5" fill="#00C2FF"/>
+      <line x1="14" y1="1" x2="14" y2="5" stroke="#00C2FF" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="14" y1="23" x2="14" y2="27" stroke="#00C2FF" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="1" y1="14" x2="5" y2="14" stroke="#00C2FF" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="23" y1="14" x2="27" y2="14" stroke="#00C2FF" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    R<span>COA</span>
+  </a>
   <nav class="header-nav" id="header-nav">
     <button class="header-nav-tab active" onclick="switchView('main', this)">비철금속 시세</button>
     <button class="header-nav-tab" onclick="switchView('report', this)">시세 보고서</button>
