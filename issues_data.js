@@ -1,9 +1,39 @@
-<<<<<<< Updated upstream
-const ISSUES_META = {"latest": "2026-09-11", "generated": "2026-09-14 07:44"};
-=======
-const ISSUES_META = {"latest": "2026-09-11", "generated": "2026-09-15 02:46"};
->>>>>>> Stashed changes
+const ISSUES_META = {"latest": "2026-09-15", "generated": "2026-09-15 10:25"};
 const ISSUES_DATA = [
+  {
+    "date": "2026-09-15",
+    "date_fmt": "26년 09월 15일",
+    "tag": "비철금속 전반 약세",
+    "tag_type": "down",
+    "items": [
+      {
+        "name": "구리(99.99%)",
+        "diff": 440,
+        "pct": -2.1,
+        "direction": "down"
+      },
+      {
+        "name": "아연",
+        "diff": 150,
+        "pct": -2.4,
+        "direction": "down"
+      },
+      {
+        "name": "주석(99.85%)",
+        "diff": 2120,
+        "pct": -2.7,
+        "direction": "down"
+      },
+      {
+        "name": "주석(99.99%)",
+        "diff": 2120,
+        "pct": -2.7,
+        "direction": "down"
+      }
+    ],
+    "body": "글로벌 경기 둔화 우려로 인한 수요 부진과 LME 선물 시장의 동반 하락이 구리, 아연, 주석 등 전 품목에 영향을 미쳤다. 특히 중국의 경제 성장 둔화와 제조업 활동 위축이 비철금속의 수요를 제약하면서 가격 하향 압력이 지속되었으며, 미 달러 강세로 인한 달러 표시 금속의 상대적 가격 상승도 구매심리를 위축시켰다.",
+    "sources": []
+  },
   {
     "date": "2026-09-11",
     "date_fmt": "26년 09월 11일",
