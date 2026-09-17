@@ -1464,12 +1464,13 @@ function getDimSvg(shapeId, vals) {
     + '<marker id="da" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0,0 6,3 0,6" fill="'+dimC+'"/></marker>'
     + '<marker id="db" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto-start-reverse"><polygon points="0,0 6,3 0,6" fill="'+dimC+'"/></marker>'
     + '</defs>';
-  function hd(x1, x2, y, label) {
+  function hd(x1, x2, y, label, lblBelow) {
     var m = (x1+x2)/2;
+    var ty = lblBelow ? y+12 : y-7;
     return '<line x1="'+x1+'" y1="'+(y-4)+'" x2="'+x1+'" y2="'+(y+4)+'" stroke="'+dimC+'" stroke-width="1"/>'
          + '<line x1="'+x2+'" y1="'+(y-4)+'" x2="'+x2+'" y2="'+(y+4)+'" stroke="'+dimC+'" stroke-width="1"/>'
          + '<line x1="'+x1+'" y1="'+y+'" x2="'+x2+'" y2="'+y+'" stroke="'+dimC+'" stroke-width="1" marker-start="url(#db)" marker-end="url(#da)"/>'
-         + '<text x="'+m+'" y="'+(y-7)+'" fill="'+dimC+'" '+F+' text-anchor="middle">'+label+'</text>';
+         + '<text x="'+m+'" y="'+ty+'" fill="'+dimC+'" '+F+' text-anchor="middle">'+label+'</text>';
   }
   function vd(y1, y2, x, label, right) {
     var m = (y1+y2)/2;
@@ -1499,7 +1500,7 @@ function getDimSvg(shapeId, vals) {
     case 'TE': {
       var OD=vals.od, ID_v=vals.id||(vals.od-2*vals.t), t=vals.t||((vals.od-vals.id)/2), L=vals.l;
       var cx=110, cy=95, Ro=68, Ri=Math.max(8,Math.round(68*(ID_v/OD)));
-      vb = '0 0 260 235';
+      vb = '0 0 260 248';
       h = '<circle cx="'+cx+'" cy="'+cy+'" r="'+Ro+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'"/>'
         + '<circle cx="'+cx+'" cy="'+cy+'" r="'+Ri+'" fill="white" stroke="'+stroke+'" stroke-width="'+sw+'"/>'
         + '<line x1="'+(cx-78)+'" y1="'+cy+'" x2="'+(cx+82)+'" y2="'+cy+'" stroke="'+stroke+'" stroke-width="0.8" stroke-dasharray="5,3" opacity="0.5"/>'
@@ -1508,9 +1509,9 @@ function getDimSvg(shapeId, vals) {
         + '<line x1="'+(cx+Ro)+'" y1="'+(cy-4)+'" x2="'+(cx+Ro)+'" y2="'+(cy+4)+'" stroke="'+dimC+'" stroke-width="1"/>'
         + '<line x1="'+(cx+Ri)+'" y1="'+cy+'" x2="'+(cx+Ro)+'" y2="'+cy+'" stroke="'+dimC+'" stroke-width="1" marker-start="url(#db)" marker-end="url(#da)"/>'
         + '<text x="'+(cx+Ro+6)+'" y="'+(cy+4)+'" fill="'+dimC+'" font-family="Arial,sans-serif" font-size="10.5" text-anchor="start">t '+t+' mm</text>'
-        + hd(cx-Ri, cx+Ri, 186, 'ID '+ID_v+' mm')
-        + hd(cx-Ro, cx+Ro, 202, 'OD '+OD+' mm')
-        + lbl(cx, 225, 'L: '+L+' mm');
+        + hd(cx-Ri, cx+Ri, 182, 'ID '+ID_v+' mm', true)
+        + hd(cx-Ro, cx+Ro, 207, 'OD '+OD+' mm', true)
+        + lbl(cx, 232, 'L: '+L+' mm');
       break;
     }
     case 'QBE': {
@@ -1707,7 +1708,8 @@ function calcAlWeight(shapeId) {
   var totalKg = kg * qty;
   var perM = vals.l > 0 ? kg * 1000 / vals.l : 0;
   var area = getCurrentDensity() > 0 && vals.l > 0 ? kg / (vals.l * getCurrentDensity()) : 0;
-  function fmtKg(v) { return v >= 1 ? v.toFixed(3) + ' kg' : (v*1000).toFixed(1) + ' g'; }
+  function comma(n) { var p=n.toFixed(n>=1000?0:n>=100?1:n>=10?2:3); var s=p.split('.'); s[0]=s[0].replace(/\B(?=(\d{3})+(?!\d))/g,','); return s.join('.'); }
+  function fmtKg(v) { return v >= 1 ? comma(v) + ' kg' : comma(v*1000) + ' g'; }
   var CS = 'style="background:var(--white);border-radius:7px;padding:12px 14px;text-align:center;"';
   var LB = 'style="font-size:10px;font-weight:600;color:var(--sub);letter-spacing:.4px;text-transform:uppercase;margin-bottom:5px;"';
   var VL = 'style="font-size:15px;font-weight:700;color:var(--text);line-height:1.2;"';
@@ -1716,8 +1718,8 @@ function calcAlWeight(shapeId) {
     + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">'
     + '<div '+CS+'><div '+LB+'>중량</div><div '+VL+'>' + fmtKg(totalKg) + '</div><div '+UN+'>× '+qty+' EA</div></div>'
     + '<div '+CS+'><div '+LB+'>개당중량</div><div '+VL+'>' + fmtKg(kg) + '</div><div '+UN+'>/ea</div></div>'
-    + '<div '+CS+'><div '+LB+'>단중</div><div '+VL+'>' + perM.toFixed(4) + '</div><div '+UN+'>kg/m</div></div>'
-    + '<div '+CS+'><div '+LB+'>면적</div><div '+VL+'>' + area.toFixed(2) + '</div><div '+UN+'>mm²</div></div>'
+    + '<div '+CS+'><div '+LB+'>단중</div><div '+VL+'>' + (function(v){var s=v.toFixed(4);var p=s.split('.');p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');return p.join('.');})(perM) + '</div><div '+UN+'>kg/m</div></div>'
+    + '<div '+CS+'><div '+LB+'>면적</div><div '+VL+'>' + (function(v){var s=v.toFixed(2);var p=s.split('.');p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');return p.join('.');})(area) + '</div><div '+UN+'>mm²</div></div>'
     + '</div>';
 }
 
