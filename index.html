@@ -767,7 +767,7 @@
     <!-- 조건 선택 카드 (sticky) -->
     <div style="position:sticky;top:0;z-index:10;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.06);">
       <h3 style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:16px;">보고서 조건 선택</h3>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;margin-bottom:16px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:14px;align-items:end;">
         <!-- 품목 -->
         <div>
           <label style="display:block;font-size:12px;font-weight:600;color:var(--sub);margin-bottom:6px;">품목</label>
@@ -804,14 +804,15 @@
           <label id="rpt-period-label" style="display:block;font-size:12px;font-weight:600;color:var(--sub);margin-bottom:6px;">월</label>
           <select id="rpt-period" style="width:100%;padding:9px 12px;font-size:14px;border:1.5px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);outline:none;cursor:pointer;"></select>
         </div>
-      </div>
-      <div style="display:flex;gap:10px;">
-        <button onclick="generateReport()"
-          style="flex:1;padding:11px;font-size:14px;font-weight:500;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;letter-spacing:.3px;transition:opacity .15s;"
-          onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">보고서 생성</button>
-        <button class="rpt-pdf-btn" onclick="printReport()"
-          style="flex:1;padding:11px;font-size:14px;font-weight:500;background:var(--navy);color:#fff;border:none;border-radius:8px;cursor:pointer;letter-spacing:.3px;transition:opacity .15s;display:none;"
-          onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">🖨 PDF 출력</button>
+        <!-- 버튼 -->
+        <div style="display:flex;gap:8px;">
+          <button onclick="generateReport()"
+            style="white-space:nowrap;padding:9px 20px;font-size:14px;font-weight:500;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;letter-spacing:.3px;transition:opacity .15s;"
+            onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">보고서 생성</button>
+          <button class="rpt-pdf-btn" onclick="printReport()"
+            style="white-space:nowrap;padding:9px 20px;font-size:14px;font-weight:500;background:var(--navy);color:#fff;border:none;border-radius:8px;cursor:pointer;letter-spacing:.3px;transition:opacity .15s;display:none;"
+            onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">🖨 PDF 출력</button>
+        </div>
       </div>
     </div>
     <!-- 보고서 출력 영역 -->
