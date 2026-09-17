@@ -1322,69 +1322,69 @@ var AL_SHAPES = [
   { id:'RBE', label:'봉재 (RBE)',
     inputs:[{id:'d',label:'외경 D',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
     calc: function(v) { return Math.PI*(v.d/2)*(v.d/2)*v.l*getCurrentDensity(); },
-    svg: '<circle cx="80" cy="80" r="65" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5"/>'
+    svg: '<circle cx="80" cy="80" r="65" fill="#E2E6EC" stroke="#5A6070" stroke-width="2.5"/>'
   },
   { id:'TE', label:'관재 (TE)',
     inputs:[{id:'od',label:'외경 OD',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
     calc: function(v) { var id=v.od-2*v.t; if(id<=0) return null; return Math.PI*((v.od/2)*(v.od/2)-(id/2)*(id/2))*v.l*getCurrentDensity(); },
-    svg: '<circle cx="80" cy="80" r="65" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5"/>'
-       + '<circle cx="80" cy="80" r="42" fill="white" stroke="#2563EB" stroke-width="2"/>'
+    svg: '<circle cx="80" cy="80" r="65" fill="#E2E6EC" stroke="#5A6070" stroke-width="2.5"/>'
+       + '<circle cx="80" cy="80" r="42" fill="white" stroke="#5A6070" stroke-width="2"/>'
   },
   { id:'QBE', label:'판재 (QBE)',
     inputs:[{id:'w',label:'폭 W',unit:'mm'},{id:'t',label:'두께 T',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
     calc: function(v) { return v.w*v.t*v.l*getCurrentDensity(); },
-    svg: '<rect x="6" y="56" width="148" height="48" rx="2" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5"/>'
+    svg: '<rect x="6" y="56" width="148" height="48" rx="2" fill="#E2E6EC" stroke="#5A6070" stroke-width="2.5"/>'
   },
   { id:'HBE', label:'육각 (HBE)',
     inputs:[{id:'af',label:'대변거리 AF',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
     calc: function(v) { return (Math.sqrt(3)/2)*v.af*v.af*v.l*getCurrentDensity(); },
-    svg: '<polygon points="15,80 47,24 113,24 145,80 113,136 47,136" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
+    svg: '<polygon points="15,80 47,24 113,24 145,80 113,136 47,136" fill="#E2E6EC" stroke="#5A6070" stroke-width="2.5" stroke-linejoin="round"/>'
   },
   { id:'QTE', label:'사각관 (QTE)',
     inputs:[{id:'w',label:'폭 W',unit:'mm'},{id:'h',label:'높이 H',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
     calc: function(v) { var iw=v.w-2*v.t,ih=v.h-2*v.t; if(iw<=0||ih<=0) return null; return (v.w*v.h-iw*ih)*v.l*getCurrentDensity(); },
-    svg: '<rect x="8" y="8" width="144" height="144" rx="2" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5"/>'
-       + '<rect x="28" y="28" width="104" height="104" rx="1" fill="white" stroke="#2563EB" stroke-width="2"/>'
+    svg: '<rect x="8" y="8" width="144" height="144" rx="2" fill="#E2E6EC" stroke="#5A6070" stroke-width="2.5"/>'
+       + '<rect x="28" y="28" width="104" height="104" rx="1" fill="white" stroke="#5A6070" stroke-width="2"/>'
   },
   { id:'HTE', label:'육각관 (HTE)',
     inputs:[{id:'af',label:'대변거리 AF',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
     calc: function(v) { var afi=v.af-2*v.t; if(afi<=0) return null; return (Math.sqrt(3)/2)*(v.af*v.af-afi*afi)*v.l*getCurrentDensity(); },
-    svg: '<polygon points="15,80 47,24 113,24 145,80 113,136 47,136" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
-       + '<polygon points="28,80 54,36 106,36 132,80 106,124 54,124" fill="white" stroke="#2563EB" stroke-width="2" stroke-linejoin="round"/>'
+    svg: '<polygon points="15,80 47,24 113,24 145,80 113,136 47,136" fill="#E2E6EC" stroke="#5A6070" stroke-width="2.5" stroke-linejoin="round"/>'
+       + '<polygon points="28,80 54,36 106,36 132,80 106,124 54,124" fill="white" stroke="#5A6070" stroke-width="2" stroke-linejoin="round"/>'
   },
   { id:'HTEO', label:'육각관 (HTE(O))',
     inputs:[{id:'af',label:'대변거리 AF',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
     calc: function(v) { var afi=v.af-2*v.t; if(afi<=0) return null; return (Math.sqrt(3)/2)*(v.af*v.af-afi*afi)*v.l*getCurrentDensity(); },
-    svg: '<polygon points="15,80 47,24 113,24 145,80 113,136 47,136" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
-       + '<circle cx="80" cy="80" r="36" fill="white" stroke="#2563EB" stroke-width="2"/>'
+    svg: '<polygon points="15,80 47,24 113,24 145,80 113,136 47,136" fill="#E2E6EC" stroke="#5A6070" stroke-width="2.5" stroke-linejoin="round"/>'
+       + '<circle cx="80" cy="80" r="36" fill="white" stroke="#5A6070" stroke-width="2"/>'
   },
   { id:'PINUT', label:'땅콩 (Pinut)',
     inputs:[{id:'d',label:'외경 D',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
     calc: function(v) { var id=v.d-2*v.t; if(id<=0) return null; return 2*Math.PI*((v.d/2)*(v.d/2)-(id/2)*(id/2))*v.l*getCurrentDensity(); },
-    svg: '<circle cx="42" cy="80" r="36" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5"/>'
-       + '<circle cx="118" cy="80" r="36" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5"/>'
-       + '<circle cx="42" cy="80" r="20" fill="white" stroke="#2563EB" stroke-width="2"/>'
-       + '<circle cx="118" cy="80" r="20" fill="white" stroke="#2563EB" stroke-width="2"/>'
+    svg: '<circle cx="42" cy="80" r="36" fill="#E2E6EC" stroke="#5A6070" stroke-width="2.5"/>'
+       + '<circle cx="118" cy="80" r="36" fill="#E2E6EC" stroke="#5A6070" stroke-width="2.5"/>'
+       + '<circle cx="42" cy="80" r="20" fill="white" stroke="#5A6070" stroke-width="2"/>'
+       + '<circle cx="118" cy="80" r="20" fill="white" stroke="#5A6070" stroke-width="2"/>'
   },
   { id:'ANG', label:'앵글 (ANG)',
     inputs:[{id:'w',label:'폭 W',unit:'mm'},{id:'h',label:'높이 H',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
     calc: function(v) { return (v.w*v.t + (v.h-v.t)*v.t)*v.l*getCurrentDensity(); },
-    svg: '<path d="M 10,10 H 150 V 50 H 50 V 150 H 10 Z" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
+    svg: '<path d="M 10,10 H 150 V 50 H 50 V 150 H 10 Z" fill="#E2E6EC" stroke="#5A6070" stroke-width="2.5" stroke-linejoin="round"/>'
   },
   { id:'HBEAM', label:'H빔 (H-BEAM)',
     inputs:[{id:'b',label:'플랜지폭 B',unit:'mm'},{id:'h',label:'높이 H',unit:'mm'},{id:'tf',label:'플랜지두께 tf',unit:'mm'},{id:'tw',label:'웹두께 tw',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
     calc: function(v) { return (2*v.b*v.tf + (v.h-2*v.tf)*v.tw)*v.l*getCurrentDensity(); },
-    svg: '<path d="M 10,10 H 150 V 50 H 95 V 110 H 150 V 150 H 10 V 110 H 65 V 50 H 10 Z" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
+    svg: '<path d="M 10,10 H 150 V 50 H 95 V 110 H 150 V 150 H 10 V 110 H 65 V 50 H 10 Z" fill="#E2E6EC" stroke="#5A6070" stroke-width="2.5" stroke-linejoin="round"/>'
   },
   { id:'CHAN', label:'U형강 (CHAN)',
     inputs:[{id:'b',label:'폭 B',unit:'mm'},{id:'h',label:'높이 H',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
     calc: function(v) { return (2*v.b*v.t + (v.h-2*v.t)*v.t)*v.l*getCurrentDensity(); },
-    svg: '<path d="M 10,10 H 130 V 50 H 50 V 110 H 130 V 150 H 10 Z" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
+    svg: '<path d="M 10,10 H 130 V 50 H 50 V 110 H 130 V 150 H 10 Z" fill="#E2E6EC" stroke="#5A6070" stroke-width="2.5" stroke-linejoin="round"/>'
   },
   { id:'TBAR', label:'T형강 (T-BAR)',
     inputs:[{id:'b',label:'플랜지폭 B',unit:'mm'},{id:'h',label:'높이 H',unit:'mm'},{id:'tf',label:'플랜지두께 tf',unit:'mm'},{id:'tw',label:'웹두께 tw',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
     calc: function(v) { return (v.b*v.tf + (v.h-v.tf)*v.tw)*v.l*getCurrentDensity(); },
-    svg: '<path d="M 10,10 H 150 V 50 H 95 V 150 H 65 V 50 H 10 Z" fill="#BFDBFE" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>'
+    svg: '<path d="M 10,10 H 150 V 50 H 95 V 150 H 65 V 50 H 10 Z" fill="#E2E6EC" stroke="#5A6070" stroke-width="2.5" stroke-linejoin="round"/>'
   }
 ];
 
@@ -1413,7 +1413,9 @@ function selectAlShape(id) {
     btn.style.color      = s.id===id ? 'white' : 'var(--text)';
     btn.style.fontWeight = s.id===id ? '700' : '400';
   });
-  document.getElementById('al-shape-svg').innerHTML = shape.svg;
+  var _svgEl = document.getElementById('al-shape-svg');
+  _svgEl.setAttribute('viewBox', '0 0 160 160');
+  _svgEl.innerHTML = shape.svg;
   var specArea = document.getElementById('al-spec-area');
   var inputsHtml = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;">';
   shape.inputs.forEach(function(inp) {
@@ -1453,6 +1455,173 @@ function recalcAlShape() {
   if (_currentAlShapeId) calcAlWeight(_currentAlShapeId);
 }
 
+function getDimSvg(shapeId, vals) {
+  var fill = '#E2E6EC', stroke = '#5A6070', sw = 2.5;
+  var dimC = '#444';
+  var F = 'font-family="Arial,sans-serif" font-size="10.5"';
+  var defs = '<defs>'
+    + '<marker id="da" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0,0 6,3 0,6" fill="'+dimC+'"/></marker>'
+    + '<marker id="db" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto-start-reverse"><polygon points="0,0 6,3 0,6" fill="'+dimC+'"/></marker>'
+    + '</defs>';
+  function hd(x1, x2, y, label) {
+    var m = (x1+x2)/2;
+    return '<line x1="'+x1+'" y1="'+(y-4)+'" x2="'+x1+'" y2="'+(y+4)+'" stroke="'+dimC+'" stroke-width="1"/>'
+         + '<line x1="'+x2+'" y1="'+(y-4)+'" x2="'+x2+'" y2="'+(y+4)+'" stroke="'+dimC+'" stroke-width="1"/>'
+         + '<line x1="'+x1+'" y1="'+y+'" x2="'+x2+'" y2="'+y+'" stroke="'+dimC+'" stroke-width="1" marker-start="url(#db)" marker-end="url(#da)"/>'
+         + '<text x="'+m+'" y="'+(y-7)+'" fill="'+dimC+'" '+F+' text-anchor="middle">'+label+'</text>';
+  }
+  function vd(y1, y2, x, label, right) {
+    var m = (y1+y2)/2;
+    var side = right !== false ? 7 : -7;
+    var ta = right !== false ? 'start' : 'end';
+    return '<line x1="'+(x-4)+'" y1="'+y1+'" x2="'+(x+4)+'" y2="'+y1+'" stroke="'+dimC+'" stroke-width="1"/>'
+         + '<line x1="'+(x-4)+'" y1="'+y2+'" x2="'+(x+4)+'" y2="'+y2+'" stroke="'+dimC+'" stroke-width="1"/>'
+         + '<line x1="'+x+'" y1="'+y1+'" x2="'+x+'" y2="'+y2+'" stroke="'+dimC+'" stroke-width="1" marker-start="url(#db)" marker-end="url(#da)"/>'
+         + '<text x="'+(x+side)+'" y="'+(m+4)+'" fill="'+dimC+'" '+F+' text-anchor="'+ta+'">'+label+'</text>';
+  }
+  function lbl(cx, y, label) {
+    return '<text x="'+cx+'" y="'+y+'" fill="'+dimC+'" '+F+' text-anchor="middle">'+label+'</text>';
+  }
+  var h = '';
+  var vb = '0 0 260 220';
+  switch(shapeId) {
+    case 'RBE': {
+      var D=vals.d, L=vals.l;
+      h = '<rect x="35" y="70" width="170" height="80" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'"/>'
+        + '<ellipse cx="35" cy="110" rx="11" ry="40" fill="#CDD2D8" stroke="'+stroke+'" stroke-width="'+sw+'"/>'
+        + '<ellipse cx="205" cy="110" rx="11" ry="40" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'"/>'
+        + '<line x1="18" y1="110" x2="222" y2="110" stroke="'+stroke+'" stroke-width="1" stroke-dasharray="5,3" opacity="0.5"/>'
+        + vd(70, 150, 228, 'Ø'+D, true)
+        + hd(35, 205, 177, L+' mm');
+      break;
+    }
+    case 'TE': {
+      var OD=vals.od, t=vals.t, L=vals.l, ID=OD-2*t;
+      var cx=110, cy=100, Ro=72, Ri=Math.max(8,Math.round(72*(ID/OD)));
+      h = '<circle cx="'+cx+'" cy="'+cy+'" r="'+Ro+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'"/>'
+        + '<circle cx="'+cx+'" cy="'+cy+'" r="'+Ri+'" fill="white" stroke="'+stroke+'" stroke-width="'+sw+'"/>'
+        + '<line x1="'+(cx-82)+'" y1="'+cy+'" x2="'+(cx+82)+'" y2="'+cy+'" stroke="'+stroke+'" stroke-width="0.8" stroke-dasharray="5,3" opacity="0.5"/>'
+        + '<line x1="'+cx+'" y1="'+(cy-82)+'" x2="'+cx+'" y2="'+(cy+82)+'" stroke="'+stroke+'" stroke-width="0.8" stroke-dasharray="5,3" opacity="0.5"/>'
+        + hd(cx-Ro, cx+Ro, 190, 'OD '+OD+' mm')
+        + hd(cx, cx+Ro, 170, 't '+t+' mm')
+        + lbl(cx, 215, 'L: '+L+' mm');
+      break;
+    }
+    case 'QBE': {
+      var W=vals.w, T=vals.t, L=vals.l;
+      var ratio=W/T, maxW=140, maxT=60, rW, rT;
+      if(ratio>=maxW/maxT){rW=maxW;rT=Math.max(10,maxW/ratio);}else{rT=maxT;rW=Math.max(10,maxT*ratio);}
+      var cx=110,cy=105,x1=cx-rW/2,y1=cy-rT/2,x2=cx+rW/2,y2=cy+rT/2;
+      h = '<rect x="'+x1+'" y="'+y1+'" width="'+rW+'" height="'+rT+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'"/>'
+        + hd(x1, x2, 170, 'W '+W+' mm')
+        + vd(y1, y2, x2+20, 'T '+T, true)
+        + lbl(cx, 215, 'L: '+L+' mm');
+      break;
+    }
+    case 'HBE': {
+      var AF=vals.af, L=vals.l;
+      var cx=110,cy=105,r=70;
+      var pts=[0,1,2,3,4,5].map(function(i){var a=i*Math.PI/3-Math.PI/6;return (cx+r*Math.cos(a)).toFixed(1)+','+(cy+r*Math.sin(a)).toFixed(1);}).join(' ');
+      h = '<polygon points="'+pts+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'" stroke-linejoin="round"/>'
+        + '<line x1="'+(cx-80)+'" y1="'+cy+'" x2="'+(cx+80)+'" y2="'+cy+'" stroke="'+stroke+'" stroke-width="0.8" stroke-dasharray="5,3" opacity="0.5"/>'
+        + hd(cx-r, cx+r, 190, 'AF '+AF+' mm')
+        + lbl(cx, 215, 'L: '+L+' mm');
+      break;
+    }
+    case 'QTE': {
+      var W=vals.w, H=vals.h, t=vals.t, L=vals.l, iW=W-2*t, iH=H-2*t;
+      var ratio=W/H, maxW=140, maxH=120, rW, rH;
+      if(ratio>=maxW/maxH){rW=maxW;rH=maxW/ratio;}else{rH=maxH;rW=maxH*ratio;}
+      var riW=rW*(iW/W),riH=rH*(iH/H),cx=110,cy=100,ox=cx-rW/2,oy=cy-rH/2,ix=cx-riW/2,iy=cy-riH/2;
+      h = '<rect x="'+ox+'" y="'+oy+'" width="'+rW+'" height="'+rH+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'"/>'
+        + '<rect x="'+ix+'" y="'+iy+'" width="'+riW+'" height="'+riH+'" fill="white" stroke="'+stroke+'" stroke-width="2"/>'
+        + hd(ox, ox+rW, 183, 'W '+W+' mm')
+        + vd(oy, oy+rH, ox+rW+20, 'H '+H, true)
+        + hd(cx, cx+rW/2, 165, 't '+t+' mm')
+        + lbl(cx, 215, 'L: '+L+' mm');
+      break;
+    }
+    case 'HTE':
+    case 'HTEO': {
+      var AF=vals.af, t=vals.t, L=vals.l, afi=AF-2*t;
+      var cx=110,cy=100,r=68,ri=Math.max(8,Math.round(68*(afi/AF)));
+      var pts6=function(R){return [0,1,2,3,4,5].map(function(i){var a=i*Math.PI/3-Math.PI/6;return (cx+R*Math.cos(a)).toFixed(1)+','+(cy+R*Math.sin(a)).toFixed(1);}).join(' ');};
+      h = '<polygon points="'+pts6(r)+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'" stroke-linejoin="round"/>';
+      if(shapeId==='HTEO'){
+        h+='<circle cx="'+cx+'" cy="'+cy+'" r="'+ri+'" fill="white" stroke="'+stroke+'" stroke-width="2"/>';
+      }else{
+        h+='<polygon points="'+pts6(ri)+'" fill="white" stroke="'+stroke+'" stroke-width="2" stroke-linejoin="round"/>';
+      }
+      h += hd(cx-r, cx+r, 188, 'AF '+AF+' mm') + hd(cx, cx+r, 170, 't '+t+' mm') + lbl(cx, 215, 'L: '+L+' mm');
+      break;
+    }
+    case 'PINUT': {
+      var D=vals.d, t=vals.t, L=vals.l, id2=D-2*t;
+      var r=45, ri=Math.max(6,Math.round(45*(id2/D)));
+      var cx1=75, cx2=185, cy=100;
+      h = '<circle cx="'+cx1+'" cy="'+cy+'" r="'+r+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'"/>'
+        + '<circle cx="'+cx2+'" cy="'+cy+'" r="'+r+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'"/>'
+        + '<circle cx="'+cx1+'" cy="'+cy+'" r="'+ri+'" fill="white" stroke="'+stroke+'" stroke-width="2"/>'
+        + '<circle cx="'+cx2+'" cy="'+cy+'" r="'+ri+'" fill="white" stroke="'+stroke+'" stroke-width="2"/>'
+        + vd(cy-r, cy+r, cx1-60, 'OD '+D, false)
+        + hd(cx1+ri, cx1+r, 155, 't '+t+' mm')
+        + lbl(130, 215, 'L: '+L+' mm');
+      break;
+    }
+    case 'ANG': {
+      var W=vals.w, H=vals.h, t=vals.t, L=vals.l;
+      var scale=Math.min(150/Math.max(W,H), 3), rW=Math.min(150,W*scale), rH=Math.min(150,H*scale), rt=Math.min(rW,rH,t*scale);
+      var ox=55, oy=25;
+      var pts=ox+','+oy+' '+(ox+rW)+','+oy+' '+(ox+rW)+','+(oy+rt)+' '+(ox+rt)+','+(oy+rt)+' '+(ox+rt)+','+(oy+rH)+' '+ox+','+(oy+rH);
+      h = '<polygon points="'+pts+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'" stroke-linejoin="round"/>'
+        + hd(ox, ox+rW, 195, 'W '+W+' mm')
+        + vd(oy, oy+rH, ox+rW+20, 'H '+H, true)
+        + hd(ox, ox+rt, 210, 't '+t+' mm')
+        + lbl(130, 220, 'L: '+L+' mm');
+      break;
+    }
+    case 'HBEAM': {
+      var B=vals.b, H=vals.h, tf=vals.tf, tw=vals.tw, L=vals.l;
+      var cx=110,cy=105,scaleH=Math.min(140/H,140/B,4),rB=B*scaleH,rH2=H*scaleH,rtf=tf*scaleH,rtw=tw*scaleH;
+      var ox=cx-rB/2, oy=cy-rH2/2;
+      var pts=ox+','+oy+' '+(ox+rB)+','+oy+' '+(ox+rB)+','+(oy+rtf)+' '+(cx+rtw/2)+','+(oy+rtf)+' '
+             +(cx+rtw/2)+','+(oy+rH2-rtf)+' '+(ox+rB)+','+(oy+rH2-rtf)+' '+(ox+rB)+','+(oy+rH2)+' '
+             +ox+','+(oy+rH2)+' '+ox+','+(oy+rH2-rtf)+' '+(cx-rtw/2)+','+(oy+rH2-rtf)+' '
+             +(cx-rtw/2)+','+(oy+rtf)+' '+ox+','+(oy+rtf);
+      h = '<polygon points="'+pts+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'" stroke-linejoin="round"/>'
+        + hd(ox, ox+rB, 195, 'B '+B+' mm')
+        + vd(oy, oy+rH2, ox+rB+22, 'H '+H, true)
+        + lbl(cx, 215, 'tf: '+tf+' mm   tw: '+tw+' mm   L: '+L+' mm');
+      break;
+    }
+    case 'CHAN': {
+      var B=vals.b, H=vals.h, t=vals.t, L=vals.l;
+      var scale=Math.min(140/H,120/B,4),rB=B*scale,rH=H*scale,rt=t*scale;
+      var cx=110,cy=100,ox=cx-rB/2,oy=cy-rH/2;
+      var pts=ox+','+oy+' '+(ox+rB)+','+oy+' '+(ox+rB)+','+(oy+rt)+' '+(ox+rt)+','+(oy+rt)+' '
+             +(ox+rt)+','+(oy+rH-rt)+' '+(ox+rB)+','+(oy+rH-rt)+' '+(ox+rB)+','+(oy+rH)+' '+ox+','+(oy+rH);
+      h = '<polygon points="'+pts+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'" stroke-linejoin="round"/>'
+        + hd(ox, ox+rB, 195, 'B '+B+' mm')
+        + vd(oy, oy+rH, ox+rB+22, 'H '+H, true)
+        + lbl(cx, 215, 't: '+t+' mm   L: '+L+' mm');
+      break;
+    }
+    case 'TBAR': {
+      var B=vals.b, H=vals.h, tf=vals.tf, tw=vals.tw, L=vals.l;
+      var cx=110,cy=105,scale=Math.min(140/H,140/B,4),rB=B*scale,rH=H*scale,rtf=tf*scale,rtw=tw*scale;
+      var ox=cx-rB/2,oy=cy-rH/2;
+      var pts=ox+','+oy+' '+(ox+rB)+','+oy+' '+(ox+rB)+','+(oy+rtf)+' '+(cx+rtw/2)+','+(oy+rtf)+' '
+             +(cx+rtw/2)+','+(oy+rH)+' '+(cx-rtw/2)+','+(oy+rH)+' '+(cx-rtw/2)+','+(oy+rtf)+' '+ox+','+(oy+rtf);
+      h = '<polygon points="'+pts+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'" stroke-linejoin="round"/>'
+        + hd(ox, ox+rB, 195, 'B '+B+' mm')
+        + vd(oy, oy+rH, ox+rB+22, 'H '+H, true)
+        + lbl(cx, 215, 'tf: '+tf+' mm   tw: '+tw+' mm   L: '+L+' mm');
+      break;
+    }
+  }
+  return { viewBox: vb, html: defs + h };
+}
+
 function calcAlWeight(shapeId) {
   _currentAlShapeId = shapeId;
   var shape = AL_SHAPES.find(function(s){return s.id===shapeId;});
@@ -1466,18 +1635,18 @@ function calcAlWeight(shapeId) {
   });
   var dimLabels = document.getElementById('al-dim-labels');
   var result = document.getElementById('al-result');
+  var svgEl = document.getElementById('al-shape-svg');
   if (!allFilled) {
+    svgEl.setAttribute('viewBox', '0 0 160 160');
+    svgEl.innerHTML = shape.svg;
     result.innerHTML = '<p style="color:var(--sub);font-size:13px;margin:0;">치수를 입력하면 중량이 계산됩니다.</p>';
     if (dimLabels) dimLabels.innerHTML = '';
     return;
   }
-  if (dimLabels) {
-    var labelParts = shape.inputs.map(function(inp) {
-      var v = vals[inp.id];
-      return v !== undefined ? inp.label.replace(/<[^>]*>/g,'') + ': ' + v + ' mm' : null;
-    }).filter(Boolean);
-    dimLabels.innerHTML = '<span style="display:inline-block;background:rgba(0,0,0,.55);color:#fff;font-size:11px;border-radius:5px;padding:3px 10px;letter-spacing:.3px;">' + labelParts.join(' &nbsp;·&nbsp; ') + '</span>';
-  }
+  var dimSvg = getDimSvg(shapeId, vals);
+  svgEl.setAttribute('viewBox', dimSvg.viewBox);
+  svgEl.innerHTML = dimSvg.html;
+  if (dimLabels) dimLabels.innerHTML = '';
   var kg = shape.calc(vals);
   if (kg === null || kg <= 0) {
     result.innerHTML = '<p style="color:#EF4444;font-size:13px;margin:0;">⚠ 입력값을 확인하세요 (두께가 너무 큽니다).</p>';
