@@ -113,9 +113,9 @@ def build_html(rows):
   .table-wrap.dragging {{ cursor: grabbing; }}
   .table-wrap h2 {{ font-size: 14px; font-weight: 700; margin-bottom: 14px; color: #222222; }}
   table {{ width: 100%; border-collapse: collapse; font-size: 13px; }}
-  th {{ background: #F5F7FA; padding: 8px 12px; text-align: right; color: #555555; font-weight: 600; white-space: nowrap; border-bottom: 2px solid #E5E8EF; }}
-  th:first-child {{ text-align: left; }}
-  td {{ padding: 7px 12px; text-align: right; border-bottom: 1px solid #EBEEF3; white-space: nowrap; }}
+  th {{ background: #F5F7FA; padding: 8px 10px; text-align: center; color: #555555; font-weight: 600; white-space: nowrap; border-bottom: 2px solid #E5E8EF; width: 9%; }}
+  th:first-child {{ text-align: left; width: 10%; }}
+  td {{ padding: 7px 10px; text-align: center; border-bottom: 1px solid #EBEEF3; white-space: nowrap; }}
   td:first-child {{ text-align: left; font-weight: 600; color: #333333; }}
   tr:hover td {{ background: #F5F7FA; }}
   .empty {{ color: #CBD5E1; }}
