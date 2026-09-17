@@ -1325,8 +1325,8 @@ var AL_SHAPES = [
     svg: '<circle cx="80" cy="80" r="65" fill="#E2E6EC" stroke="#5A6070" stroke-width="2.5"/>'
   },
   { id:'TE', label:'관재 (TE)',
-    inputs:[{id:'od',label:'외경 OD',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
-    calc: function(v) { var id=v.od-2*v.t; if(id<=0) return null; return Math.PI*((v.od/2)*(v.od/2)-(id/2)*(id/2))*v.l*getCurrentDensity(); },
+    inputs:[{id:'od',label:'외경 OD',unit:'mm'},{id:'id',label:'내경 ID',unit:'mm'},{id:'t',label:'두께 t',unit:'mm'},{id:'l',label:'길이 L',unit:'mm'}],
+    calc: function(v) { var id=v.id||(v.od-2*v.t); if(id<=0) return null; return Math.PI*((v.od/2)*(v.od/2)-(id/2)*(id/2))*v.l*getCurrentDensity(); },
     svg: '<circle cx="80" cy="80" r="65" fill="#E2E6EC" stroke="#5A6070" stroke-width="2.5"/>'
        + '<circle cx="80" cy="80" r="42" fill="white" stroke="#5A6070" stroke-width="2"/>'
   },
@@ -1422,7 +1422,8 @@ function selectAlShape(id) {
     inputsHtml += '<div>'
       + '<label style="display:block;font-size:12px;font-weight:600;color:var(--sub);margin-bottom:6px;">' + inp.label + '</label>'
       + '<div style="display:flex;align-items:center;border:1.5px solid var(--border);border-radius:7px;overflow:hidden;background:var(--bg);">'
-      + '<input type="number" id="alinp-' + inp.id + '" min="0.01" step="any" oninput="calcAlWeight(\'' + id + '\')"'
+      + '<input type="number" id="alinp-' + inp.id + '" min="0.01" step="any"'
+      + ' oninput="' + (id==='TE' && (inp.id==='od'||inp.id==='id'||inp.id==='t') ? 'calcTeLinked(\''+inp.id+'\')' : 'calcAlWeight(\''+id+'\')') + '"'
       + ' style="flex:1;padding:9px 12px;font-size:14px;border:none;background:transparent;color:var(--text);outline:none;width:0;">'
       + '<span style="padding:0 12px;font-size:12px;color:var(--sub);white-space:nowrap;border-left:1px solid var(--border);">' + inp.unit + '</span>'
       + '</div></div>';
@@ -1496,14 +1497,15 @@ function getDimSvg(shapeId, vals) {
       break;
     }
     case 'TE': {
-      var OD=vals.od, t=vals.t, L=vals.l, ID=OD-2*t;
-      var cx=110, cy=100, Ro=72, Ri=Math.max(8,Math.round(72*(ID/OD)));
+      var OD=vals.od, ID_v=vals.id||(vals.od-2*vals.t), t=vals.t||((vals.od-vals.id)/2), L=vals.l;
+      var cx=110, cy=100, Ro=72, Ri=Math.max(8,Math.round(72*(ID_v/OD)));
       h = '<circle cx="'+cx+'" cy="'+cy+'" r="'+Ro+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="'+sw+'"/>'
         + '<circle cx="'+cx+'" cy="'+cy+'" r="'+Ri+'" fill="white" stroke="'+stroke+'" stroke-width="'+sw+'"/>'
         + '<line x1="'+(cx-82)+'" y1="'+cy+'" x2="'+(cx+82)+'" y2="'+cy+'" stroke="'+stroke+'" stroke-width="0.8" stroke-dasharray="5,3" opacity="0.5"/>'
         + '<line x1="'+cx+'" y1="'+(cy-82)+'" x2="'+cx+'" y2="'+(cy+82)+'" stroke="'+stroke+'" stroke-width="0.8" stroke-dasharray="5,3" opacity="0.5"/>'
-        + hd(cx-Ro, cx+Ro, 190, 'OD '+OD+' mm')
-        + hd(cx, cx+Ro, 170, 't '+t+' mm')
+        + hd(cx-Ro, cx+Ro, 192, 'OD '+OD+' mm')
+        + hd(cx-Ri, cx+Ri, 178, 'ID '+ID_v+' mm')
+        + hd(cx+Ri, cx+Ro, cy, 't '+t+' mm')
         + lbl(cx, 215, 'L: '+L+' mm');
       break;
     }
@@ -1622,6 +1624,36 @@ function getDimSvg(shapeId, vals) {
   return { viewBox: vb, html: defs + h };
 }
 
+function calcTeLinked(changedField) {
+  var odEl = document.getElementById('alinp-od');
+  var idEl = document.getElementById('alinp-id');
+  var tEl  = document.getElementById('alinp-t');
+  if (!odEl || !idEl || !tEl) return;
+  var od = parseFloat(odEl.value), id = parseFloat(idEl.value), t = parseFloat(tEl.value);
+  var odOk = odEl.value && !isNaN(od) && od > 0;
+  var idOk = idEl.value && !isNaN(id) && id > 0;
+  var tOk  = tEl.value  && !isNaN(t)  && t  > 0;
+  var setVal = function(el, v) {
+    if (v > 0) { el.value = parseFloat(v.toFixed(4)); el.style.color = 'var(--sub)'; el.readOnly = true; }
+    else { el.value = ''; el.style.color = ''; el.readOnly = false; }
+  };
+  var clearReadonly = function(el) { el.style.color = ''; el.readOnly = false; };
+  if (changedField === 'od') {
+    clearReadonly(odEl);
+    if (odOk && tOk)  { setVal(idEl, od - 2*t); idEl.style.color='var(--sub)'; }
+    else if (odOk && idOk) { setVal(tEl, (od - id)/2); tEl.style.color='var(--sub)'; }
+  } else if (changedField === 'id') {
+    clearReadonly(idEl);
+    if (odOk && idOk) { setVal(tEl, (od - id)/2); tEl.style.color='var(--sub)'; }
+    else if (idOk && tOk) { setVal(odEl, id + 2*t); odEl.style.color='var(--sub)'; }
+  } else if (changedField === 't') {
+    clearReadonly(tEl);
+    if (odOk && tOk)  { setVal(idEl, od - 2*t); idEl.style.color='var(--sub)'; }
+    else if (idOk && tOk) { setVal(odEl, id + 2*t); odEl.style.color='var(--sub)'; }
+  }
+  calcAlWeight('TE');
+}
+
 function calcAlWeight(shapeId) {
   _currentAlShapeId = shapeId;
   var shape = AL_SHAPES.find(function(s){return s.id===shapeId;});
@@ -1630,9 +1662,22 @@ function calcAlWeight(shapeId) {
   shape.inputs.forEach(function(inp) {
     var el = document.getElementById('alinp-' + inp.id);
     var v = el ? parseFloat(el.value) : NaN;
-    if (!el || !el.value || isNaN(v) || v <= 0) { allFilled = false; return; }
+    if (!el || !el.value || isNaN(v) || v <= 0) {
+      if (shapeId === 'TE' && (inp.id === 'od' || inp.id === 'id' || inp.id === 't')) return;
+      allFilled = false; return;
+    }
     vals[inp.id] = v;
   });
+  if (shapeId === 'TE') {
+    var teOd = vals.od, teId = vals.id, teT = vals.t;
+    var cnt = (teOd>0?1:0)+(teId>0?1:0)+(teT>0?1:0);
+    if (cnt < 2 || !vals.l) { allFilled = false; }
+    else {
+      if (!teOd) vals.od = teId + 2*teT;
+      else if (!teId) vals.id = teOd - 2*teT;
+      else if (!teT) vals.t = (teOd - teId)/2;
+    }
+  }
   var dimLabels = document.getElementById('al-dim-labels');
   var result = document.getElementById('al-result');
   var svgEl = document.getElementById('al-shape-svg');
