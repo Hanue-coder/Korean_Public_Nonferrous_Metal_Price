@@ -764,15 +764,15 @@
     <h1 style="font-size:13px;font-weight:600;opacity:.7;letter-spacing:.5px;text-transform:uppercase;">시세 보고서</h1>
   </div>
   <div style="flex:1;min-height:0;overflow-y:auto;padding:32px 36px;background:var(--bg);">
-    <!-- 조건 선택 카드 -->
-    <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:28px;max-width:760px;margin-bottom:28px;">
-      <h3 style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:20px;">보고서 조건 선택</h3>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;margin-bottom:24px;">
+    <div style="display:flex;gap:24px;align-items:flex-start;">
+      <!-- 조건 선택 카드 -->
+      <div style="width:240px;flex-shrink:0;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:24px;">
+        <h3 style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:20px;">조건 선택</h3>
         <!-- 품목 -->
-        <div>
+        <div style="margin-bottom:14px;">
           <label style="display:block;font-size:12px;font-weight:600;color:var(--sub);margin-bottom:6px;">품목</label>
           <select id="rpt-metal"
-            style="width:100%;padding:9px 12px;font-size:14px;border:1.5px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);outline:none;cursor:pointer;">
+            style="width:100%;padding:9px 12px;font-size:13px;border:1.5px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);outline:none;cursor:pointer;">
             <option value="AL">알루미늄(서구산)</option>
             <option value="AL2">알루미늄(비서구산)</option>
             <option value="CU">구리(99.99%이상)</option>
@@ -785,35 +785,35 @@
           </select>
         </div>
         <!-- 보고서 유형 -->
-        <div>
+        <div style="margin-bottom:14px;">
           <label style="display:block;font-size:12px;font-weight:600;color:var(--sub);margin-bottom:6px;">보고서 유형</label>
           <select id="rpt-type" onchange="onRptChange()"
-            style="width:100%;padding:9px 12px;font-size:14px;border:1.5px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);outline:none;cursor:pointer;">
+            style="width:100%;padding:9px 12px;font-size:13px;border:1.5px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);outline:none;cursor:pointer;">
             <option value="monthly">월간 보고서</option>
             <option value="quarterly">분기별 보고서</option>
           </select>
         </div>
         <!-- 년도 -->
-        <div>
+        <div style="margin-bottom:14px;">
           <label style="display:block;font-size:12px;font-weight:600;color:var(--sub);margin-bottom:6px;">년도</label>
           <select id="rpt-year"
-            style="width:100%;padding:9px 12px;font-size:14px;border:1.5px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);outline:none;cursor:pointer;"></select>
+            style="width:100%;padding:9px 12px;font-size:13px;border:1.5px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);outline:none;cursor:pointer;"></select>
         </div>
         <!-- 월/분기 -->
-        <div>
+        <div style="margin-bottom:20px;">
           <label id="rpt-period-label" style="display:block;font-size:12px;font-weight:600;color:var(--sub);margin-bottom:6px;">월</label>
-          <select id="rpt-period" style="width:100%;padding:9px 12px;font-size:14px;border:1.5px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);outline:none;cursor:pointer;"></select>
+          <select id="rpt-period" style="width:100%;padding:9px 12px;font-size:13px;border:1.5px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text);outline:none;cursor:pointer;"></select>
         </div>
+        <button onclick="generateReport()"
+          style="width:100%;padding:11px;font-size:13px;font-weight:500;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;letter-spacing:.3px;transition:opacity .15s;"
+          onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">보고서 생성</button>
+        <button class="rpt-pdf-btn" onclick="printReport()"
+          style="width:100%;margin-top:8px;padding:11px;font-size:13px;font-weight:500;background:var(--navy);color:#fff;border:none;border-radius:8px;cursor:pointer;letter-spacing:.3px;transition:opacity .15s;display:none;"
+          onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">🖨 PDF 출력</button>
       </div>
-      <button onclick="generateReport()"
-        style="width:100%;padding:12px;font-size:14px;font-weight:500;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;letter-spacing:.3px;transition:opacity .15s;"
-        onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">보고서 생성</button>
-      <button class="rpt-pdf-btn" onclick="printReport()"
-        style="width:100%;margin-top:8px;padding:12px;font-size:14px;font-weight:500;background:var(--navy);color:#fff;border:none;border-radius:8px;cursor:pointer;letter-spacing:.3px;transition:opacity .15s;display:none;"
-        onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">🖨 PDF 출력</button>
+      <!-- 보고서 출력 영역 -->
+      <div id="rpt-output" style="flex:1;min-width:0;"></div>
     </div>
-    <!-- 보고서 출력 영역 -->
-    <div id="rpt-output"></div>
   </div>
 </div>
 
