@@ -1705,18 +1705,20 @@ function calcAlWeight(shapeId) {
   var qty = qtyEl ? (parseInt(qtyEl.value) || 1) : 1;
   if (qty < 1) qty = 1;
   var totalKg = kg * qty;
-  var g = kg * 1000;
-  var totalG = totalKg * 1000;
-  var unitDisplay = kg >= 1 ? kg.toFixed(3) + ' kg' : g.toFixed(1) + ' g';
-  var totalDisplay = totalKg >= 1 ? totalKg.toFixed(3) + ' <span style="font-size:16px;font-weight:500;">kg</span>'
-                                  : totalG.toFixed(1) + ' <span style="font-size:16px;font-weight:500;">g</span>';
+  var perM = vals.l > 0 ? kg * 1000 / vals.l : 0;
+  var area = getCurrentDensity() > 0 && vals.l > 0 ? kg / (vals.l * getCurrentDensity()) : 0;
+  function fmtKg(v) { return v >= 1 ? v.toFixed(3) + ' kg' : (v*1000).toFixed(1) + ' g'; }
+  var CS = 'style="background:var(--white);border-radius:7px;padding:12px 14px;text-align:center;"';
+  var LB = 'style="font-size:10px;font-weight:600;color:var(--sub);letter-spacing:.4px;text-transform:uppercase;margin-bottom:5px;"';
+  var VL = 'style="font-size:15px;font-weight:700;color:var(--text);line-height:1.2;"';
+  var UN = 'style="font-size:10px;color:var(--sub);margin-top:2px;"';
   result.innerHTML = '<div style="font-size:11px;font-weight:500;color:var(--sub);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;">계 산 결 과</div>'
-    + '<div style="font-size:34px;font-weight:600;color:var(--accent);line-height:1;">' + totalDisplay + '</div>'
-    + (qty > 1
-        ? '<div style="font-size:12px;color:var(--sub);margin-top:6px;">합계 ' + totalKg.toFixed(4) + ' kg &nbsp;/&nbsp; ' + totalG.toFixed(1) + ' g</div>'
-          + '<div style="font-size:11px;color:var(--sub);margin-top:4px;">단중 ' + unitDisplay + ' × ' + qty + ' EA</div>'
-        : '<div style="font-size:12px;color:var(--sub);margin-top:8px;">' + kg.toFixed(4) + ' kg &nbsp;/&nbsp; ' + g.toFixed(1) + ' g</div>'
-      );
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">'
+    + '<div '+CS+'><div '+LB+'>중량</div><div '+VL+'>' + fmtKg(totalKg) + '</div><div '+UN+'>× '+qty+' EA</div></div>'
+    + '<div '+CS+'><div '+LB+'>개당중량</div><div '+VL+'>' + fmtKg(kg) + '</div><div '+UN+'>/ea</div></div>'
+    + '<div '+CS+'><div '+LB+'>단중</div><div '+VL+'>' + perM.toFixed(4) + '</div><div '+UN+'>kg/m</div></div>'
+    + '<div '+CS+'><div '+LB+'>면적</div><div '+VL+'>' + area.toFixed(2) + '</div><div '+UN+'>mm²</div></div>'
+    + '</div>';
 }
 
 // ── 시세 보고서 ──
