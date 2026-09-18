@@ -1,9 +1,57 @@
-<<<<<<< Updated upstream
-const ISSUES_META = {"latest": "2026-09-15", "generated": "2026-09-17 07:23"};
-=======
-const ISSUES_META = {"latest": "2026-09-15", "generated": "2026-09-18 05:57"};
->>>>>>> Stashed changes
+const ISSUES_META = {"latest": "2026-09-18", "generated": "2026-09-18 18:52"};
 const ISSUES_DATA = [
+  {
+    "date": "2026-09-18",
+    "date_fmt": "26년 09월 18일",
+    "tag": "비철금속 전반적 상승",
+    "tag_type": "up",
+    "items": [
+      {
+        "name": "알루미늄(서구산)",
+        "diff": 110,
+        "pct": 2.0,
+        "direction": "up"
+      },
+      {
+        "name": "알루미늄(비서구산)",
+        "diff": 110,
+        "pct": 2.0,
+        "direction": "up"
+      },
+      {
+        "name": "구리(99.99%)",
+        "diff": 660,
+        "pct": 3.0,
+        "direction": "up"
+      },
+      {
+        "name": "납(99.99%)",
+        "diff": 70,
+        "pct": 2.3,
+        "direction": "up"
+      },
+      {
+        "name": "아연",
+        "diff": 160,
+        "pct": 2.6,
+        "direction": "up"
+      },
+      {
+        "name": "주석(99.85%)",
+        "diff": 2000,
+        "pct": 2.5,
+        "direction": "up"
+      },
+      {
+        "name": "주석(99.99%)",
+        "diff": 2000,
+        "pct": 2.5,
+        "direction": "up"
+      }
+    ],
+    "body": "글로벌 경기 회복 기대와 함께 LME 현물 수급 긴장이 심화되면서 전 비철금속이 동반 상승했다. 특히 구리(+3.0%)가 가장 큰 상승률을 보인 것은 전기차 및 신재생에너지 수요 증가에 따른 수급 타이트화 때문으로 보인다. 미달러 약세 추세와 신흥국 수입 수요 회복이 가격 상승을 추가로 뒷받침했다.",
+    "sources": []
+  },
   {
     "date": "2026-09-15",
     "date_fmt": "26년 09월 15일",

@@ -1,23 +1,25 @@
-05:56:10 Step 1: collecting new bbsSn values …
-05:56:12   Total posts: 3,708  →  371 pages
-05:56:12   Page 1/15  cumulative: 10 sns
-05:56:13   Page 2/15  cumulative: 20 sns
-05:56:13   Page 3/15  cumulative: 30 sns
-05:56:14   Page 4/15  cumulative: 40 sns
-05:56:14   Page 5/15  cumulative: 50 sns
-05:56:15   Page 6/15  cumulative: 60 sns
-05:56:17   Page 7/15  cumulative: 70 sns
-05:56:18   Page 8/15  cumulative: 80 sns
-05:56:19   Page 9/15  cumulative: 90 sns
-05:56:19   Page 10/15  cumulative: 100 sns
-05:56:20   Page 11/15  cumulative: 110 sns
-05:56:20   Page 12/15  cumulative: 120 sns
-05:56:21   Page 13/15  cumulative: 130 sns
-05:56:21   Page 14/15  cumulative: 140 sns
-05:56:22   Page 15/15  cumulative: 150 sns
-05:56:22   Collected 150 bbsSn values to check
-05:56:22 Step 2: 3329 dates already saved - will skip
-05:56:22 Step 3: scraping 150 detail pages …
-05:57:45 DONE - saved=0 dup=150 old=0 err=0
-05:57:45 Output: C:\Choi_Sales\98_Private\Claude\data\prices.csv
-05:57:45 Step 4: 새 데이터 없음 - JSON 변환 생략
+18:50:58 Step 1: collecting new bbsSn values …
+18:50:58   Total posts: 3,709  →  371 pages
+18:50:58   Page 1/15  cumulative: 10 sns
+18:50:58   Page 2/15  cumulative: 20 sns
+18:50:59   Page 3/15  cumulative: 30 sns
+18:50:59   Page 4/15  cumulative: 40 sns
+18:50:59   Page 5/15  cumulative: 50 sns
+18:51:00   Page 6/15  cumulative: 60 sns
+18:51:00   Page 7/15  cumulative: 70 sns
+18:51:00   Page 8/15  cumulative: 80 sns
+18:51:01   Page 9/15  cumulative: 90 sns
+18:51:01   Page 10/15  cumulative: 100 sns
+18:51:02   Page 11/15  cumulative: 110 sns
+18:51:02   Page 12/15  cumulative: 120 sns
+18:51:02   Page 13/15  cumulative: 130 sns
+18:51:03   Page 14/15  cumulative: 140 sns
+18:51:03   Page 15/15  cumulative: 150 sns
+18:51:03   Collected 150 bbsSn values to check
+18:51:03 Step 2: 3329 dates already saved - will skip
+18:51:03 Step 3: scraping 150 detail pages …
+18:52:19 DONE - saved=1 dup=149 old=0 err=0
+18:52:19 Output: C:\Choi_Sales\98_Private\Claude\data\prices.csv
+18:52:20 Step 4: converting CSV → JSON …
+18:52:21   JSON 변환 완료: 완료: 3330행 → C:\Choi_Sales\98_Private\Claude\data\prices.json
+최신 날짜: 2026-09-18
