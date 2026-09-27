@@ -714,6 +714,103 @@
   .sf-submit:hover { opacity: .9; }
   .sf-notice { font-size: 12px; color: var(--sub); margin-top: 12px; text-align: center; }
 
+  /* 판매업체 리스트 */
+  .seller-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .seller-list-header h2 { font-size: 16px; font-weight: 700; margin: 0; }
+  .seller-manage-btn {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 16px;
+    border-radius: 7px;
+    border: 1.5px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .seller-manage-btn:hover { background: var(--light-blue); }
+  .seller-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 13px;
+  }
+  .seller-table th {
+    background: var(--navy);
+    color: rgba(255,255,255,.8);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+    padding: 10px 16px;
+    text-align: left;
+  }
+  .seller-table td { padding: 11px 16px; border-top: 1px solid var(--border); color: var(--text); }
+  .seller-table tr:hover td { background: var(--light-blue); }
+  .seller-code-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--light-blue);
+    border-radius: 5px;
+    padding: 2px 9px;
+    letter-spacing: .3px;
+  }
+  .seller-del-btn {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--sub);
+    cursor: pointer;
+  }
+  .seller-del-btn:hover { border-color: #e53e3e; color: #e53e3e; }
+  .seller-empty { text-align: center; padding: 40px 0; color: var(--sub); font-size: 14px; }
+
+  /* 판매자 관리 패널 (사이드 슬라이드) */
+  #seller-manage-panel {
+    position: fixed;
+    top: 0; right: 0;
+    width: min(440px, 100vw);
+    height: 100vh;
+    background: var(--white);
+    border-left: 1px solid var(--border);
+    box-shadow: -4px 0 24px rgba(0,0,0,.12);
+    z-index: 200;
+    flex-direction: column;
+  }
+  .smp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--navy);
+    color: white;
+  }
+  .smp-header h2 { font-size: 15px; font-weight: 700; margin: 0; }
+  .smp-close {
+    background: none; border: none; color: rgba(255,255,255,.7);
+    font-size: 18px; cursor: pointer; padding: 4px 8px; border-radius: 4px;
+  }
+  .smp-close:hover { color: #fff; background: rgba(255,255,255,.12); }
+  .smp-body { flex: 1; overflow-y: auto; padding: 24px; }
+  .smp-body h3 { font-size: 14px; font-weight: 700; margin: 0 0 16px; }
+  #seller-manage-list { margin-top: 24px; }
+  #seller-manage-list table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  #seller-manage-list th { color: var(--sub); font-weight: 600; padding: 6px 8px; border-bottom: 1px solid var(--border); text-align: left; }
+  #seller-manage-list td { padding: 8px 8px; border-bottom: 1px solid var(--border); }
+
   .side-section {
     border-bottom: 1px solid var(--border);
     padding: 12px 0;
@@ -1013,32 +1110,47 @@
       </div>
       <div class="listings-grid" id="listings-grid"></div>
     </div>
-    <!-- 판매자 뷰 (토글 시) -->
+    <!-- 판매자 뷰 (토글 시): 판매업체 코드 리스트 -->
     <div id="seller-pane" style="display:none;">
-      <div class="seller-form-wrap">
-        <h2>판매 물품 등록</h2>
-        <div class="sf-row">
-          <label>제품명 *</label>
-          <input id="sf-product" placeholder="예: 알루미늄 판재 6061-T6" />
+      <div class="seller-list-header">
+        <h2>판매업체 목록</h2>
+        <button class="seller-manage-btn" onclick="openSellerManage()">+ 판매자 관리</button>
+      </div>
+      <div id="seller-list-wrap"></div>
+    </div>
+
+    <!-- 판매자 관리 패널 (슬라이드인) -->
+    <div id="seller-manage-panel" style="display:none;">
+      <div class="smp-header">
+        <h2>판매자 관리</h2>
+        <button class="smp-close" onclick="closeSellerManage()">✕</button>
+      </div>
+      <div class="smp-body">
+        <div class="seller-form-wrap">
+          <h3>신규 판매업체 등록</h3>
+          <div class="sf-row">
+            <label>업체 코드 *</label>
+            <input id="sm-code" placeholder="예: AL-001" />
+          </div>
+          <div class="sf-row">
+            <label>업체명 *</label>
+            <input id="sm-name" placeholder="예: (주)알루텍" />
+          </div>
+          <div class="sf-row">
+            <label>담당자</label>
+            <input id="sm-manager" placeholder="예: 홍길동" />
+          </div>
+          <div class="sf-row">
+            <label>연락처</label>
+            <input id="sm-contact" placeholder="예: 010-1234-5678" />
+          </div>
+          <div class="sf-row">
+            <label>비고</label>
+            <input id="sm-note" placeholder="취급 품목 등" />
+          </div>
+          <button class="sf-submit" onclick="submitSeller()">등록하기</button>
         </div>
-        <div class="sf-row">
-          <label>규격</label>
-          <input id="sf-spec" placeholder="예: 1000×2000×3t" />
-        </div>
-        <div class="sf-row">
-          <label>수량</label>
-          <input id="sf-qty" placeholder="예: 500kg, 10매" />
-        </div>
-        <div class="sf-row">
-          <label>단가 (원/kg)</label>
-          <input id="sf-price" type="number" placeholder="예: 4800" />
-        </div>
-        <div class="sf-row">
-          <label>연락처 *</label>
-          <input id="sf-contact" placeholder="예: 010-1234-5678" />
-        </div>
-        <button class="sf-submit" onclick="submitListing()">등록하기</button>
-        <p class="sf-notice">등록된 물품은 구매자 페이지에 바로 표시됩니다.</p>
+        <div id="seller-manage-list"></div>
       </div>
     </div>
   </div>
@@ -1397,36 +1509,95 @@ function toggleSalesMode() {
   document.getElementById('buyer-pane').style.display  = salesMode === 'buyer'  ? 'block' : 'none';
   document.getElementById('seller-pane').style.display = salesMode === 'seller' ? 'block' : 'none';
   document.getElementById('sales-mode-btn').textContent = salesMode === 'buyer' ? '판매자 전환' : '구매자 전환';
+  if (salesMode === 'seller') renderSellerList();
 }
 
+// ── 판매업체 (sellers) ──
+function getSellers() {
+  try { return JSON.parse(localStorage.getItem('al_sellers') || '[]'); } catch(e) { return []; }
+}
+function saveSellers(list) {
+  try { localStorage.setItem('al_sellers', JSON.stringify(list)); } catch(e) {}
+}
+
+function submitSeller() {
+  const code = document.getElementById('sm-code').value.trim();
+  const name = document.getElementById('sm-name').value.trim();
+  if (!code || !name) { alert('업체 코드와 업체명은 필수 입력 항목입니다.'); return; }
+  const sellers = getSellers();
+  if (sellers.some(s => s.code === code)) { alert('이미 사용 중인 업체 코드입니다.'); return; }
+  sellers.unshift({
+    id: Date.now(), code, name,
+    manager: document.getElementById('sm-manager').value.trim(),
+    contact: document.getElementById('sm-contact').value.trim(),
+    note:    document.getElementById('sm-note').value.trim(),
+    date: new Date().toLocaleDateString('ko-KR')
+  });
+  saveSellers(sellers);
+  ['sm-code','sm-name','sm-manager','sm-contact','sm-note'].forEach(id => { document.getElementById(id).value = ''; });
+  renderSellerManageList();
+  renderSellerList();
+}
+
+function deleteSeller(id) {
+  if (!confirm('해당 업체를 삭제하시겠습니까?')) return;
+  saveSellers(getSellers().filter(s => s.id !== id));
+  renderSellerManageList();
+  renderSellerList();
+}
+
+function renderSellerList() {
+  const wrap = document.getElementById('seller-list-wrap');
+  if (!wrap) return;
+  const sellers = getSellers();
+  if (!sellers.length) {
+    wrap.innerHTML = '<div class="seller-empty">등록된 판매업체가 없습니다.<br>판매자 관리 버튼을 눌러 업체를 추가하세요.</div>';
+    return;
+  }
+  wrap.innerHTML = `<table class="seller-table">
+    <thead><tr>
+      <th>코드</th><th>업체명</th><th>담당자</th><th>연락처</th><th>비고</th><th>등록일</th>
+    </tr></thead>
+    <tbody>${sellers.map(s => `<tr>
+      <td><span class="seller-code-badge">${s.code}</span></td>
+      <td>${s.name}</td>
+      <td>${s.manager || '-'}</td>
+      <td>${s.contact || '-'}</td>
+      <td>${s.note || '-'}</td>
+      <td>${s.date}</td>
+    </tr>`).join('')}</tbody>
+  </table>`;
+}
+
+function renderSellerManageList() {
+  const wrap = document.getElementById('seller-manage-list');
+  if (!wrap) return;
+  const sellers = getSellers();
+  if (!sellers.length) { wrap.innerHTML = ''; return; }
+  wrap.innerHTML = `<h3 style="margin-top:0;">등록된 업체 (${sellers.length})</h3>
+  <table>
+    <thead><tr><th>코드</th><th>업체명</th><th>연락처</th><th></th></tr></thead>
+    <tbody>${sellers.map(s => `<tr>
+      <td><span class="seller-code-badge">${s.code}</span></td>
+      <td>${s.name}</td>
+      <td>${s.contact || '-'}</td>
+      <td><button class="seller-del-btn" onclick="deleteSeller(${s.id})">삭제</button></td>
+    </tr>`).join('')}</tbody>
+  </table>`;
+}
+
+function openSellerManage() {
+  const panel = document.getElementById('seller-manage-panel');
+  panel.style.display = 'flex';
+  renderSellerManageList();
+}
+function closeSellerManage() {
+  document.getElementById('seller-manage-panel').style.display = 'none';
+}
+
+// ── 구매자 리스트 (판매 물품) ──
 function getSalesListings() {
   try { return JSON.parse(localStorage.getItem('al_sales_listings') || '[]'); } catch(e) { return []; }
-}
-
-function saveSalesListings(list) {
-  try { localStorage.setItem('al_sales_listings', JSON.stringify(list)); } catch(e) {}
-}
-
-function submitListing() {
-  const product = document.getElementById('sf-product').value.trim();
-  const contact = document.getElementById('sf-contact').value.trim();
-  if (!product || !contact) { alert('제품명과 연락처는 필수 입력 항목입니다.'); return; }
-  const listing = {
-    id: Date.now(),
-    product,
-    spec:    document.getElementById('sf-spec').value.trim(),
-    qty:     document.getElementById('sf-qty').value.trim(),
-    price:   document.getElementById('sf-price').value.trim(),
-    contact,
-    date: new Date().toLocaleDateString('ko-KR')
-  };
-  const list = getSalesListings();
-  list.unshift(listing);
-  saveSalesListings(list);
-  ['sf-product','sf-spec','sf-qty','sf-price','sf-contact'].forEach(id => { document.getElementById(id).value = ''; });
-  alert('등록되었습니다.');
-  toggleSalesMode(); // 구매자 페이지로 전환
-  renderListings();
 }
 
 function renderListings() {
@@ -1434,10 +1605,10 @@ function renderListings() {
   if (!grid) return;
   const q = (document.getElementById('buyer-search')?.value || '').toLowerCase();
   const list = getSalesListings().filter(l =>
-    !q || l.product.toLowerCase().includes(q) || l.spec.toLowerCase().includes(q)
+    !q || l.product.toLowerCase().includes(q) || (l.spec||'').toLowerCase().includes(q)
   );
   if (!list.length) {
-    grid.innerHTML = '<div class="listing-empty">등록된 판매 물품이 없습니다.<br>판매자 전환 버튼을 눌러 물품을 등록해 보세요.</div>';
+    grid.innerHTML = '<div class="listing-empty">등록된 판매 물품이 없습니다.</div>';
     return;
   }
   grid.innerHTML = list.map(l => `
