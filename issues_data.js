@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 const ISSUES_META = {"latest": "2026-09-23", "generated": "2026-09-29 08:05"};
+=======
+const ISSUES_META = {"latest": "2026-09-23", "generated": "2026-09-30 03:06"};
+>>>>>>> Stashed changes
 const ISSUES_DATA = [
   {
     "date": "2026-09-23",
@@ -1221,27 +1225,5 @@ const ISSUES_DATA = [
         "url": "https://thecodit.com/blog/non-ferrous-metals-policy-kr"
       }
     ]
-  },
-  {
-    "date": "2026-03-31",
-    "date_fmt": "26년 03월 31일",
-    "tag": "주석 소폭 상승",
-    "tag_type": "up",
-    "items": [
-      {
-        "name": "주석(99.85%)",
-        "diff": 1930,
-        "pct": 2.5,
-        "direction": "up"
-      },
-      {
-        "name": "주석(99.99%)",
-        "diff": 1930,
-        "pct": 2.5,
-        "direction": "up"
-      }
-    ],
-    "body": "LME 주석 선물 시장에서 글로벌 수요 회복에 따른 매수세가 강화되었으며, 인도네시아 등 주요 공급국의 광산 활동 제약으로 공급 우려가 지속되었다. 동시에 미 달러화 약세 기조가 달러 표시 원자재 가격을 상대적으로 끌어올리는 요인으로 작용했다.",
-    "sources": []
   }
 ];
