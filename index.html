@@ -2223,7 +2223,34 @@ function generateReport() {
   });
 }
 
-function printReport() { window.print(); }
+function printReport() {
+  var year   = parseInt(document.getElementById('rpt-year').value);
+  var type   = document.getElementById('rpt-type').value;
+  var period = parseInt(document.getElementById('rpt-period').value);
+  var metal  = document.getElementById('rpt-metal').value;
+
+  var metalLabels = {
+    AL:'알루미늄(서구산)', AL2:'알루미늄(말련산)', CU:'구리',
+    PB:'납', ZN:'아연', SN:'주석(말련산)', SN2:'주석(인니산)',
+    NI:'니켈(전기)', NI2:'니켈(브리켓)'
+  };
+  var metalName = metalLabels[metal] || metal;
+
+  var periodStr = '';
+  if (type === 'monthly') {
+    periodStr = year + '년_' + period + '월';
+  } else {
+    var qMap = { 1:'1분기(1-3월)', 2:'2분기(4-6월)', 3:'3분기(7-9월)', 4:'4분기(10-12월)' };
+    periodStr = year + '년_' + (qMap[period] || period + '분기');
+  }
+  var typeStr = type === 'monthly' ? '월간보고서' : '분기별보고서';
+  var fileName = metalName + '_' + typeStr + '_' + periodStr;
+
+  var prev = document.title;
+  document.title = fileName;
+  window.print();
+  document.title = prev;
+}
 
 // ── A4 보고서 공통 래퍼 / 푸터 ──
 var _A4_OPEN = '<div id="rpt-print-area" style="width:794px;min-height:1123px;background:#fff;color:#0f172a;font-family:\'Noto Sans KR\',sans-serif;padding:40px 48px;box-sizing:border-box;margin:0 auto;">';
