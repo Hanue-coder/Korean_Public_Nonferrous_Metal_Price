@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 const ISSUES_META = {"latest": "2026-10-02", "generated": "2026-10-02 08:09"};
+=======
+const ISSUES_META = {"latest": "2026-10-02", "generated": "2026-10-02 17:22"};
+>>>>>>> Stashed changes
 const ISSUES_DATA = [
   {
     "date": "2026-10-02",
@@ -13,7 +17,11 @@ const ISSUES_DATA = [
         "direction": "down"
       }
     ],
+<<<<<<< Updated upstream
     "body": "글로벌 경기 둔화 우려로 건설·자동차 산업의 수요 감소가 예상되면서 아연 선물 가격이 LME에서 하락세를 보였다. 중국의 경제 성장 둔화와 부동산 부양책의 제한적 효과가 주요 소비국의 아연 구매 심리를 약화시켰으며, 달러 강세로 인한 달러 표시 상품의 상대적 가격 상승도 국제 수요를 제한했다.",
+=======
+    "body": "LME 아연 선물 가격이 약세를 보이며 조달청 고시가에 반영된 것으로 보인다. 글로벌 경기둔화 우려와 건설·자동차 산업의 수요 부진이 가격 하락을 주도했으며, 달러 강세에 따른 달러화 표시 상품의 상대적 약세도 영향을 미쳤다.",
+>>>>>>> Stashed changes
     "sources": []
   },
   {
