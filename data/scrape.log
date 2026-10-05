@@ -1,23 +1,23 @@
-03:08:38 Step 1: collecting new bbsSn values …
-03:08:39   Total posts: 3,717  →  372 pages
-03:08:39   Page 1/15  cumulative: 10 sns
-03:08:39   Page 2/15  cumulative: 20 sns
-03:08:40   Page 3/15  cumulative: 30 sns
-03:08:40   Page 4/15  cumulative: 40 sns
-03:08:40   Page 5/15  cumulative: 50 sns
-03:08:41   Page 6/15  cumulative: 60 sns
-03:08:41   Page 7/15  cumulative: 70 sns
-03:08:41   Page 8/15  cumulative: 80 sns
-03:08:42   Page 9/15  cumulative: 90 sns
-03:08:42   Page 10/15  cumulative: 100 sns
-03:08:43   Page 11/15  cumulative: 110 sns
-03:08:43   Page 12/15  cumulative: 120 sns
-03:08:43   Page 13/15  cumulative: 130 sns
-03:08:44   Page 14/15  cumulative: 140 sns
-03:08:44   Page 15/15  cumulative: 150 sns
-03:08:44   Collected 150 bbsSn values to check
-03:08:44 Step 2: 3338 dates already saved - will skip
-03:08:44 Step 3: scraping 150 detail pages …
-03:10:03 DONE - saved=0 dup=150 old=0 err=0
-03:10:03 Output: C:\Choi_Sales\98_Private\Claude\data\prices.csv
-03:10:03 Step 4: 새 데이터 없음 - JSON 변환 생략
+20:00:16 Step 1: collecting new bbsSn values …
+20:00:17   Total posts: 3,717  →  372 pages
+20:00:17   Page 1/15  cumulative: 10 sns
+20:00:17   Page 2/15  cumulative: 20 sns
+20:00:17   Page 3/15  cumulative: 30 sns
+20:00:18   Page 4/15  cumulative: 40 sns
+20:00:18   Page 5/15  cumulative: 50 sns
+20:00:18   Page 6/15  cumulative: 60 sns
+20:00:19   Page 7/15  cumulative: 70 sns
+20:00:19   Page 8/15  cumulative: 80 sns
+20:00:19   Page 9/15  cumulative: 90 sns
+20:00:20   Page 10/15  cumulative: 100 sns
+20:00:20   Page 11/15  cumulative: 110 sns
+20:00:21   Page 12/15  cumulative: 120 sns
+20:00:21   Page 13/15  cumulative: 130 sns
+20:00:21   Page 14/15  cumulative: 140 sns
+20:00:22   Page 15/15  cumulative: 150 sns
+20:00:22   Collected 150 bbsSn values to check
+20:00:22 Step 2: 3338 dates already saved - will skip
+20:00:22 Step 3: scraping 150 detail pages …
+20:01:37 DONE - saved=0 dup=150 old=0 err=0
+20:01:37 Output: C:\Choi_Sales\98_Private\Claude\data\prices.csv
+20:01:37 Step 4: 새 데이터 없음 - JSON 변환 생략
