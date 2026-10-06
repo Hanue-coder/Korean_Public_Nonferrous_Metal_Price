@@ -943,31 +943,12 @@
   .hero-content p  { font-size: 13px !important; }
   .hero-radar { display: none; }
 
-  /* 메인 레이아웃: 좌우 → 상하 */
-  .layout {
-    flex-direction: column;
-    overflow: auto;
-  }
-  .panel-left {
-    border-right: none;
-    border-bottom: 2px solid var(--border);
-    height: 55vw;
-    min-height: 240px;
-    max-height: 320px;
-  }
-  .panel-right {
-    width: 100%;
-    height: auto;
-    border-left: none;
-    overflow-y: visible;
-  }
-
   /* 모바일 탭 버튼 표시 */
   .mobile-tabs {
     display: flex;
-    gap: 0;
     border-bottom: 1px solid var(--border);
     background: var(--bg);
+    flex-shrink: 0;
   }
   .mobile-tab {
     flex: 1;
@@ -975,7 +956,7 @@
     font-size: 12px;
     background: none;
     border: none;
-    border-bottom: 2px solid transparent;
+    border-bottom: 3px solid transparent;
     color: var(--sub);
     cursor: pointer;
     font-weight: 500;
@@ -985,6 +966,31 @@
     border-bottom-color: var(--accent);
     font-weight: 600;
   }
+
+  /* 메인 레이아웃: 탭 전환 방식 */
+  .layout {
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .panel-left {
+    border-right: none;
+    border-bottom: none;
+    flex: 1;
+    min-height: 0;
+    height: auto;
+    max-height: none;
+  }
+  /* 탭으로 숨길 때 */
+  .panel-left.hidden { display: none !important; }
+  .panel-right {
+    width: 100%;
+    border-left: none;
+    flex: 1;
+    min-height: 0;
+    display: none;
+    overflow-y: auto;
+  }
+  .panel-right.active { display: flex !important; flex-direction: column; }
 
   /* 업체 디렉토리 */
   .company-info h3 { font-size: 13px; }
@@ -1783,8 +1789,15 @@ function toggleDirectory() {
 function switchTab(side, btn) {
   document.querySelectorAll('.mobile-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelector('.panel-left').classList.toggle('hidden', side !== 'left');
-  document.querySelector('.panel-right').classList.toggle('active', side === 'right');
+  var pl = document.querySelector('.panel-left');
+  var pr = document.querySelector('.panel-right');
+  if (side === 'left') {
+    pl.classList.remove('hidden');
+    pr.classList.remove('active');
+  } else {
+    pl.classList.add('hidden');
+    pr.classList.add('active');
+  }
 }
 
 // ── 알루미늄 중량 계산기 ──
