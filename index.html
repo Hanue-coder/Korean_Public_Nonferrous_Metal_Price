@@ -994,7 +994,17 @@
   .company-list    { padding: 8px; }
   .company-item    { padding: 10px 10px; }
 
-  /* 이슈사항 그리드: 3열 → 1열 */
+  /* 이슈사항 */
+  .issues-board {
+    min-height: 0 !important;
+    height: auto !important;
+    flex: none !important;
+    overflow-y: auto;
+  }
+  .issues-board-body {
+    overflow-y: visible !important;
+    height: auto !important;
+  }
   .issue-grid {
     grid-template-columns: 1fr !important;
   }
