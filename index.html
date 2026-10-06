@@ -909,6 +909,145 @@
   .issue-source a { color: var(--accent); text-decoration: none; }
   .issue-source a:hover { text-decoration: underline; }
 
+/* ════════════════════════════════
+   모바일 반응형 (768px 이하)
+   ════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* 헤더 */
+  header {
+    padding: 0 12px;
+    height: 48px;
+  }
+  .logo-text { display: none; }
+  .header-nav {
+    margin-left: 4px;
+    border-left: none;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .header-nav::-webkit-scrollbar { display: none; }
+  .header-nav-tab {
+    padding: 0 12px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  /* 히어로 */
+  .hero-content {
+    padding: 0 20px;
+    max-width: 100%;
+  }
+  .hero-content h1 { font-size: 26px !important; }
+  .hero-content p  { font-size: 13px !important; }
+  .hero-radar { display: none; }
+
+  /* 메인 레이아웃: 좌우 → 상하 */
+  .layout {
+    flex-direction: column;
+    overflow: auto;
+  }
+  .panel-left {
+    border-right: none;
+    border-bottom: 2px solid var(--border);
+    height: 55vw;
+    min-height: 240px;
+    max-height: 320px;
+  }
+  .panel-right {
+    width: 100%;
+    height: auto;
+    border-left: none;
+    overflow-y: visible;
+  }
+
+  /* 모바일 탭 버튼 표시 */
+  .mobile-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .mobile-tab {
+    flex: 1;
+    padding: 10px 0;
+    font-size: 12px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--sub);
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .mobile-tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* 업체 디렉토리 */
+  .company-info h3 { font-size: 13px; }
+  .company-list    { padding: 8px; }
+  .company-item    { padding: 10px 10px; }
+
+  /* 이슈사항 그리드: 3열 → 1열 */
+  .issue-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 보고서 조건 그리드: 4열 → 2열 */
+  #report-view [style*="grid-template-columns:1fr 1fr 1fr 1fr"] {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+  }
+  /* 보고서 A4 영역 스크롤 */
+  #rpt-output {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  #rpt-print-area {
+    width: 100% !important;
+    min-width: 360px;
+    padding: 20px 16px !important;
+  }
+
+  /* 알루미늄 판매 */
+  .sales-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+  .sales-mode-btn { width: 100%; }
+  .listings-grid  { grid-template-columns: 1fr !important; }
+
+  /* 판매자 관리 패널 */
+  #seller-manage-panel {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  /* 칼럼 PDF iframe */
+  .col-pdf-pane iframe {
+    height: 60vw !important;
+    min-height: 300px;
+  }
+
+  /* 알루미늄 형상 계산기 */
+  #al-shape-svg {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* 보고서 월간/분기 통계 그리드 */
+  [style*="grid-template-columns:repeat(5,1fr)"],
+  [style*="grid-template-columns:repeat(4,1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
 /* ── 인쇄/PDF ── */
 @media print {
   @page { size: A4 portrait; margin: 10mm; }
