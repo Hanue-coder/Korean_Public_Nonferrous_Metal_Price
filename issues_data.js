@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-const ISSUES_META = {"latest": "2026-10-02", "generated": "2026-10-02 08:09"};
-=======
 const ISSUES_META = {"latest": "2026-10-02", "generated": "2026-10-02 17:22"};
->>>>>>> Stashed changes
 const ISSUES_DATA = [
   {
     "date": "2026-10-02",
