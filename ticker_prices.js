@@ -1,2 +1,2 @@
-var TICKER_DATE = "26.10.20";
-var TICKER_PRICES = [{"name": "알루미늄(서구산)", "price": 4880, "chg": 20}, {"name": "알루미늄(비서구산)", "price": 4840, "chg": 20}, {"name": "구리(99.99%이상)", "price": 21430, "chg": -100}, {"name": "납(99.99%이상)", "price": 2980, "chg": 20}, {"name": "아연", "price": 5750, "chg": 30}, {"name": "주석(99.85%이상)", "price": 75840, "chg": 810}, {"name": "주석(99.99%이상)", "price": 76060, "chg": 810}, {"name": "니켈(합금용)", "price": 22960, "chg": 210}, {"name": "니켈(도금용)", "price": 23330, "chg": 210}];
+var TICKER_DATE = "26.10.21";
+var TICKER_PRICES = [{"name": "알루미늄(서구산)", "price": 4850, "chg": -30}, {"name": "알루미늄(비서구산)", "price": 4810, "chg": -30}, {"name": "구리(99.99%이상)", "price": 21590, "chg": 160}, {"name": "납(99.99%이상)", "price": 2970, "chg": -10}, {"name": "아연", "price": 5740, "chg": -10}, {"name": "주석(99.85%이상)", "price": 76500, "chg": 660}, {"name": "주석(99.99%이상)", "price": 76730, "chg": 670}, {"name": "니켈(도금용)", "price": 23500, "chg": 170}];
